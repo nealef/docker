@@ -1,0 +1,23 @@
+# Tue Oct 27 11:31:34 EDT 2015
+# Replay feature output
+# ---------------------
+# This file was built by the Replay feature of InstallAnywhere.
+# It contains variables that were set by Panels, Consoles or Custom Code.
+
+
+
+#Indicate whether the license agreement been accepted
+#----------------------------------------------------
+LICENSE_ACCEPTED=TRUE
+
+#Choose Install Folder
+#---------------------
+USER_INSTALL_DIR=/opt/ibm/nodejs
+
+#Choose Link Location
+#--------------------
+USER_SHORTCUTS=Do Not Install
+
+#Install
+#-------
+-fileOverwrite_/opt/ibm/nodejs/_node_installation/uninstall.lax=Yes

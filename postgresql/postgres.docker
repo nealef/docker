@@ -1,0 +1,28 @@
+# Base image
+FROM clefos71-base-s390x:7.1.1503
+
+# The author
+MAINTAINER LoZ Open Source Ecosystem (https://www.ibm.com/developerworks/community/groups/community/lozopensource)
+
+# Install dependencies
+RUN yum install -y postgresql-server --setopt=tsflags=nodocs && \
+	yum clean all
+
+# Initialize PostgreSQL data directory as postgres user
+USER postgres
+RUN /usr/bin/initdb -D /var/lib/pgsql/data/
+
+# Create a Volume to store postgresql data
+VOLUME /var/lib/pgsql/data
+
+# Port for PostgreSQL server
+EXPOSE 5432
+
+# Start the PostgreSQL server
+ENTRYPOINT /usr/bin/postgres -D /var/lib/pgsql/data
+
+# To connect from client to Postgres server, following configuration files have to be changed :-
+# 1. postgresql.conf
+# 2. pg_hba.conf
+# To run docker container using the config files use the following command-
+# docker run --name <container name> -p 5432:5432  -v `pwd`/postgresql.conf:/usr/local/pgsql/data/postgresql.conf  -v `pwd`/pg_hba.conf:/usr/local/pgsql/data/pg_hba.conf -d <image name>

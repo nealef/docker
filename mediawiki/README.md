@@ -12,7 +12,7 @@
 
 * Point your browser at the host and proceed through the mediawiki configuration dialog
 
-* Place the resulting LocalSettings.php file somewhere accessible to the docker host
+* Place the resulting LocalSettings.php file somewhere accessible to the docker host. Make sure it is world readable.
 
 **Running**
 

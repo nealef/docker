@@ -1,6 +1,6 @@
 FROM	clefos71-base-s390x:latest
 
-COPY	*.rpm *.conf mediawiki-start LocalSettings.php /
+COPY	*.rpm *.conf mediawiki-start /
 
 # Fill the container
 RUN 	yum install -y --setopt=tsflags=nodocs /*.rpm \

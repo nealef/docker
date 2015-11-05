@@ -13,3 +13,11 @@ There are additional files required that you will need to supply in the followin
 * `mongodb` - IBM mongodb tar ball
 
 * `nodejs` - IBM nodejs tar ball (ibm-1.2.0.6-node-v0.12.7-linux-s390x.bin)
+
+* `mediawiki` - Several:
+
+  * nginx
+  * nginx-filesystem
+  * php-xcache
+  * python-meld3
+  * supervisor

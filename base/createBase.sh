@@ -65,7 +65,8 @@ if [ -d /etc/yum/vars ]; then
 	cp -a /etc/yum/vars "$target"/etc/yum/
 fi
 
-yum -c "$yum_config" --installroot="$target" --releasever=/ --setopt=tsflags=nodocs \
+# yum -c "$yum_config" --installroot="$target" --releasever=/ --setopt=tsflags=nodocs \
+yum -c "$yum_config" --installroot="$target" --releasever=/ \
     --setopt=group_package_types=mandatory -y install \
     centos-release \
     ncurses-base filesystem nss-softokn-freebl glibc libstdc++ bash pcre zlib libdb bzip2-libs popt libacl libgpg-error lua audit-libs sqlite libcom_err nss-softokn libassuan sed libxml2 keyutils-libs glib2 pinentry cyrus-sasl-lib diffutils libidn gmp gdbm ustr dbus-libs p11-kit-trust libcap-ng libssh2 openssl-libs curl cracklib rpm-libs systemd-libs rpm nss-tools coreutils openldap nss-sysinit libutempter python-libs gnupg2 pygpgme rpm-python python-pycurl python-iniparse pyxattr vim-minimal libgcc tzdata setup basesystem glibc-common xz-libs ncurses-libs libsepol libselinux info nspr nss-util libattr libcap readline libffi elfutils-libelf chkconfig \
@@ -92,6 +93,8 @@ rm -rf "$target"/sbin/sln
 #  ldconfig
 rm -rf "$target"/etc/ld.so.cache
 rm -rf "$target"/var/cache/ldconfig/*
+# tmp
+rm -rf "$target"/tmp/*
 
 version=
 for file in "$target"/etc/{redhat,system,clefos,centos}-release

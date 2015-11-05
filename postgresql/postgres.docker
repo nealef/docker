@@ -1,5 +1,5 @@
 # Base image
-FROM clefos71-base-s390x:7.1.1503
+FROM clefos71-base-s390x:latest
 
 # The author
 MAINTAINER LoZ Open Source Ecosystem (https://www.ibm.com/developerworks/community/groups/community/lozopensource)

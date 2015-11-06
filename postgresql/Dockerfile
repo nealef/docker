@@ -12,7 +12,9 @@ COPY 	*.rpm /
 RUN 	yum -y update && \
 	yum -y install sudo && \
 	yum -y install postgresql-server postgresql postgresql-contrib /*.rpm && \
-	yum clean all
+	yum clean all && \
+	rm -f /*.rpm && \
+	rm -f /tmp/yum.log
 
 ADD 	./postgresql-setup /usr/bin/postgresql-setup
 ADD 	./supervisord.conf /etc/supervisord.conf

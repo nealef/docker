@@ -23,7 +23,8 @@ RUN 	yum install -y --setopt=tsflags=nodocs /*.rpm \
 	ln -s /data/images /src/mediawiki/images && \
 	rm -f /*.rpm /mediawiki-1.25.3.tar.gz && \
 	yum erase -y wget tar vim-minimal && \
-	yum clean all
+	yum clean all & \
+	rm -f /tmp/yum.log
 
 EXPOSE	80
 

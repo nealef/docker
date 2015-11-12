@@ -1,7 +1,7 @@
-dockerfiles-centos-httpd
+dockerfiles-clefos-httpd
 ========================
 
-CentOS  dockerfile for httpd
+ClefOS  dockerfile for httpd
 
 Get Docker version
 
@@ -11,7 +11,7 @@ Get Docker version
 
 To build:
 
-Copy the sources down and do the build-
+Copy the sources down and do the build -
 
 ```
 # docker build --rm -t <username>/httpd .

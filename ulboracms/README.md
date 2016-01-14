@@ -23,7 +23,7 @@ This is currently Release version 2.0.
 
 ### Running
 
-To run with the mongodb located in /var/local/mongodb/data and listening on any interface:
+To run with the mongodb located in /var/local/mongodb/data and listening on any interface.  The mongodb ports are exposed including the REST interface. UlboraCMS will listen on port 8080:
 
 ```docker run --rm -t -i -v /var/local/mongodb/data:/mongodb/data -p 27017:27017 -p 28017:28017 -p 8080:8080 -e ULBORACMS_IP=0.0.0.0 ulboracms-s390x```
 

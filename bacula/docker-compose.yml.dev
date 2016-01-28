@@ -1,0 +1,52 @@
+bacula-db-data:
+  build: bacula-db-data
+  container_name: bacula-db-data
+
+bacula-db:
+  build: bacula-db
+  container_name: bacula-db
+  hostname: bacula-db
+  volumes_from:
+    - bacula-db-data:rw
+  environment:
+    POSTGRES_PASSWORD: U8azIbKXY9QD
+
+bacula-dir:
+  build: bacula-dir
+  container_name: bacula-dir
+  hostname: bacula-dir
+  ports:
+    - "9101:9101" # bconsole -> dir
+    - "9102:9102" # dir -> fd
+  extra_hosts:
+    - "bacula-fd:127.0.0.1"
+  volumes:
+    - ./configs/ssl:/etc/bacula/ssl:ro
+    - ./configs/dir:/etc/bacula:ro
+  environment:
+    DB_NAME: bacula
+    DB_HOST: bacula-db
+    DB_USER: postgres
+    DB_PASSWORD: U8azIbKXY9QD
+
+bacula-sd:
+  build: bacula-sd
+  container_name: bacula-sd
+  hostname: bacula-sd
+  ports:
+    - "9103:9103" # dir/fd -> sd
+  volumes:
+    - ./configs/sd:/etc/bacula:ro
+    - ./configs/ssl:/etc/bacula/ssl:ro
+    - ./backups:/b:rw
+
+bacula-fd:
+  build: bacula-fd
+  container_name: bacula-fd2
+  hostname: bacula-fd2
+  ports:
+    - "9104:9102" # fd -> sd
+  volumes:
+    - /:/mnt:ro
+  environment:
+    FD_PASSWORD: Uu7ooy5Aequiev9caexe2IengaiTh0Ieiegh7Theweqr

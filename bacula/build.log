@@ -1,0 +1,669 @@
+Building bacula-db-s390x
+Sending build context to Docker daemon 2.048 kBSending build context to Docker daemon 2.048 kB
+Step 1 : FROM brunswickheads/postgresql-9.2.13-s390x:latest
+ ---> 1e4d91ff8096
+Step 2 : MAINTAINER "The ClefOS Project" <neale@sinenomine.net>
+ ---> Running in 2d05e8291d91
+ ---> f3227b4dada2
+Removing intermediate container 2d05e8291d91
+Step 3 : LABEL com.baculasystems.bacula.version "5.2.13"
+ ---> Running in 7bffaa30a320
+ ---> 4534e02dd01e
+Removing intermediate container 7bffaa30a320
+Successfully built 4534e02dd01e
+Building bacula-db-data-s390x
+Sending build context to Docker daemon 2.048 kBSending build context to Docker daemon 2.048 kB
+Step 1 : FROM clefos71-base-s390x:latest
+ ---> 60ef3a8ba174
+Step 2 : MAINTAINER The ClefOS Project <neale@sinenomine.net>
+ ---> Running in 64795f632a0d
+ ---> 3424967d62b2
+Removing intermediate container 64795f632a0d
+Step 3 : LABEL com.baculasystems.bacula.version "5.2.13"
+ ---> Running in 2b675677a849
+ ---> 185ec6554fc4
+Removing intermediate container 2b675677a849
+Step 4 : VOLUME /var/lib/postgresql/data
+ ---> Running in 28b66ee1c1da
+ ---> cb5f49d8394a
+Removing intermediate container 28b66ee1c1da
+Successfully built cb5f49d8394a
+Building bacula-sd-s390x
+Sending build context to Docker daemon  5.12 kBSending build context to Docker daemon  5.12 kB
+Step 1 : FROM clefos71-base-s390x
+ ---> 60ef3a8ba174
+Step 2 : MAINTAINER "The ClefOS Project" <neale@sinenomine.net>
+ ---> Running in b5680f1b4eb3
+ ---> a57ed0d704c1
+Removing intermediate container b5680f1b4eb3
+Step 3 : ENV BACULA_VERSION "5.2.13"
+ ---> Running in 4c47b9cff634
+ ---> b6bb2c3b7852
+Removing intermediate container 4c47b9cff634
+Step 4 : LABEL com.baculasystems.bacula.version "${BACULA_VERSION}"
+ ---> Running in f58dd504f4c6
+ ---> 7b2fe8317caf
+Removing intermediate container f58dd504f4c6
+Step 5 : ENV BACULA_COMPONENTS "bacula-libs bacula-common bacula-libs-sql bacula-storage"
+ ---> Running in e691f6c016a5
+ ---> 839b109c75d1
+Removing intermediate container e691f6c016a5
+Step 6 : RUN yum -q -y update &&     		yum -q -y install sudo && 		for b in ${BACULA_COMPONENTS}; do yum -q -y install $b; done && 		sed -i -e "s/Defaults    requiretty.*/ #Defaults    requiretty/g" /etc/sudoers && 		yum clean all && 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
+ ---> Running in 7211e16a6c65
+Loaded plugins: fastestmirror
+Cleaning repos: base updates
+Cleaning up everything
+Cleaning up list of fastest mirrors
+ ---> e1e9b602c9f9
+Removing intermediate container 7211e16a6c65
+Step 7 : ADD scripts/run.sh /
+ ---> 6be71e94a3da
+Removing intermediate container 4927afed72c6
+Step 8 : RUN chmod +x /run.sh
+ ---> Running in b8a0f4bd8220
+ ---> 6657fe1e81a5
+Removing intermediate container b8a0f4bd8220
+Step 9 : VOLUME /b
+ ---> Running in 87205f3185a7
+ ---> c10b322708b1
+Removing intermediate container 87205f3185a7
+Step 10 : ENTRYPOINT /run.sh
+ ---> Running in 38fd08e6abe6
+ ---> 0a792fba6b58
+Removing intermediate container 38fd08e6abe6
+Step 11 : EXPOSE 9103
+ ---> Running in 2aeb69e45bea
+ ---> ef04e1b25308
+Removing intermediate container 2aeb69e45bea
+Successfully built ef04e1b25308
+Building bacula-dir-s390x
+Sending build context to Docker daemon 7.168 kBSending build context to Docker daemon 7.168 kB
+Step 1 : FROM clefos71-base-s390x:latest
+ ---> 60ef3a8ba174
+Step 2 : MAINTAINER "The ClefOS Project" <neale@sinenomine.net>
+ ---> Running in 3247e270c100
+ ---> aa09bca9dbca
+Removing intermediate container 3247e270c100
+Step 3 : ENV BACULA_VERSION "5.2.13"
+ ---> Running in 0cd8382c5711
+ ---> ae1d77f1460b
+Removing intermediate container 0cd8382c5711
+Step 4 : LABEL com.baculasystems.bacula.version "${BACULA_VERSION}"
+ ---> Running in 9510ae361fc2
+ ---> 9ee826c9a435
+Removing intermediate container 9510ae361fc2
+Step 5 : ENV BACULA_COMPONENTS "bacula-libs bacula-common bacula-libs-sql bacula-client bacula-director bacula-console"
+ ---> Running in 424c2020e2b0
+ ---> affc7bf8c135
+Removing intermediate container 424c2020e2b0
+Step 6 : RUN yum -q -y update &&     		yum -q -y install postgresql sudo && 		for b in ${BACULA_COMPONENTS}; do yum -y install $b; done && 		sed -i -e "s/Defaults    requiretty.*/ #Defaults    requiretty/g" /etc/sudoers && 		yum clean all && 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
+ ---> Running in c657135e4abc
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+Resolving Dependencies
+--> Running transaction check
+---> Package bacula-libs.s390x 0:5.2.13-18.cl7 will be installed
+--> Processing Dependency: libwrap.so.0()(64bit) for package: bacula-libs-5.2.13-18.cl7.s390x
+--> Running transaction check
+---> Package tcp_wrappers-libs.s390x 0:7.6-77.cl7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                  Arch         Version                Repository   Size
+================================================================================
+Installing:
+ bacula-libs              s390x        5.2.13-18.cl7          base        205 k
+Installing for dependencies:
+ tcp_wrappers-libs        s390x        7.6-77.cl7             base         66 k
+
+Transaction Summary
+================================================================================
+Install  1 Package (+1 Dependent package)
+
+Total download size: 271 k
+Installed size: 668 k
+Downloading packages:
+--------------------------------------------------------------------------------
+Total                                              109 kB/s | 271 kB  00:02     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : tcp_wrappers-libs-7.6-77.cl7.s390x                           1/2 
+  Installing : bacula-libs-5.2.13-18.cl7.s390x                              2/2 
+  Verifying  : bacula-libs-5.2.13-18.cl7.s390x                              1/2 
+  Verifying  : tcp_wrappers-libs-7.6-77.cl7.s390x                           2/2 
+
+Installed:
+  bacula-libs.s390x 0:5.2.13-18.cl7                                             
+
+Dependency Installed:
+  tcp_wrappers-libs.s390x 0:7.6-77.cl7                                          
+
+Complete!
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+Resolving Dependencies
+--> Running transaction check
+---> Package bacula-common.s390x 0:5.2.13-18.cl7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package               Arch          Version                 Repository    Size
+================================================================================
+Installing:
+ bacula-common         s390x         5.2.13-18.cl7           base          96 k
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+Total download size: 96 k
+Installed size: 231 k
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : bacula-common-5.2.13-18.cl7.s390x                            1/1 
+  Verifying  : bacula-common-5.2.13-18.cl7.s390x                            1/1 
+
+Installed:
+  bacula-common.s390x 0:5.2.13-18.cl7                                           
+
+Complete!
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+Resolving Dependencies
+--> Running transaction check
+---> Package bacula-libs-sql.s390x 0:5.2.13-18.cl7 will be installed
+--> Processing Dependency: libmysqlclient.so.18(libmysqlclient_18)(64bit) for package: bacula-libs-sql-5.2.13-18.cl7.s390x
+--> Processing Dependency: libmysqlclient.so.18()(64bit) for package: bacula-libs-sql-5.2.13-18.cl7.s390x
+--> Running transaction check
+---> Package mariadb-libs.s390x 1:5.5.44-1.cl7_1 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package               Arch        Version                  Repository     Size
+================================================================================
+Installing:
+ bacula-libs-sql       s390x       5.2.13-18.cl7            base           91 k
+Installing for dependencies:
+ mariadb-libs          s390x       1:5.5.44-1.cl7_1         updates       757 k
+
+Transaction Summary
+================================================================================
+Install  1 Package (+1 Dependent package)
+
+Total download size: 848 k
+Installed size: 4.7 M
+Downloading packages:
+--------------------------------------------------------------------------------
+Total                                              502 kB/s | 848 kB  00:01     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 1:mariadb-libs-5.5.44-1.cl7_1.s390x                          1/2 
+  Installing : bacula-libs-sql-5.2.13-18.cl7.s390x                          2/2 
+  Verifying  : 1:mariadb-libs-5.5.44-1.cl7_1.s390x                          1/2 
+  Verifying  : bacula-libs-sql-5.2.13-18.cl7.s390x                          2/2 
+
+Installed:
+  bacula-libs-sql.s390x 0:5.2.13-18.cl7                                         
+
+Dependency Installed:
+  mariadb-libs.s390x 1:5.5.44-1.cl7_1                                           
+
+Complete!
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+Resolving Dependencies
+--> Running transaction check
+---> Package bacula-client.s390x 0:5.2.13-18.cl7 will be installed
+--> Processing Dependency: systemd for package: bacula-client-5.2.13-18.cl7.s390x
+--> Processing Dependency: systemd for package: bacula-client-5.2.13-18.cl7.s390x
+--> Processing Dependency: systemd-sysv for package: bacula-client-5.2.13-18.cl7.s390x
+--> Processing Dependency: liblzo2.so.2()(64bit) for package: bacula-client-5.2.13-18.cl7.s390x
+--> Running transaction check
+---> Package lzo.s390x 0:2.06-6.cl7_0.2 will be installed
+---> Package systemd.s390x 0:208-20.cl7.6 will be installed
+--> Processing Dependency: kmod >= 14 for package: systemd-208-20.cl7.6.s390x
+--> Processing Dependency: acl for package: systemd-208-20.cl7.6.s390x
+--> Processing Dependency: dbus for package: systemd-208-20.cl7.6.s390x
+--> Processing Dependency: libcryptsetup.so.4(CRYPTSETUP_1.0)(64bit) for package: systemd-208-20.cl7.6.s390x
+--> Processing Dependency: libkmod.so.2(LIBKMOD_5)(64bit) for package: systemd-208-20.cl7.6.s390x
+--> Processing Dependency: libcryptsetup.so.4()(64bit) for package: systemd-208-20.cl7.6.s390x
+--> Processing Dependency: libkmod.so.2()(64bit) for package: systemd-208-20.cl7.6.s390x
+--> Processing Dependency: libqrencode.so.3()(64bit) for package: systemd-208-20.cl7.6.s390x
+---> Package systemd-sysv.s390x 0:208-20.cl7.6 will be installed
+--> Running transaction check
+---> Package acl.s390x 0:2.2.51-12.cl7 will be installed
+---> Package cryptsetup-libs.s390x 0:1.6.6-3.cl7 will be installed
+--> Processing Dependency: fipscheck-lib(s390-64) >= 1.3.0 for package: cryptsetup-libs-1.6.6-3.cl7.s390x
+--> Processing Dependency: libdevmapper.so.1.02(Base)(64bit) for package: cryptsetup-libs-1.6.6-3.cl7.s390x
+--> Processing Dependency: libdevmapper.so.1.02()(64bit) for package: cryptsetup-libs-1.6.6-3.cl7.s390x
+--> Processing Dependency: libfipscheck.so.1()(64bit) for package: cryptsetup-libs-1.6.6-3.cl7.s390x
+---> Package dbus.s390x 1:1.6.12-11.cl7 will be installed
+---> Package kmod.s390x 0:14-10.cl7 will be installed
+--> Processing Dependency: /usr/bin/nm for package: kmod-14-10.cl7.s390x
+--> Processing Dependency: /usr/bin/xz for package: kmod-14-10.cl7.s390x
+---> Package kmod-libs.s390x 0:14-10.cl7 will be installed
+---> Package qrencode-libs.s390x 0:3.4.1-3.cl7 will be installed
+--> Running transaction check
+---> Package binutils.s390x 0:2.23.52.0.1-30.cl7.2 will be installed
+---> Package device-mapper-libs.s390x 7:1.02.93-3.cl7_1.1 will be installed
+--> Processing Dependency: device-mapper = 7:1.02.93-3.cl7_1.1 for package: 7:device-mapper-libs-1.02.93-3.cl7_1.1.s390x
+---> Package fipscheck-lib.s390x 0:1.4.1-5.cl7 will be installed
+--> Processing Dependency: /usr/bin/fipscheck for package: fipscheck-lib-1.4.1-5.cl7.s390x
+---> Package xz.s390x 0:5.1.2-9alpha.cl7 will be installed
+--> Running transaction check
+---> Package device-mapper.s390x 7:1.02.93-3.cl7_1.1 will be installed
+---> Package fipscheck.s390x 0:1.4.1-5.cl7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                Arch      Version                     Repository   Size
+================================================================================
+Installing:
+ bacula-client          s390x     5.2.13-18.cl7               base         97 k
+Installing for dependencies:
+ acl                    s390x     2.2.51-12.cl7               base         81 k
+ binutils               s390x     2.23.52.0.1-30.cl7.2        updates     2.8 M
+ cryptsetup-libs        s390x     1.6.6-3.cl7                 base        175 k
+ dbus                   s390x     1:1.6.12-11.cl7             base        300 k
+ device-mapper          s390x     7:1.02.93-3.cl7_1.1         updates     208 k
+ device-mapper-libs     s390x     7:1.02.93-3.cl7_1.1         updates     255 k
+ fipscheck              s390x     1.4.1-5.cl7                 base         21 k
+ fipscheck-lib          s390x     1.4.1-5.cl7                 base         10 k
+ kmod                   s390x     14-10.cl7                   base         77 k
+ kmod-libs              s390x     14-10.cl7                   base         44 k
+ lzo                    s390x     2.06-6.cl7_0.2              base         58 k
+ qrencode-libs          s390x     3.4.1-3.cl7                 base         51 k
+ systemd                s390x     208-20.cl7.6                updates     2.5 M
+ systemd-sysv           s390x     208-20.cl7.6                updates      44 k
+ xz                     s390x     5.1.2-9alpha.cl7            base        200 k
+
+Transaction Summary
+================================================================================
+Install  1 Package (+15 Dependent packages)
+
+Total download size: 7.0 M
+Installed size: 27 M
+Downloading packages:
+--------------------------------------------------------------------------------
+Total                                              1.2 MB/s | 7.0 MB  00:06     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : fipscheck-1.4.1-5.cl7.s390x                                 1/16 
+  Installing : fipscheck-lib-1.4.1-5.cl7.s390x                             2/16 
+  Installing : kmod-libs-14-10.cl7.s390x                                   3/16 
+  Installing : xz-5.1.2-9alpha.cl7.s390x                                   4/16 
+  Installing : acl-2.2.51-12.cl7.s390x                                     5/16 
+  Installing : binutils-2.23.52.0.1-30.cl7.2.s390x                         6/16 
+  Installing : kmod-14-10.cl7.s390x                                        7/16 
+  Installing : qrencode-libs-3.4.1-3.cl7.s390x                             8/16 
+  Installing : 7:device-mapper-1.02.93-3.cl7_1.1.s390x                     9/16 
+  Installing : 7:device-mapper-libs-1.02.93-3.cl7_1.1.s390x               10/16 
+  Installing : cryptsetup-libs-1.6.6-3.cl7.s390x                          11/16 
+  Installing : systemd-208-20.cl7.6.s390x                                 12/16 
+  Installing : 1:dbus-1.6.12-11.cl7.s390x                                 13/16 
+  Installing : systemd-sysv-208-20.cl7.6.s390x                            14/16 
+  Installing : lzo-2.06-6.cl7_0.2.s390x                                   15/16 
+  Installing : bacula-client-5.2.13-18.cl7.s390x                          16/16 
+  Verifying  : cryptsetup-libs-1.6.6-3.cl7.s390x                           1/16 
+  Verifying  : kmod-14-10.cl7.s390x                                        2/16 
+  Verifying  : systemd-sysv-208-20.cl7.6.s390x                             3/16 
+  Verifying  : 7:device-mapper-libs-1.02.93-3.cl7_1.1.s390x                4/16 
+  Verifying  : lzo-2.06-6.cl7_0.2.s390x                                    5/16 
+  Verifying  : qrencode-libs-3.4.1-3.cl7.s390x                             6/16 
+  Verifying  : binutils-2.23.52.0.1-30.cl7.2.s390x                         7/16 
+  Verifying  : fipscheck-lib-1.4.1-5.cl7.s390x                             8/16 
+  Verifying  : 7:device-mapper-1.02.93-3.cl7_1.1.s390x                     9/16 
+  Verifying  : bacula-client-5.2.13-18.cl7.s390x                          10/16 
+  Verifying  : kmod-libs-14-10.cl7.s390x                                  11/16 
+  Verifying  : acl-2.2.51-12.cl7.s390x                                    12/16 
+  Verifying  : 1:dbus-1.6.12-11.cl7.s390x                                 13/16 
+  Verifying  : xz-5.1.2-9alpha.cl7.s390x                                  14/16 
+  Verifying  : fipscheck-1.4.1-5.cl7.s390x                                15/16 
+  Verifying  : systemd-208-20.cl7.6.s390x                                 16/16 
+
+Installed:
+  bacula-client.s390x 0:5.2.13-18.cl7                                           
+
+Dependency Installed:
+  acl.s390x 0:2.2.51-12.cl7                                                     
+  binutils.s390x 0:2.23.52.0.1-30.cl7.2                                         
+  cryptsetup-libs.s390x 0:1.6.6-3.cl7                                           
+  dbus.s390x 1:1.6.12-11.cl7                                                    
+  device-mapper.s390x 7:1.02.93-3.cl7_1.1                                       
+  device-mapper-libs.s390x 7:1.02.93-3.cl7_1.1                                  
+  fipscheck.s390x 0:1.4.1-5.cl7                                                 
+  fipscheck-lib.s390x 0:1.4.1-5.cl7                                             
+  kmod.s390x 0:14-10.cl7                                                        
+  kmod-libs.s390x 0:14-10.cl7                                                   
+  lzo.s390x 0:2.06-6.cl7_0.2                                                    
+  qrencode-libs.s390x 0:3.4.1-3.cl7                                             
+  systemd.s390x 0:208-20.cl7.6                                                  
+  systemd-sysv.s390x 0:208-20.cl7.6                                             
+  xz.s390x 0:5.1.2-9alpha.cl7                                                   
+
+Complete!
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+Resolving Dependencies
+--> Running transaction check
+---> Package bacula-director.s390x 0:5.2.13-18.cl7 will be installed
+--> Processing Dependency: /usr/bin/perl for package: bacula-director-5.2.13-18.cl7.s390x
+--> Processing Dependency: logwatch for package: bacula-director-5.2.13-18.cl7.s390x
+--> Processing Dependency: perl(Logwatch) for package: bacula-director-5.2.13-18.cl7.s390x
+--> Processing Dependency: perl(POSIX) for package: bacula-director-5.2.13-18.cl7.s390x
+--> Processing Dependency: perl(strict) for package: bacula-director-5.2.13-18.cl7.s390x
+--> Running transaction check
+---> Package logwatch.noarch 0:7.4.0-28.20130522svn140.cl7 will be installed
+--> Processing Dependency: mailx for package: logwatch-7.4.0-28.20130522svn140.cl7.noarch
+--> Processing Dependency: perl(Date::Manip) for package: logwatch-7.4.0-28.20130522svn140.cl7.noarch
+--> Processing Dependency: perl(Exporter) for package: logwatch-7.4.0-28.20130522svn140.cl7.noarch
+--> Processing Dependency: perl(File::Temp) for package: logwatch-7.4.0-28.20130522svn140.cl7.noarch
+--> Processing Dependency: perl(Getopt::Long) for package: logwatch-7.4.0-28.20130522svn140.cl7.noarch
+--> Processing Dependency: perl(Sys::CPU) for package: logwatch-7.4.0-28.20130522svn140.cl7.noarch
+--> Processing Dependency: perl(Sys::MemInfo) for package: logwatch-7.4.0-28.20130522svn140.cl7.noarch
+---> Package perl.s390x 4:5.16.3-285.cl7 will be installed
+--> Processing Dependency: perl-libs = 4:5.16.3-285.cl7 for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Scalar::Util) >= 1.10 for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Socket) >= 1.3 for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Carp) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Cwd) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(File::Path) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(File::Spec) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(File::Spec::Functions) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(File::Spec::Unix) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Filter::Util::Call) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Pod::Simple::Search) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Pod::Simple::XHTML) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Scalar::Util) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Socket) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Storable) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Time::HiRes) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(Time::Local) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(constant) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(threads) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl(threads::shared) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl-libs for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: perl-macros for package: 4:perl-5.16.3-285.cl7.s390x
+--> Processing Dependency: libperl.so()(64bit) for package: 4:perl-5.16.3-285.cl7.s390x
+--> Running transaction check
+---> Package mailx.s390x 0:12.5-12.cl7_0 will be installed
+---> Package perl-Carp.noarch 0:1.26-244.cl7 will be installed
+---> Package perl-Date-Manip.noarch 0:6.41-2.cl7 will be installed
+--> Processing Dependency: perl(Encode) for package: perl-Date-Manip-6.41-2.cl7.noarch
+---> Package perl-Exporter.noarch 0:5.68-3.cl7 will be installed
+---> Package perl-File-Path.noarch 0:2.09-2.cl7 will be installed
+---> Package perl-File-Temp.noarch 0:0.23.01-3.cl7 will be installed
+---> Package perl-Filter.s390x 0:1.49-3.cl7 will be installed
+---> Package perl-Getopt-Long.noarch 0:2.40-2.cl7 will be installed
+--> Processing Dependency: perl(Pod::Usage) >= 1.14 for package: perl-Getopt-Long-2.40-2.cl7.noarch
+--> Processing Dependency: perl(Text::ParseWords) for package: perl-Getopt-Long-2.40-2.cl7.noarch
+---> Package perl-PathTools.s390x 0:3.40-5.cl7 will be installed
+---> Package perl-Pod-Simple.noarch 1:3.28-4.cl7 will be installed
+--> Processing Dependency: perl(Pod::Escapes) >= 1.04 for package: 1:perl-Pod-Simple-3.28-4.cl7.noarch
+---> Package perl-Scalar-List-Utils.s390x 0:1.27-248.cl7 will be installed
+---> Package perl-Socket.s390x 0:2.010-3.cl7 will be installed
+---> Package perl-Storable.s390x 0:2.45-3.cl7 will be installed
+---> Package perl-Sys-CPU.s390x 0:0.54-3.cl7 will be installed
+---> Package perl-Sys-MemInfo.s390x 0:0.91-7.cl7 will be installed
+---> Package perl-Time-HiRes.s390x 4:1.9725-3.cl7 will be installed
+---> Package perl-Time-Local.noarch 0:1.2300-2.cl7 will be installed
+---> Package perl-constant.noarch 0:1.27-2.cl7 will be installed
+---> Package perl-libs.s390x 4:5.16.3-285.cl7 will be installed
+---> Package perl-macros.s390x 4:5.16.3-285.cl7 will be installed
+---> Package perl-threads.s390x 0:1.87-4.cl7 will be installed
+---> Package perl-threads-shared.s390x 0:1.43-6.cl7 will be installed
+--> Running transaction check
+---> Package perl-Encode.s390x 0:2.51-7.cl7 will be installed
+---> Package perl-Pod-Escapes.noarch 1:1.04-285.cl7 will be installed
+---> Package perl-Pod-Usage.noarch 0:1.63-3.cl7 will be installed
+--> Processing Dependency: perl(Pod::Text) >= 3.15 for package: perl-Pod-Usage-1.63-3.cl7.noarch
+--> Processing Dependency: perl-Pod-Perldoc for package: perl-Pod-Usage-1.63-3.cl7.noarch
+---> Package perl-Text-ParseWords.noarch 0:3.29-4.cl7 will be installed
+--> Running transaction check
+---> Package perl-Pod-Perldoc.noarch 0:3.20-4.cl7 will be installed
+--> Processing Dependency: groff-base for package: perl-Pod-Perldoc-3.20-4.cl7.noarch
+--> Processing Dependency: perl(HTTP::Tiny) for package: perl-Pod-Perldoc-3.20-4.cl7.noarch
+--> Processing Dependency: perl(parent) for package: perl-Pod-Perldoc-3.20-4.cl7.noarch
+---> Package perl-podlators.noarch 0:2.5.1-3.cl7 will be installed
+--> Running transaction check
+---> Package groff-base.s390x 0:1.22.2-8.cl7 will be installed
+---> Package perl-HTTP-Tiny.noarch 0:0.033-3.cl7 will be installed
+---> Package perl-parent.noarch 1:0.225-244.cl7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                  Arch     Version                         Repository
+                                                                           Size
+================================================================================
+Installing:
+ bacula-director          s390x    5.2.13-18.cl7                   base   286 k
+Installing for dependencies:
+ groff-base               s390x    1.22.2-8.cl7                    base   934 k
+ logwatch                 noarch   7.4.0-28.20130522svn140.cl7     base   400 k
+ mailx                    s390x    12.5-12.cl7_0                   base   243 k
+ perl                     s390x    4:5.16.3-285.cl7                base   8.0 M
+ perl-Carp                noarch   1.26-244.cl7                    base    19 k
+ perl-Date-Manip          noarch   6.41-2.cl7                      base   1.2 M
+ perl-Encode              s390x    2.51-7.cl7                      base   1.5 M
+ perl-Exporter            noarch   5.68-3.cl7                      base    28 k
+ perl-File-Path           noarch   2.09-2.cl7                      base    26 k
+ perl-File-Temp           noarch   0.23.01-3.cl7                   base    56 k
+ perl-Filter              s390x    1.49-3.cl7                      base    76 k
+ perl-Getopt-Long         noarch   2.40-2.cl7                      base    56 k
+ perl-HTTP-Tiny           noarch   0.033-3.cl7                     base    38 k
+ perl-PathTools           s390x    3.40-5.cl7                      base    82 k
+ perl-Pod-Escapes         noarch   1:1.04-285.cl7                  base    50 k
+ perl-Pod-Perldoc         noarch   3.20-4.cl7                      base    87 k
+ perl-Pod-Simple          noarch   1:3.28-4.cl7                    base   216 k
+ perl-Pod-Usage           noarch   1.63-3.cl7                      base    27 k
+ perl-Scalar-List-Utils   s390x    1.27-248.cl7                    base    36 k
+ perl-Socket              s390x    2.010-3.cl7                     base    48 k
+ perl-Storable            s390x    2.45-3.cl7                      base    74 k
+ perl-Sys-CPU             s390x    0.54-3.cl7                      base    14 k
+ perl-Sys-MemInfo         s390x    0.91-7.cl7                      base    14 k
+ perl-Text-ParseWords     noarch   3.29-4.cl7                      base    14 k
+ perl-Time-HiRes          s390x    4:1.9725-3.cl7                  base    45 k
+ perl-Time-Local          noarch   1.2300-2.cl7                    base    24 k
+ perl-constant            noarch   1.27-2.cl7                      base    19 k
+ perl-libs                s390x    4:5.16.3-285.cl7                base   683 k
+ perl-macros              s390x    4:5.16.3-285.cl7                base    42 k
+ perl-parent              noarch   1:0.225-244.cl7                 base    12 k
+ perl-podlators           noarch   2.5.1-3.cl7                     base   112 k
+ perl-threads             s390x    1.87-4.cl7                      base    49 k
+ perl-threads-shared      s390x    1.43-6.cl7                      base    38 k
+
+Transaction Summary
+================================================================================
+Install  1 Package (+33 Dependent packages)
+
+Total download size: 14 M
+Installed size: 55 M
+Downloading packages:
+--------------------------------------------------------------------------------
+Total                                              2.7 MB/s |  14 MB  00:05     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : groff-base-1.22.2-8.cl7.s390x                               1/34 
+  Installing : 1:perl-parent-0.225-244.cl7.noarch                          2/34 
+  Installing : perl-HTTP-Tiny-0.033-3.cl7.noarch                           3/34 
+  Installing : perl-Pod-Perldoc-3.20-4.cl7.noarch                          4/34 
+  Installing : perl-podlators-2.5.1-3.cl7.noarch                           5/34 
+  Installing : 1:perl-Pod-Escapes-1.04-285.cl7.noarch                      6/34 
+  Installing : perl-Text-ParseWords-3.29-4.cl7.noarch                      7/34 
+  Installing : perl-Encode-2.51-7.cl7.s390x                                8/34 
+  Installing : perl-Pod-Usage-1.63-3.cl7.noarch                            9/34 
+  Installing : 4:perl-libs-5.16.3-285.cl7.s390x                           10/34 
+  Installing : 4:perl-macros-5.16.3-285.cl7.s390x                         11/34 
+  Installing : perl-Socket-2.010-3.cl7.s390x                              12/34 
+  Installing : perl-Storable-2.45-3.cl7.s390x                             13/34 
+  Installing : perl-Exporter-5.68-3.cl7.noarch                            14/34 
+  Installing : perl-Filter-1.49-3.cl7.s390x                               15/34 
+  Installing : perl-threads-shared-1.43-6.cl7.s390x                       16/34 
+  Installing : perl-threads-1.87-4.cl7.s390x                              17/34 
+  Installing : perl-File-Path-2.09-2.cl7.noarch                           18/34 
+  Installing : 4:perl-Time-HiRes-1.9725-3.cl7.s390x                       19/34 
+  Installing : perl-Carp-1.26-244.cl7.noarch                              20/34 
+  Installing : perl-File-Temp-0.23.01-3.cl7.noarch                        21/34 
+  Installing : perl-Time-Local-1.2300-2.cl7.noarch                        22/34 
+  Installing : perl-constant-1.27-2.cl7.noarch                            23/34 
+  Installing : 1:perl-Pod-Simple-3.28-4.cl7.noarch                        24/34 
+  Installing : perl-Getopt-Long-2.40-2.cl7.noarch                         25/34 
+  Installing : perl-PathTools-3.40-5.cl7.s390x                            26/34 
+  Installing : perl-Scalar-List-Utils-1.27-248.cl7.s390x                  27/34 
+  Installing : 4:perl-5.16.3-285.cl7.s390x                                28/34 
+  Installing : perl-Date-Manip-6.41-2.cl7.noarch                          29/34 
+  Installing : perl-Sys-CPU-0.54-3.cl7.s390x                              30/34 
+  Installing : perl-Sys-MemInfo-0.91-7.cl7.s390x                          31/34 
+  Installing : mailx-12.5-12.cl7_0.s390x                                  32/34 
+  Installing : logwatch-7.4.0-28.20130522svn140.cl7.noarch                33/34 
+  Installing : bacula-director-5.2.13-18.cl7.s390x                        34/34 
+  Verifying  : perl-Scalar-List-Utils-1.27-248.cl7.s390x                   1/34 
+  Verifying  : mailx-12.5-12.cl7_0.s390x                                   2/34 
+  Verifying  : perl-Date-Manip-6.41-2.cl7.noarch                           3/34 
+  Verifying  : logwatch-7.4.0-28.20130522svn140.cl7.noarch                 4/34 
+  Verifying  : perl-Pod-Perldoc-3.20-4.cl7.noarch                          5/34 
+  Verifying  : perl-File-Temp-0.23.01-3.cl7.noarch                         6/34 
+  Verifying  : perl-Socket-2.010-3.cl7.s390x                               7/34 
+  Verifying  : perl-Storable-2.45-3.cl7.s390x                              8/34 
+  Verifying  : 4:perl-5.16.3-285.cl7.s390x                                 9/34 
+  Verifying  : 1:perl-Pod-Simple-3.28-4.cl7.noarch                        10/34 
+  Verifying  : perl-threads-shared-1.43-6.cl7.s390x                       11/34 
+  Verifying  : perl-Exporter-5.68-3.cl7.noarch                            12/34 
+  Verifying  : perl-Text-ParseWords-3.29-4.cl7.noarch                     13/34 
+  Verifying  : perl-Sys-CPU-0.54-3.cl7.s390x                              14/34 
+  Verifying  : perl-Filter-1.49-3.cl7.s390x                               15/34 
+  Verifying  : perl-threads-1.87-4.cl7.s390x                              16/34 
+  Verifying  : perl-Encode-2.51-7.cl7.s390x                               17/34 
+  Verifying  : 4:perl-libs-5.16.3-285.cl7.s390x                           18/34 
+  Verifying  : 1:perl-Pod-Escapes-1.04-285.cl7.noarch                     19/34 
+  Verifying  : perl-HTTP-Tiny-0.033-3.cl7.noarch                          20/34 
+  Verifying  : perl-podlators-2.5.1-3.cl7.noarch                          21/34 
+  Verifying  : 4:perl-macros-5.16.3-285.cl7.s390x                         22/34 
+  Verifying  : perl-File-Path-2.09-2.cl7.noarch                           23/34 
+  Verifying  : perl-Pod-Usage-1.63-3.cl7.noarch                           24/34 
+  Verifying  : 4:perl-Time-HiRes-1.9725-3.cl7.s390x                       25/34 
+  Verifying  : bacula-director-5.2.13-18.cl7.s390x                        26/34 
+  Verifying  : perl-Time-Local-1.2300-2.cl7.noarch                        27/34 
+  Verifying  : perl-Sys-MemInfo-0.91-7.cl7.s390x                          28/34 
+  Verifying  : 1:perl-parent-0.225-244.cl7.noarch                         29/34 
+  Verifying  : perl-PathTools-3.40-5.cl7.s390x                            30/34 
+  Verifying  : groff-base-1.22.2-8.cl7.s390x                              31/34 
+  Verifying  : perl-Getopt-Long-2.40-2.cl7.noarch                         32/34 
+  Verifying  : perl-Carp-1.26-244.cl7.noarch                              33/34 
+  Verifying  : perl-constant-1.27-2.cl7.noarch                            34/34 
+
+Installed:
+  bacula-director.s390x 0:5.2.13-18.cl7                                         
+
+Dependency Installed:
+  groff-base.s390x 0:1.22.2-8.cl7                                               
+  logwatch.noarch 0:7.4.0-28.20130522svn140.cl7                                 
+  mailx.s390x 0:12.5-12.cl7_0                                                   
+  perl.s390x 4:5.16.3-285.cl7                                                   
+  perl-Carp.noarch 0:1.26-244.cl7                                               
+  perl-Date-Manip.noarch 0:6.41-2.cl7                                           
+  perl-Encode.s390x 0:2.51-7.cl7                                                
+  perl-Exporter.noarch 0:5.68-3.cl7                                             
+  perl-File-Path.noarch 0:2.09-2.cl7                                            
+  perl-File-Temp.noarch 0:0.23.01-3.cl7                                         
+  perl-Filter.s390x 0:1.49-3.cl7                                                
+  perl-Getopt-Long.noarch 0:2.40-2.cl7                                          
+  perl-HTTP-Tiny.noarch 0:0.033-3.cl7                                           
+  perl-PathTools.s390x 0:3.40-5.cl7                                             
+  perl-Pod-Escapes.noarch 1:1.04-285.cl7                                        
+  perl-Pod-Perldoc.noarch 0:3.20-4.cl7                                          
+  perl-Pod-Simple.noarch 1:3.28-4.cl7                                           
+  perl-Pod-Usage.noarch 0:1.63-3.cl7                                            
+  perl-Scalar-List-Utils.s390x 0:1.27-248.cl7                                   
+  perl-Socket.s390x 0:2.010-3.cl7                                               
+  perl-Storable.s390x 0:2.45-3.cl7                                              
+  perl-Sys-CPU.s390x 0:0.54-3.cl7                                               
+  perl-Sys-MemInfo.s390x 0:0.91-7.cl7                                           
+  perl-Text-ParseWords.noarch 0:3.29-4.cl7                                      
+  perl-Time-HiRes.s390x 4:1.9725-3.cl7                                          
+  perl-Time-Local.noarch 0:1.2300-2.cl7                                         
+  perl-constant.noarch 0:1.27-2.cl7                                             
+  perl-libs.s390x 4:5.16.3-285.cl7                                              
+  perl-macros.s390x 4:5.16.3-285.cl7                                            
+  perl-parent.noarch 1:0.225-244.cl7                                            
+  perl-podlators.noarch 0:2.5.1-3.cl7                                           
+  perl-threads.s390x 0:1.87-4.cl7                                               
+  perl-threads-shared.s390x 0:1.43-6.cl7                                        
+
+Complete!
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+Resolving Dependencies
+--> Running transaction check
+---> Package bacula-console.s390x 0:5.2.13-18.cl7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                Arch          Version                Repository    Size
+================================================================================
+Installing:
+ bacula-console         s390x         5.2.13-18.cl7          base          36 k
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+Total download size: 36 k
+Installed size: 43 k
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : bacula-console-5.2.13-18.cl7.s390x                           1/1 
+  Verifying  : bacula-console-5.2.13-18.cl7.s390x                           1/1 
+
+Installed:
+  bacula-console.s390x 0:5.2.13-18.cl7                                          
+
+Complete!
+Loaded plugins: fastestmirror
+Cleaning repos: base updates
+Cleaning up everything
+Cleaning up list of fastest mirrors
+ ---> 47e82bd05da1
+Removing intermediate container c657135e4abc
+Step 7 : ADD scripts/run.sh /
+ ---> 19b141e7d080
+Removing intermediate container c820bea252ab
+Step 8 : RUN chmod +x /run.sh
+ ---> Running in e564692678e0
+ ---> 8c9422ef04eb
+Removing intermediate container e564692678e0
+Step 9 : ENTRYPOINT /run.sh
+ ---> Running in 46fccc614779
+ ---> 9a19f927e62e
+Removing intermediate container 46fccc614779
+Step 10 : EXPOSE 9101
+ ---> Running in 019b62236c7a
+ ---> 93d037676a0b
+Removing intermediate container 019b62236c7a
+Successfully built 93d037676a0b

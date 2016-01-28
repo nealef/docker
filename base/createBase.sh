@@ -17,9 +17,10 @@ EOOPTS
 }
 
 # option defaults
+version=""
 export PATH=$HOME/docker-1.8.2-rhel7.1-20150929:$PATH
 yum_config=/etc/yum.conf
-while getopts ":y:h" opt; do
+while getopts "y:v:h" opt; do
     case $opt in
         y)
             yum_config=$OPTARG
@@ -27,6 +28,9 @@ while getopts ":y:h" opt; do
         h)
             usage
             ;;
+	v)
+	    version=$OPTARG
+	    ;;
         \?)
             echo "Invalid option: -$OPTARG"
             usage
@@ -96,14 +100,15 @@ rm -rf "$target"/var/cache/ldconfig/*
 # tmp
 rm -rf "$target"/tmp/*
 
-version=
-for file in "$target"/etc/{redhat,system,clefos,centos}-release
-do
-    if [ -r "$file" ]; then
-        version="$(sed 's/^[^0-9\]*\([0-9.]\+\).*$/\1/' "$file")"
-        break
-    fi
-done
+if [ -z "$version" ]; then
+	for file in "$target"/etc/{redhat,system,clefos,centos}-release
+	do
+	    if [ -r "$file" ]; then
+		version="$(sed 's/^[^0-9\]*\([0-9.]\+\).*$/\1/' "$file")"
+		break
+	    fi
+	done
+fi
 
 if [ -z "$version" ]; then
     echo >&2 "warning: cannot autodetect OS version, using '$name' as tag"

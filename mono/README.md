@@ -9,7 +9,7 @@ Use this container as a base
 
 To run (running the xsp server on port 8000):
 
-`docker run -p 8000:8000 mono-4.2.1-s390x`
+`# docker run -p 8000:8000 mono-4.2.1-s390x`
 
 ## Container Contents
 

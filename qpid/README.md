@@ -1,4 +1,4 @@
-#### dockerfiles-centos-qpid
+#### dockerfiles-clefos-qpid
 ========================
 
 ClefOS 7 dockerfile for Apache Qpid

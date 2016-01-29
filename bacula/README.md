@@ -1,5 +1,7 @@
 # Bacula on Docker
 
+This work is derived in its entirety on the work of Jasper Lievisse Adriaanse of The Red Cool Beans project - (https://www.redcoolbeans.com/contact/) who is the original author and provides support and development for these containers. I have adapted the build process and some content for the s390x environment.
+
 ## Introduction
 
 This is a working technology preview of running Bacula (Open Source) 7.4.0 in

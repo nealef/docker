@@ -44,13 +44,13 @@ CONFIG_VARS=(
   MON_FD_PASSWORD
 )
 
-cp /opt/bacula/etc/bacula-fd.conf.orig /opt/bacula/etc/bacula-fd.conf
+cp /etc/bacula/bacula-fd.conf.orig /etc/bacula/bacula-fd.conf
 for c in ${CONFIG_VARS[@]}; do
-  sed -i "s,@@${c}@@,$(eval echo \$$c)," /opt/bacula/etc/bacula-fd.conf
+  sed -i "s,@@${c}@@,$(eval echo \$$c)," /etc/bacula/bacula-fd.conf
 done
 
-# echo "==> Verifying Bacula FD configuration"
-# /opt/bacula/bin/bacula-fd -c /opt/bacula/etc/bacula-fd.conf -t
+echo "==> Verifying Bacula FD configuration"
+/usr/bin/bacula-fd -c /etc/bacula/bacula-fd.conf -t
 
 echo "==> Starting Bacula FD"
-/opt/bacula/bin/bacula-fd -c /opt/bacula/etc/bacula-fd.conf -d ${BACULA_DEBUG} -f
+/usr/bin/bacula-fd -c /etc/bacula/bacula-fd.conf -d ${BACULA_DEBUG} -f

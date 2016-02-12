@@ -7,6 +7,7 @@ RUN 	yum -y update && \
 	yum -y install sna-packages --nogpgcheck && \
 	rm -f /etc/yum.repos.d/sna.repo && \
 	yum install -y mono-complete mono-basic && \
+	yum clean all && \ 
 	rm -f /etc/yum.repos.d/epel.repo /var/log/yum.log /tmp/yum.log
 
 CMD	["/bin/bash"]

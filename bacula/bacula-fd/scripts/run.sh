@@ -23,7 +23,7 @@
 # Author: J. Lievisse Adriaanse <jasper@redcoolbeans.com>
 
 : ${BACULA_DEBUG:="50"}
-: ${LOG_FILE:="/opt/bacula/log/bacula.log"}
+: ${LOG_FILE:="/var/log/bacula/bacula.log"}
 : ${DIR_NAME:="bacula"}
 : ${MON_NAME:="bacula"}
 : ${FD_NAME:="bacula"}
@@ -50,7 +50,7 @@ for c in ${CONFIG_VARS[@]}; do
 done
 
 echo "==> Verifying Bacula FD configuration"
-/usr/bin/bacula-fd -c /etc/bacula/bacula-fd.conf -t
+/usr/sbin/bacula-fd -c /etc/bacula/bacula-fd.conf -t
 
 echo "==> Starting Bacula FD"
-/usr/bin/bacula-fd -c /etc/bacula/bacula-fd.conf -d ${BACULA_DEBUG} -f
+/usr/sbin/bacula-fd -c /etc/bacula/bacula-fd.conf -d ${BACULA_DEBUG} -f

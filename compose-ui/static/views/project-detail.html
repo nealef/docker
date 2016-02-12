@@ -1,0 +1,81 @@
+<h3>{{projectId}}</h3>
+
+<button class="btn btn-xs btn-default" ng-hide="ymlData" ng-click="yml()">view yml</button>
+<button class="btn btn-xs btn-default" ng-show="ymlData" ng-click="ymlData = null">close yml</button>
+
+<pre class="text-left" ng-show="ymlData">
+  {{ymlData}}
+</pre>
+
+<h1 ng-show="working">
+  <span class="spinner glyphicon glyphicon-refresh"></span>
+</h1>
+
+<actions project-id="projectId" services="services" working="working" ng-hide="working"></actions>
+<br><br>
+
+<div ng-hide="working">
+  <h4>Services</h4>
+
+  <div ng-repeat="(id, service) in services">
+    <div class="row">
+      <h5>
+        {{id}}
+        <button class="btn btn-sm btn-default" ng-click="scale(id)"><span class="glyphicon glyphicon-resize-full"></span> scale</button>
+      </h5>
+    </div>
+    <div class="row service service-{{$index % 16}}">
+      <div class="col-md-6" ng-class="{'col-md-offset-3': service.length === 1}"  ng-repeat="container in service">
+
+        <div class="panel" ng-class="{'active': container.is_running, 'off': !container.is_running}">
+          <div class="panel-heading">
+            <span ng-class="{'text-muted': !container.is_running}">
+              {{container.name_without_project}}
+            </span>
+            <button class="btn btn-xs btn-inverse" ng-click="displayLogs(container.name)">logs</button>
+            <a class="btn btn-xs btn-inverse" ng-href="#/project/{{projectId}}/{{container.name}}">details</a>
+          </div>
+          <div class="panel-body">
+
+            <h6 ng-hide="container.volumes.length === 0"><span class="glyphicon glyphicon glyphicon-hdd"></span> Volumes</h6>
+            <ul class="list-unstyled">
+              <li ng-repeat="volume in container.volumes">
+                <span ng-attr-title="{{volume.src}}">{{volume.src | trim : 12}}</span> :
+                <span ng-attr-title="{{volume.dest}}">{{volume.dest | trim : 12}}</span>
+                <span class="label label-default">{{volume.write ? "read-write" : "readonly"}}</span>
+              </li>
+            </ul>
+            <span ng-show="container.is_running">
+              <h6 ng-show="container.ports"><span class="glyphicon glyphicon glyphicon-transfer"></span> Network</h6>
+              <p ng-repeat="(internal, host) in container.ports">
+                <span ng-hide="host">{{internal}}</span>
+                <span ng-repeat="mapping in host">
+                  {{hostName || mapping.HostIp}}:{{mapping.HostPort}} : {{internal}}
+                </span>
+              </p>
+            </span>
+            <span ng-hide="container.is_running">{{container.state}}</span>
+          </div>
+        </div><!-- /.panel -->
+
+      </div> <!-- /.col -->
+    </div><!-- /.row -->
+  </div>
+  <div modal-show="showDialog" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">{{containerLogs}} logs</h4>
+        </div>
+        <div class="modal-body">
+          <pre class="text-left logs">{{logs.join("\n")}}</pre>
+        </div>
+        <div class="modal-footer">
+          <button ng-click="displayLogs(containerLogs)" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> refresh</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span ng-show="isEmpty(services)">no containers found</span>
+</div>

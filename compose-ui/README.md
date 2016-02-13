@@ -1,7 +1,7 @@
 # Docker Compose UI
-![Docker Compose UI](https://raw.githubusercontent.com/francescou/docker-compose-ui/master/static/images/logo.png)
+![Docker Compose UI](https://raw.githubusercontent.com/francescou/docker-compose-ui/master/static/images/logo.png) 
 
-Source materials derived from https://github.com/francescou/docker-compose-ui (Francesco Uliana)
+Source materials derived, with thanks, from https://github.com/francescou/docker-compose-ui (Francesco Uliana) from which this description has been produced.
 
 ## What is it
 
@@ -28,15 +28,11 @@ Run the following command in terminal:
     --name docker-compose-ui \
     -p 5000:5000 \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    francescou/docker-compose-ui:0.13
+    brunswickheads/docker-compose-ui:latest
 
 You have to wait while Docker pulls the container from the Docker Hub: https://registry.hub.docker.com/u/francescou/docker-compose-ui
 
 Then open your browser to `http://localhost:5000`
-
-### Real time notifications (Experimental)
-
-use `francescou/docker-compose-ui:1.0.RC1` if you want to try the new real time notification system, more info on [issue #14](https://github.com/francescou/docker-compose-ui/issues/14)
 
 ### Add your own docker-compose projects
 
@@ -47,7 +43,7 @@ If you want to use your own docker-compose projects, put them into a directory *
         -p 5000:5000 \
         -v /home/user/docker-compose-ui/demo-projects:/opt/docker-compose-projects:ro \
         -v /var/run/docker.sock:/var/run/docker.sock \
-        francescou/docker-compose-ui:0.13
+        brunswickheads/docker-compose-ui:latest 
 
 you can download my example projects into */home/user/docker-compose-ui/demo-projects/* from https://github.com/francescou/docker-compose-ui/tree/master/demo-projects
 
@@ -56,7 +52,6 @@ you can download my example projects into */home/user/docker-compose-ui/demo-pro
 Note that some of the services provided by the demo projects are not "scalable" with `docker-compose scale SERVICE=NUM` because of published ports conflicts.
 
 Check out this project if you are interested in scaling up and down a docker-compose service without having any down time: https://github.com/francescou/consul-template-docker-compose
-
 
 ### Note about volumes
 
@@ -71,7 +66,7 @@ You can also run containers on a remote docker host, e.g.
         -p 5000:5000 \
         -v /home/user/docker-compose-ui/demo-projects:/opt/docker-compose-projects:ro \
         -e DOCKER_HOST=remote-docker-host:2375 \
-        francescou/docker-compose-ui:0.13
+        brunswickheads/docker-compose-ui:latest
 
 
 ### Docker Swarm or HTTPS Remote docker host
@@ -118,5 +113,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-

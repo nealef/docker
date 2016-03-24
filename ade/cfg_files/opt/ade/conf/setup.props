@@ -1,0 +1,45 @@
+# --------------------------------------------------------------------
+# AdeExt properties
+# --------------------------------------------------------------------
+adeext.msgRateReportFreq=5
+adeext.msgRateMsgToKeep=1000
+adeext.parseErrorToKeep=100
+adeext.parseErrorDaysTolerate=2
+adeext.parseErrorTrackNullComponent=false
+adeext.runtimeModelDataStoreAtSource=true
+
+adeext.msgRate10MinSlotsToKeep=24
+adeext.msgRate10MinSubIntervalList=1,2,3,6,12,24
+adeext.msgRateMergeSource=true
+
+# --------------------------------------------------------------------
+# Paths
+# --------------------------------------------------------------------
+
+ade.flowLayoutFile=conf/xml/FlowLayout.xml
+ade.outputPath=/var/local/ade/output/
+ade.analysisOutputPath=/var/local/ade/output/continuous
+ade.xml.xsltDir=conf/xml
+ade.criticalWords.file=conf/criticalWords.txt
+ade.analysisGroupToFlowNameMapperClass=org.openmainframe.ade.ext.os.LinuxAnalysisGroupToFlowNameConstantMapper
+ade.outputFilenameGenerator=org.openmainframe.ade.ext.output.ExtOutputFilenameGenerator
+ade.inputTimeZone=GMT+00:00
+ade.outputTimeZone=GMT
+
+# --------------------------------------------------------------------
+# Database settings
+# --------------------------------------------------------------------
+
+ade.dataStoreType=SQL
+ade.databaseUrl=jdbc:mysql://mariadb:3306/ade
+ade.databaseDriver=org.mariadb.jdbc.Driver
+ade.databaseUser=dbuser
+ade.databasePassword=passw0rd
+ade.database.keepOnlyAscii=true
+
+# --------------------------------------------------------------------
+# Interval/Period settings
+# --------------------------------------------------------------------
+
+# Available period modes: HOURLY, DAILY, WEEKLY, MONTHLY
+ade.periodMode=DAILY

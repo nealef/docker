@@ -1,4 +1,4 @@
-# docker-puppetmaster
+# puppet server
 Docker image for puppet server
 
 ## Origin of Work
@@ -9,6 +9,8 @@ Derived from the work of [Nick McSpadden](https://github.com/nmcspadden). Materi
 Autosigning is turned *on* in puppet.conf.
 
 In addition, ```confdir``` is ```/opt/puppet/``` and ```vardir``` is ```/opt/varpuppet/```, and both the ```confdir``` and ```vardir``` are marked as data volumes in the Dockerfile.  This makes it easy to use data-only containers.
+
+Container runs puppet v4 so v3 clients will not be able to connect.
 
 To use this container:
 ---

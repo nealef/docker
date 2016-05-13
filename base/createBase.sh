@@ -46,8 +46,6 @@ fi
 
 #--------------------
 
-set -x
-
 export TMPDIR=/var/tmp
 target=$(mktemp -d --tmpdir $(basename $0).XXXXXX)
 

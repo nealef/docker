@@ -29,7 +29,23 @@ To use this container:
 		"10.0.0.1	puppet"
 	3. Test puppet on client running as root:  
 		`# puppet agent --test`  
-		You should see the cert request being generated and autosigned.
+		You should see the cert request being generated and autosigned:
+```
+Info: Creating a new SSL key for clefos7x.devlab.sinenomine.net
+Info: Caching certificate for ca
+Info: csr_attributes file loading from /etc/puppet/csr_attributes.yaml
+Info: Creating a new SSL certificate request for clefos7x.devlab.sinenomine.net
+Info: Certificate Request fingerprint (SHA256): 72:04:4D:47:B7:64:78:BF:A9:05:8A:86:E0:17:C8:A8:FC:16:B6:C7:19:E6:AC:48:A8:CE:93:2E:B8:A2:D3:D6
+Info: Caching certificate for clefos7x.devlab.sinenomine.net
+Info: Caching certificate_revocation_list for ca
+Info: Caching certificate for ca
+Info: Retrieving pluginfacts
+Info: Retrieving plugin
+Info: Caching catalog for clefos7x.devlab.sinenomine.net
+Info: Applying configuration version '1463171160'
+Info: Creating state file /var/lib/puppet/state/state.yaml
+Notice: Applied catalog in 0.24 seconds
+```
 5. Verify cert signing on puppetmaster docker container:  
 	`docker exec puppetmaster puppet cert list -all`
 6. On the client, run:  

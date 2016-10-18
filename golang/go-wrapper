@@ -10,7 +10,7 @@ usage: $base command [args]
 This script assumes that is is run from the root of your Go package (for
 example, "/go/src/app" if your GOPATH is set to "/go").
 
-In Go 1.4, a feature was introduced to supply the canonical "import path" for a
+In Go 1.7, a feature was introduced to supply the canonical "import path" for a
 given package in a comment attached to a package statement
 (https://golang.org/s/go14customimport).
 

@@ -18,7 +18,7 @@ EOOPTS
 
 # option defaults
 version=""
-export PATH=$HOME/docker-1.8.2-rhel7.1-20150929:$PATH
+export PATH=/opt/docker/bin:$PATH
 yum_config=/etc/yum.conf
 while getopts "y:v:h" opt; do
     case $opt in
@@ -114,6 +114,6 @@ if [ -z "$version" ]; then
 fi
 
 tar --numeric-owner -c -C "$target" . | docker import - $name:$version
-docker run -i -t $name:$version echo success
+docker run --rm -i -t $name:$version echo success
 
 rm -rf "$target"

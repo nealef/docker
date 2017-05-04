@@ -1,0 +1,12 @@
+aether-api-1.0.2-4.fc24.noarch.rpm                   maven-lib-3.3.9-6.fc25.noarch.rpm
+aether-connector-basic-1.0.2-4.fc24.noarch.rpm       maven-wagon-file-2.10-2.fc24.noarch.rpm
+aether-impl-1.0.2-4.fc24.noarch.rpm                  maven-wagon-http-2.10-2.fc24.noarch.rpm
+aether-spi-1.0.2-4.fc24.noarch.rpm                   maven-wagon-http-shared-2.10-2.fc24.noarch.rpm
+aether-transport-wagon-1.0.2-4.fc24.noarch.rpm       maven-wagon-provider-api-2.10-2.fc24.noarch.rpm
+aether-util-1.0.2-4.fc24.noarch.rpm                  objectweb-asm-5.1-4.fc25.noarch.rpm
+httpcomponents-client-4.5.2-4.fc25.noarch.rpm        plexus-utils-3.0.24-2.fc25.noarch.rpm
+httpcomponents-client-cache-4.5.2-4.fc25.noarch.rpm  publicsuffix-list-20170206-1.fc25.noarch.rpm
+httpcomponents-core-4.4.5-2.fc25.noarch.rpm          sisu-plexus-0.3.2-4.fc24.noarch.rpm
+maven-3.3.9-6.fc25.noarch.rpm
+ant
+apache-ivy

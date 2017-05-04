@@ -1,0 +1,28 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: zeppelin-controller
+spec:
+  replicas: 1
+  selector:
+    component: zeppelin
+  template:
+    metadata:
+      labels:
+        component: zeppelin
+    spec:
+      containers:
+        - name: zeppelin
+          image: docker.io/sinenomine/zeppelin:latest
+          network: spark
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /opt/zeppelin/webapps
+              name: webapps
+          resources:
+            requests:
+              cpu: 100m
+      volumes:
+      - emptyDir: {}
+        name: webapps

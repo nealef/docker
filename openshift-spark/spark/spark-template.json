@@ -1,0 +1,831 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "spark",
+        "creationTimestamp": null,
+        "annotations": {
+            "description": "A template for creating a complete Spark cluster",
+            "tags": "spark,instant-app"
+        }
+    },
+    "labels": {
+        "template": "spark"
+    },
+    "parameters": [
+        {
+            "description": "The name for the application.",
+            "name": "APPLICATION_NAME",
+            "value": "spark",
+            "required": true
+        },
+        {
+            "description": "The host name for the UI.",
+            "name": "SPARK_UI_HOST",
+            "value": "spark-ui-proxy",
+            "required": true
+        },
+        {
+            "description": "The host name for the Zeppelin.",
+            "name": "ZEPPELIN_HOST",
+            "value": "spark-zeppelin",
+            "required": true
+        },
+        {
+            "description": "The Persistent Volume Claim Name for Zeppelin.",
+            "name": "ZEPPELIN_CLAIM",
+            "value": "zeppelin-claim",
+            "required": true
+        },
+        {
+            "name": "HADOOP_HOST_NAME",
+            "description": "The host exposoed for the Hadoop Web Interface",
+            "value": "148.100.42.204"
+        },
+        {
+            "name": "FRONTEND_SCHEME",
+            "description": "Which hadoop scheme should be exposed in links to self",
+            "value": "https"
+        }
+    ],
+    "objects": [
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-master",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "deploymentConfig": "${APPLICATION_NAME}-master",
+                    "application": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "deploymentConfig": "${APPLICATION_NAME}-master"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "deploymentConfig": "${APPLICATION_NAME}-master",
+                            "name": "${APPLICATION_NAME}-master"
+                        },
+                        "annotations": {
+                            "pod.beta.kubernetes.io/hostname": "${APPLICATION_NAME}-master"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "${APPLICATION_NAME}-master",
+                                "image": "docker.io/sinenomine/spark:2.1.0",
+                                "command": [
+                                    "/start-master"
+                                ],
+                                "ports": [
+                                    {
+                                        "containerPort": 7077,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "APPLICATION_NAME",
+                                        "value": "${APPLICATION_NAME}"
+                                    }
+                                ],
+                                "resources": {
+                                    "requests": {
+                                        "cpu": "100m"
+                                    }
+                                },
+                                "imagePullPolicy": "IfNotPresent"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-ui-proxy",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "component": "${APPLICATION_NAME}-ui-proxy",
+                    "application": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "deploymentConfig": "${APPLICATION_NAME}-ui-proxy"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deploymentConfig": "${APPLICATION_NAME}-ui-proxy"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "${APPLICATION_NAME}-ui-proxy",
+                                "image": "docker.io/sinenomine/spark-ui-proxy:1.0",
+                                "args": [
+                                    "${APPLICATION_NAME}-master:8080"
+                                ],
+                                "ports": [
+                                    {
+                                        "containerPort": 80,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "APPLICATION_NAME",
+                                        "value": "${APPLICATION_NAME}"
+                                    }
+                                ],
+                                "resources": {
+                                    "requests": {
+                                        "cpu": "100m"
+                                    }
+                                },
+                                "livenessProbe": {
+                                    "httpGet": {
+                                        "path": "/",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 120,
+                                    "timeoutSeconds": 5,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "failureThreshold": 3
+                                },
+                                "imagePullPolicy": "IfNotPresent"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-worker",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "deploymentConfig": "${APPLICATION_NAME}-worker",
+                    "application": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "replicas": 2,
+                "selector": {
+                    "deploymentConfig": "${APPLICATION_NAME}-worker"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deploymentConfig": "${APPLICATION_NAME}-worker"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "${APPLICATION_NAME}-worker",
+                                "image": "docker.io/sinenomine/spark:2.1.0",
+                                "command": [
+                                    "/start-worker"
+                                ],
+                                "ports": [
+                                    {
+                                        "containerPort": 8081,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "APPLICATION_NAME",
+                                        "value": "${APPLICATION_NAME}"
+                                    },
+                                    {
+                                        "name": "POD_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "resources": {
+                                    "requests": {
+                                        "cpu": "100m"
+                                    }
+                                },
+                                "imagePullPolicy": "IfNotPresent"
+                            }
+                        ],
+                        "serviceAccount": "deployer",
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-zeppelin",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "deploymentConfig": "${APPLICATION_NAME}-zeppelin",
+                    "application": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "deploymentConfig": "${APPLICATION_NAME}-zeppelin"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deploymentConfig": "${APPLICATION_NAME}-zeppelin"
+                        }
+                    },
+                    "spec": {
+                        "volumes": [
+                            {
+                                "name": "webapps",
+                                "persistentVolumeClaim": {
+                                    "claimName": "${ZEPPELIN_CLAIM}"
+                                }
+                            }
+                        ],
+                        "containers": [
+                            {
+                                "name": "${APPLICATION_NAME}-zeppelin",
+                                "image": "docker.io/sinenomine/zeppelin:0.7.1",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "APPLICATION_NAME",
+                                        "value": "${APPLICATION_NAME}"
+                                    },
+                                    {
+                                        "name": "POD_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "resources": {
+                                    "requests": {
+                                        "cpu": "100m"
+                                    }
+                                },
+                                "volumeMounts": [
+                                    {
+                                        "name": "webapps",
+                                        "mountPath": "/opt/zeppelin/vol"
+                                    }
+                                ],
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "serviceAccount": "deployer",
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-namenode",
+                "labels": {
+                    "deploymentConfig": "${APPLICATION_NAME}-namenode",
+                    "application": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Rolling",
+                    "rollingParams": {
+                        "updatePeriodSeconds": 1,
+                        "intervalSeconds": 1,
+                        "timeoutSeconds": 120
+                    }
+                },
+                "replicas": 1,
+                "selector": {
+                    "name": "${APPLICATION_NAME}-namenode"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "name": "${APPLICATION_NAME}-namenode"
+                        },
+                        "annotations": {
+                            "pod.beta.kubernetes.io/hostname": "${APPLICATION_NAME}-namenode"
+                        }
+                    },
+                    "spec": {
+                        "volumes": [
+                            {
+                                "name": "hadoop-name",
+                                "emptyDir": {}
+                            }
+                        ],
+                        "containers": [
+                            {
+                                "name": "${APPLICATION_NAME}-namenode",
+                                "image": "docker.io/sinenomine/hadoop-s390x:2.8.1",
+                                "args": ["start_namenode.sh"],
+                                "ports": [
+                                    {
+                                        "containerPort": 22,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 7373,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 7946,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 9000,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50010,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50020,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50070,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50075,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50090,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50475,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8030,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8031,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8032,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8033,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8040,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8042,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8060,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8088,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50060,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "APPLICATION_NAME",
+                                        "value": "${APPLICATION_NAME}"
+                                    },
+                                    {
+                                        "name": "FRONTEND_SCHEME",
+                                        "value": "${FRONTEND_SCHEME}"
+                                    },
+                                    {
+                                        "name": "HADOOP_HOST_NAME",
+                                        "value": "${HADOOP_HOST_NAME}"
+                                    }
+                                ],
+                                "volumeMounts": [
+                                    {
+                                        "name": "hadoop-name",
+                                        "mountPath": "/var/hadoop"
+                                    }
+                                ],
+                                "imagePullPolicy": "IfNotPresent"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "dnsPolicy": "ClusterFirst"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-datanode",
+                "labels": {
+                    "deploymentConfig": "${APPLICATION_NAME}-datanode",
+                    "application": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Rolling",
+                    "rollingParams": {
+                        "updatePeriodSeconds": 1,
+                        "intervalSeconds": 1,
+                        "timeoutSeconds": 120
+                    }
+                },
+                "replicas": 1,
+                "selector": {
+                    "name": "${APPLICATION_NAME}-datanode"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "name": "${APPLICATION_NAME}-datanode"
+                        },
+                        "annotations": {
+                            "pod.beta.kubernetes.io/hostname": "${APPLICATION_NAME}-datanode"
+                        }
+                    },
+                    "spec": {
+                        "volumes": [
+                            {
+                                "name": "hadoop-data",
+                                "emptyDir": {}
+                            }
+                        ],
+                        "containers": [
+                            {
+                                "name": "${APPLICATION_NAME}-datanode",
+                                "image": "docker.io/sinenomine/hadoop-s390x:2.8.1",
+                                "args": ["start_datanode.sh"],
+                                "ports": [
+                                    {
+                                        "containerPort": 22,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 7373,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 7946,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 9000,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50010,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50020,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50070,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50075,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50090,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50475,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8030,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8031,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8032,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8033,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8040,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8042,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8060,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8088,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50060,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "APPLICATION_NAME",
+                                        "value": "${APPLICATION_NAME}"
+                                    },
+                                    {
+                                        "name": "FRONTEND_SCHEME",
+                                        "value": "${FRONTEND_SCHEME}"
+                                    },
+                                    {
+                                        "name": "HADOOP_HOST_NAME",
+                                        "value": "${HADOOP_HOST_NAME}"
+                                    },
+                                    {
+                                        "name": "POD_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "volumeMounts": [
+                                    {
+                                        "name": "hadoop-data",
+                                        "mountPath": "/var/hadoop"
+                                    }
+                                ],
+                                "imagePullPolicy": "IfNotPresent"
+                            }
+                        ],
+                        "serviceAccount": "deployer",
+                        "restartPolicy": "Always",
+                        "dnsPolicy": "ClusterFirst"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-ui-proxy",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "host": "${SPARK_UI_HOST}",
+                "to": {
+                    "kind": "Service",
+                    "name": "${APPLICATION_NAME}-ui-proxy",
+                    "weight": 100
+                },
+                "wildcardPolicy": "None"
+            }
+        },
+        {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-zeppelin",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "host": "${ZEPPELIN_HOST}",
+                "to": {
+                    "kind": "Service",
+                    "name": "${APPLICATION_NAME}-zeppelin",
+                    "weight": 100
+                },
+                "wildcardPolicy": "None"
+            }
+        },
+        {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-namenode-web"
+            },
+            "spec": {
+                "host": "${HADOOP_HOST_NAME}",
+                "to": {
+                    "kind": "Service",
+                    "name": "${APPLICATION_NAME}-namenode-web"
+                }
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-namenode"
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "namenode-web",
+                        "protocol": "TCP",
+                        "port": 80,
+                        "targetPort": 50070,
+                        "nodePort": 0
+                    },
+                    {
+                        "name": "namenode-fs",
+                        "protocol": "TCP",
+                        "port": 9000,
+                        "targetPort": 9000,
+                        "nodePort": 0
+                    }
+                ],
+                "selector": {
+                    "name": "${APPLICATION_NAME}-namenode"
+                },
+                "portalIP": "",
+                "type": "ClusterIP",
+                "sessionAffinity": "None"
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-namenode-web"
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "namenode-web",
+                        "protocol": "TCP",
+                        "port": 50070,
+                        "targetPort": 50070,
+                        "nodePort": 0
+                    }
+                ],
+                "selector": {
+                    "name": "${APPLICATION_NAME}-namenode"
+                },
+                "portalIP": "",
+                "type": "ClusterIP",
+                "sessionAffinity": "None"
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-master",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "spark",
+                        "protocol": "TCP",
+                        "port": 7077,
+                        "targetPort": 7077
+                    },
+                    {
+                        "name": "http",
+                        "protocol": "TCP",
+                        "port": 8080,
+                        "targetPort": 8080
+                    }
+                ],
+                "selector": {
+                    "deploymentConfig": "${APPLICATION_NAME}-master"
+                },
+                "type": "ClusterIP",
+                "sessionAffinity": "None"
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-ui-proxy",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "protocol": "TCP",
+                        "port": 8080,
+                        "targetPort": 8080,
+                    }
+                ],
+                "selector": {
+                    "deploymentConfig": "${APPLICATION_NAME}-ui-proxy"
+                },
+                "type": "LoadBalancer",
+                "sessionAffinity": "None"
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-zeppelin",
+                "creationTimestamp": null
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "protocol": "TCP",
+                        "port": 80,
+                        "targetPort": 8080,
+                    }
+                ],
+                "selector": {
+                    "deploymentConfig": "${APPLICATION_NAME}-zeppelin"
+                },
+                "type": "LoadBalancer",
+                "sessionAffinity": "None"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+    ]
+}

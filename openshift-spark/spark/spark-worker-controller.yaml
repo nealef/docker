@@ -1,0 +1,24 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: spark-worker-controller
+spec:
+  replicas: 2
+  selector:
+    component: spark-worker
+  template:
+    metadata:
+      labels:
+        component: spark-worker
+    spec:
+      containers:
+        - name: spark-worker
+          image: docker.io/sinenomine/spark:1.5.2_v1
+          command: ["/start-worker"]
+          network: spark
+          ports:
+            - containerPort: 8081
+          resources:
+            requests:
+              cpu: 100m
+

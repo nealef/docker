@@ -4,21 +4,20 @@
 # Originally written for Fedora-Dockerfiles by
 #   William Henry <whenry@redhat.com>
 
-FROM	clefos71-base-s390x
-MAINTAINER The ClefOS Project <neale@sinenomine.net>
+FROM		sinenomine/clefos-base-s390x
 
-ADD	epel.repo /etc/yum.repos.d/epel.repo
+MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="0.34-4"
 
-RUN 	yum -y update && \
-	yum -y install sna-packages --nogpgcheck && \
-	rm -f /etc/yum.repos.d/sna.repo && \
-	yum install -y python-qpid qpid-cpp-server && yum clean all && \
-	rm -f /etc/yum.repos.d/epel.repo /var/log/yum.log /tmp/yum.log
+RUN 		yum -y --setopt=tsflags=nodocs update && \
+		yum install --disablerepo=oss -y --setopt=tsflags=nodocs python-qpid qpid-cpp-server && \
+		yum clean all && \
+		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
-ADD 	. /.qpidd
+ADD 		. /.qpidd
 
-WORKDIR /.qpidd
+WORKDIR 	/.qpidd
 
-EXPOSE 	5672
+EXPOSE 		5672
 
-ENTRYPOINT ["qpidd", "-t", "--auth=no"]
+ENTRYPOINT 	["qpidd", "-t", "--auth=no"]

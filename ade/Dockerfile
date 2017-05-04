@@ -1,14 +1,11 @@
-FROM 		brunswickheads/clefos71-java-s390x:latest
+FROM 		sinenomine/java-s390x:latest
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
-
-COPY		epel.repo /etc/yum.repos.d/
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0.0-0"
 
 ENV 		JAVA_HOME=/opt/ibm/java PATH=$PATH:$JAVA_HOME/bin JAVA_CLASSPATH=$JAVA_CLASSPATH:$JAVA_HOME:lib
 
-RUN		yum -y install sna-packages --nogpgcheck && \
-		rm -f /etc/yum.repos.d/sna.repo && \
-		yum install --setopt=tsflags=nodocs ade mariadb mariadb-java-client supervisor openssh-server rsyslog -y && \
+RUN		yum install --setopt=tsflags=nodocs ade mariadb mariadb-java-client supervisor openssh-server rsyslog -y && \
 		yum clean all && \ 
 		mkdir -p /var/local/ade && \
 		groupadd ade && \
@@ -27,7 +24,7 @@ RUN		yum -y install sna-packages --nogpgcheck && \
 		echo 'export JAVA_HOME=/opt/ibm/java' >>/home/ade/.bashrc && \
 		echo 'export JAVA_CLASSPATH=$JAVA_HOME/lib' >>/home/ade/.bashrc && \
 		echo 'export PATH=$PATH:/opt/ade/bin:$JAVA_HOME/bin' >>/home/ade/.bashrc && \
-		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log /etc/yum.repos.d/epel.repo
+		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
 # copy cfg files:
 ADD		./cfg_files/ade.tar /

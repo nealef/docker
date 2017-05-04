@@ -1,19 +1,17 @@
 #
 # Partially derived from https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile
 #
-FROM		brunswickheads/clefos71-base-s390x:latest
+FROM		sinenomine/clefos-base-s390x:latest
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="3.2.4"
 
-COPY		epel.repo /etc/yum.repos.d
+ENV		R_BASE_VERSION=3.2.4
 
-ENV		R_BASE_VERSION=3.2.1
-
-RUN		yum -y install sna-packages --nogpgcheck && \
-		rm -f /etc/yum.repos.d/sna.repo && \
+RUN		yum -y update --setopt=tsflags=nodocs && \
 		yum install --setopt=tsflags=nodocs R-littler R-littler-examples R-core -y || true && \
 		yum clean all && \ 
-		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log /etc/yum.repos.d/epel.repo
+		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
 RUN		mkdir -p /usr/local/lib/R/site-library /etc/R && \
         	echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "libcurl")' >> /etc/R/Rprofile.site && \

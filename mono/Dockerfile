@@ -1,13 +1,14 @@
-FROM	clefos71-base-s390x
-MAINTAINER The ClefOS Project <neale@sinenomine.net>
+FROM		sinenomine/clefos-base-s390x
 
-ADD	epel.repo /etc/yum.repos.d/epel.repo
+MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="MIT" Version="4.4.0-5"
 
-RUN 	yum -y update && \
-	yum -y install sna-packages --nogpgcheck && \
-	rm -f /etc/yum.repos.d/sna.repo && \
-	yum install -y mono-complete mono-basic && \
-	yum clean all && \ 
-	rm -f /etc/yum.repos.d/epel.repo /var/log/yum.log /tmp/yum.log
+RUN 		yum -y --setopt=tsflags=nodocs update && \
+		yum install -y mono-core mono-devel mono-web-devel \
+			mono-data mono-data-sqlite mono-extras \
+			mono-mvc-devel mono-reactive-devel mono-winforms \
+			mono-wcf mono-winfx && \
+		yum clean all && \ 
+		rm -rf /var/log/yum.log /tmp/* /var/cache/yum/*
 
-CMD	["/bin/bash"]
+CMD		["/bin/bash"]

@@ -1,4 +1,4 @@
-FROM 		brunswickheads/clefos71-base-s390x:latest
+FROM 		sinenomine/clefos71-base-s390x:latest
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
 

@@ -1,15 +1,12 @@
-FROM 		brunswickheads/clefos72-base-s390x:latest
+FROM 		sinenomine/clefos-base-s390x:latest
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.7.3-2"
 
 ENV 		GOLANG_VERSION 1.7
 
-ADD		epel.repo /etc/yum.repos.d/epel.repo
-
-RUN 		yum -y update && \
-		yum -y install sna-packages --nogpgcheck && \
-		rm -f /etc/yum.repos.d/sna.repo && \
-		yum -y install golang && \
+RUN 		yum -y --setopt=tsflags=nodocs update && \
+		yum -y --setopt=tsflags=nodocs --enablerepo=extras install golang && \
 		yum clean all && \ 
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 	

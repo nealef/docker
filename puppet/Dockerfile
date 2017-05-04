@@ -2,16 +2,12 @@
 # Derived almist in its entirety from https://raw.githubusercontent.com/macadmins/docker-puppetmaster
 # - Nick McSpadden 
 #
-FROM 		brunswickheads/clefos71-base-s390x:latest
+FROM 		sinenomine/clefos-base-s390x:latest
 
 MAINTAINER 	"The ClefOS Projet" <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="4.2.1-2"
 
-COPY		epel.repo /etc/yum.repos.d 
-
-RUN		yum -y install sna-packages --nogpgcheck && \
-		rm -f /etc/yum.repos.d/sna.repo && \
-		yum clean all && \
-		yum upgrade -y --setopt=tsflags=nodocs && \
+RUN		yum upgrade -y --setopt=tsflags=nodocs && \
 		yum -y --setopt=tsflags=nodocs install \
 			puppet-server puppet hostname && \
 		yum clean all && \

@@ -3,20 +3,16 @@
 #
 # Derived from https://github.com/dockerfile/nginx
 #
-FROM 		clefos71-base-s390x:latest
+FROM 		sinenomine/clefos-base-s390x:latest
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.8.0-14"
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
 
-COPY		epel.repo /etc/yum.repos.d/
-
-RUN 		\
-		yum install sna-packages --nogpgcheck -y && \
-		rm -f /etc/yum.repos.d/sna.repo && \
-		yum install nginx -y && \
-		yum update -y && \
+RUN		yum -y --setopt=tsflags=nodocs update && \
+		yum install --setopt=tsflags=nodocs nginx -y && \
 		rm -rf /var/lib/apt/lists/* && \
 		yum clean all && \ 
-		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log /etc/yum.repos.d/epel.repo
+		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log 
 
 VOLUME 		["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 

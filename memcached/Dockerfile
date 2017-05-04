@@ -4,13 +4,15 @@
 # Originally written for Fedora-Dockerfiles by
 #   scollier <scollier@redhat.com>
 
-FROM 	clefos71-base-s390x
-MAINTAINER The ClefOS Project <neale@sinenomine.net>
+FROM 		sinenomine/clefos-base-s390x:latest
 
-RUN  	yum -y update && \
-	yum -y install memcached && yum clean all && \
-	rm -f /var/log/yum.log /tmp/yum.log
+MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.4.15-9"
 
-EXPOSE  11211
+RUN  		yum -y --setopt=tsflags=nodocs update && \
+		yum -y install memcached && yum clean all && \
+		rm -rf /var/log/yum.log /tmp/* /var/cache/yum/*
 
-CMD  	["memcached", "-u", "daemon"]
+EXPOSE  	11211
+
+CMD  		["memcached", "-u", "daemon"]

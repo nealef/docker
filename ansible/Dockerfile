@@ -1,13 +1,9 @@
-FROM		brunswickheads/clefos71-base-s390x
+FROM		sinenomine/clefos-base-s390x
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.9.2-43.1"
 
-COPY		epel.repo /etc/yum.repos.d 
-
-RUN		yum -y install sna-packages --nogpgcheck && \
-		rm -f /etc/yum.repos.d/sna.repo && \
-		yum clean all && \
-		yum upgrade -y --setopt=tsflags=nodocs && \
+RUN		yum upgrade -y --setopt=tsflags=nodocs && \
 		yum install -y --setopt=tsflags=nodocs ansible python-jinja2 \
 			python-paramiko python-httplib2 && \
 		yum clean all && \

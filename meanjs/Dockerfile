@@ -1,11 +1,15 @@
-FROM 		brunswickheads/clefos71-nodejs-s390x
+FROM 		sinenomine/nodejs-s390x
+
+MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0.0-1"
 
 WORKDIR		/home/mean
 
 # Install gem sass for  grunt-contrib-sass
-RUN 		yum install -y ruby mongodb-server mongo-tools mongodb perl-Digest-SHA \
+RUN 		yum install -y --setopt=tsflags=nodocs \
+				ruby mongodb-server mongo-tools mongodb perl-Digest-SHA \
 				make gcc gcc-c++ krb5-devel phantomjs && \
-		npm config set registry https://registry.nodejitsu.com/ && \
+		npm config set registry http://registry.npmjs.org/ && \
 		gem install sass && \
 		npm install -g grunt-cli && \
 		npm install -g bower

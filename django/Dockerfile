@@ -4,17 +4,14 @@
 # Originally written for Fedora-Dockerfiles by
 #   Aditya Patawari <adimania@fedoraproject.org>
 
-FROM 	clefos71-base-s390x
-MAINTAINER The ClefOS Project <neale@sinenomine.net>
+FROM 		sinenomine/clefos-base-s390x:latest
+MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.6.11-3"
 
-ADD	epel.repo /etc/yum.repos.d/epel.repo
+RUN 		yum -y update && \
+		yum -y install python-pip python-django git sqlite && yum clean all && \
+		rm -f /etc/yum.repos.d/epel.repo /var/log/yum.log /tmp/yum.log
 
-RUN 	yum -y update && \
-	yum -y install sna-packages --nogpgcheck && \
-	rm -f /etc/yum.repos.d/sna.repo && \
-	yum -y install python-pip python-django git sqlite && yum clean all && \
-	rm -f /etc/yum.repos.d/epel.repo /var/log/yum.log /tmp/yum.log
+EXPOSE 		8000
 
-EXPOSE 8000
-
-CMD [ "/bin/bash" ]
+CMD 		[ "/bin/bash" ]

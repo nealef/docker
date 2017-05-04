@@ -1,24 +1,23 @@
 # Base image
-FROM clefos71-base-s390x:latest
+FROM 		sinenomine/clefos-base-s390x:latest
 
 # The author
-MAINTAINER The ClefOS Project <neale@sinenomine.net>
-LABEL Vendor="ClefOS" License="GPLv2" Version="2.6.6"
-ENV PATH=$PATH:/opt/mongo/bin LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/mongo/lib64
+MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="3.4.1-1"
 
-COPY mongo.tar.gz /
+COPY		mongo.repo /etc/yum.repos.d/
 
-RUN mkdir -p /opt && \
-	yum install -y tar --setopt=tsflags=nodocs && \
-	tar -xzf /mongo.tar.gz && \
-	yum erase -y tar && yum clean all && \
-	rm -f /mongo.tar.gz
+RUN 		yum -y --setopt=tsflags=nodocs upgrade && \
+		yum install -y --setopt=tsflags=nodocs mongodb-enterprise \
+			mongodb-enterprise-server mongodb-enterprise-tools mongodb-enterprise-shell && \
+		yum clean all && \ 
+		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
 # Export MongoDB server port	
-EXPOSE 27017 28017
+EXPOSE 		27017 28017
 
 # Create volume for mongodb data folder
-VOLUME /mongodb/data
+VOLUME 		/mongodb/data
 
 # Command to start MongoDB daemon process
-CMD mongod --dbpath /mongodb/data --syslog --httpinterface --rest --smallfiles --noprealloc
+CMD 		mongod --dbpath /mongodb/data --ipv6 --httpinterface --rest --smallfiles --noprealloc --logappend --logpath /mongodb/data/mongodb.log

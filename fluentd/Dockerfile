@@ -1,15 +1,13 @@
-FROM 		clefos71-base-s390x
+FROM 		sinenomine/clefos-base-s390x:latest
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="0.14.12"
 
-COPY		epel.repo /etc/yum.repos.d/
-
-RUN		yum -y install sna-packages --nogpgcheck && \
-		rm -f /etc/yum.repos.d/sna.repo && \
-		yum -y install git ruby rubypick make gcc gcc-c++ \
+RUN		yum -y install --setopt=tsflags=nodocs \
+			git ruby rubypick make gcc gcc-c++ \
 			kernel-devel ruby-devel rubygems rubygem-rdoc \
 			rubygem-bigdecimal rubygem-io-console \
-			rubygem-json gmp-devel
+			rubygem-json gmp-devel hostname
 
 RUN		gem install bundler -v="1.9.4"
 
@@ -23,7 +21,7 @@ RUN 		cd /home/fluentd && git clone https://github.com/fluent/fluentd
 
 WORKDIR 	/home/fluentd/fluentd
 
-RUN 		git checkout -b v0.12.22 v0.12.22 && \
+RUN 		git checkout -b release-v0.14.12 && \
 		bundle install --path=./vendor/bundle && \
 		bundle exec rake
 
@@ -31,14 +29,15 @@ USER 		root
 
 WORKDIR 	/home/fluentd/fluentd
 
-RUN 		gem install pkg/fluentd-0.12.22.gem
+RUN 		gem install pkg/fluentd-0.14.12.gem
 
-ENV 		PATH $PATH:/usr/lib64/ruby/gems/2.1.0/gems/fluentd-0.12.22/bin
+ENV 		PATH $PATH:/usr/lib64/ruby/gems/2.1.0/gems/fluentd-0.14.12/bin
 
 RUN 		mkdir /etc/fluent && \
 		fluentd --setup ./fluent && cp ./fluent/fluent.conf /etc/fluent/ && \
-		yum erase -y git make gcc gcc-c++ kernel-devel ruby-devel gmp-devel && \
+		yum erase -y git make gcc gcc-c++ kernel-devel ruby-devel gmp-devel \
+			kernel-devel glibc-devel hostname && \
 		yum clean all && \ 
-		rm -f /etc/yum.repos.d/epel.repo /var/log/yum.log /tmp/yum.log
+		rm -rf /var/log/yum.log /tmp/yum.log /var/cache/yum/*
 
 ENTRYPOINT 	fluentd -c /etc/fluent/fluent.conf

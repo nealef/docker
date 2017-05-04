@@ -3,15 +3,12 @@
 #
 # Derived from the Dockerfile by dorks@thisissoon.com
 #
-FROM 		brunswickheads/clefos72-base-s390x:latest
+FROM 		sinenomine/clefos-base-s390x:latest
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="2016.3.1-1"
 
 MAINTAINER	The ClefOS Project <neale@sinenomine.net> 
 
-COPY		epel.repo /etc/yum.repos.d/
-
-RUN		yum -y install sna-packages --nogpgcheck && \
-		rm -f /etc/yum.repos.d/sna.repo && \
-		yum update --setopt=tsflags=nodocs -y && \
+RUN		yum update --setopt=tsflags=nodocs -y && \
 		yum -y install --setopt=tsflags=nodocs salt-master sudo && \
 		yum clean all && \
 		rm -rf /var/cache/yum/* /var/log/yum.log /etc/yum.repos.d/epel.repo /*.rpm 

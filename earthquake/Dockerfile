@@ -4,23 +4,31 @@
 # Originally written for Fedora-Dockerfiles by
 #   "Maciej Lasyk" <maciek@lasyk.info>
 
-FROM 	clefos71-base-s390x
-MAINTAINER The ClefOS Project <neale@sinenomine.net>
+FROM 		sinenomine/clefos-base-s390x
+MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0.0-1"
 
 # install main packages:
-RUN 	yum -y update && \
-	yum -y install openssl-devel openssl readline readline-devel gcc \
-		gcc-c++ rubygems rubygems-devel ruby ruby-devel && \
-	yum clean all && \
-	rm -f /var/log/yum.log /tmp/yum.log
+RUN		yum -y update --setopt=tsflags=nodocs && \
+		yum -y install --setopt=tsflags=nodocs openssl-devel openssl readline readline-devel gcc \
+			gcc-c++ rubygems rubygems-devel ruby ruby-devel
 
 # install earthquake
-RUN gem install earthquake
+RUN 		gem install earthquake
 
 # set the env:
-RUN useradd -d /home/twitter twitter
-USER twitter 
-ENV HOME /home/twitter
-WORKDIR /home/twitter
+RUN 		useradd -d /home/twitter twitter
 
-CMD ["earthquake"]
+RUN		yum -y erase gcc gcc-c++ rubygems-devel ruby-devel readline-devel keyutils-libs-devel \
+			krb5-devel libcom_err-devel libselinux-devel libsepol-devel libverto-devel \
+			ncurses-devel pcre-devel zlib-devel openssl-devel && \
+		yum clean all && \
+		rm -rf /var/log/yum.log /tmp/yum.log /var/cache/yum/* /tmp/*
+
+USER 		twitter 
+
+ENV HOME 	/home/twitter
+
+WORKDIR 	/home/twitter
+
+CMD 		["earthquake"]

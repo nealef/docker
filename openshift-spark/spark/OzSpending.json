@@ -52,7 +52,7 @@
         },
         {
             "title":"Download data and import into HDFS",
-            "text":"%sh\n\n#remove existing copies of dataset from HDFS\nhadoop fs -fs hdfs://$HADOOP_IP:9000 -rm -r -f /tmp/oz\n\n#fetch the dataset\nwget https://data.gov.au/dataset/f84b9baf-c1c1-437c-8c1e-654b2829848c/resource/88399d53-d55c-466c-8f4a-6cb965d24d6d/download/healthexpenditurebyareaandsource.csv -O /tmp/expenses.csv\n\n#remove header\nsed -i '1d' /tmp/expenses.csv\n#remove empty fields\nsed -i \"s/,,,,,//g\" /tmp/expenses.csv\nsed -i '/^\\s*$/d' /tmp/expenses.csv\n\n#put data into HDFS\nhadoop fs -fs hdfs://$HADOOP_IP:9000 -mkdir -p /tmp/oz\nhadoop fs -fs hdfs://$HADOOP_IP:9000 -put /tmp/oz/expenses.csv /tmp\nhadoop fs -fs hdfs://$HADOOP_IP:9000 -ls -h /tmp/oz/expenses.csv\nrm -f /tmp/expenses.csv",
+            "text":"%sh\n\n#remove existing copies of dataset from HDFS\nhadoop fs -fs hdfs://$HADOOP_IP:9000 -rm -r -f /tmp/oz\n\n#fetch the dataset\nwget https://data.gov.au/dataset/f84b9baf-c1c1-437c-8c1e-654b2829848c/resource/88399d53-d55c-466c-8f4a-6cb965d24d6d/download/healthexpenditurebyareaandsource.csv -O /tmp/expenses.csv\n\n#remove header\nsed -i '1d' /tmp/expenses.csv\n#remove empty fields\nsed -i \"s/,,,,,//g\" /tmp/expenses.csv\nsed -i '/^\\s*$/d' /tmp/expenses.csv\n\n#put data into HDFS\nhadoop fs -fs hdfs://$HADOOP_IP:9000 -mkdir -p /tmp/oz\nhadoop fs -fs hdfs://$HADOOP_IP:9000 -put /tmp/expenses.csv /tmp/oz\nhadoop fs -fs hdfs://$HADOOP_IP:9000 -ls -h /tmp/oz/expenses.csv\nrm -f /tmp/expenses.csv",
             "dateUpdated":"2015-09-16T12:12:42+0000",
             "config":{
                 "colWidth":12,

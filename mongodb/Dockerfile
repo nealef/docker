@@ -8,7 +8,7 @@ LABEL 		Vendor="ClefOS" License="GPLv2" Version="3.4.1-1"
 COPY		mongo.repo /etc/yum.repos.d/
 
 RUN 		yum -y --setopt=tsflags=nodocs upgrade && \
-		yum install -y --setopt=tsflags=nodocs mongodb-enterprise \
+		yum install -y --setopt=tsflags=nodocs -x "*v8*5.2.258-11*" mongodb-enterprise \
 			mongodb-enterprise-server mongodb-enterprise-tools mongodb-enterprise-shell && \
 		yum clean all && \ 
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log

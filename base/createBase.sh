@@ -50,7 +50,7 @@ fi
 export TMPDIR=/var/tmp
 target=$(mktemp -d --tmpdir $(basename $0).XXXXXX)
 
-docker rmi centos7/centos7 scratch centos:centos7
+docker rmi centos7/centos7 centos:centos7
 
 mkdir -m 755 "$target"/dev
 mknod -m 600 "$target"/dev/console c 5 1
@@ -74,8 +74,8 @@ yum -c "$yum_config" --installroot="$target" --releasever=/ \
     --setopt=tsflags=nodocs \
     --setopt=group_package_types=mandatory -y install \
     centos-release \
-    ncurses-base filesystem nss-softokn-freebl glibc libstdc++ bash pcre zlib libdb bzip2-libs popt libacl libgpg-error lua audit-libs sqlite libcom_err nss-softokn libassuan sed libxml2 keyutils-libs glib2 pinentry cyrus-sasl-lib diffutils libidn gmp gdbm ustr dbus-libs p11-kit-trust libcap-ng libssh2 openssl-libs curl cracklib rpm-libs systemd-libs rpm nss-tools coreutils openldap nss-sysinit libutempter python-libs gnupg2 pygpgme rpm-python python-pycurl python-iniparse pyxattr vim-minimal libgcc tzdata setup basesystem glibc-common xz-libs ncurses-libs libsepol libselinux info nspr nss-util libattr libcap readline libffi elfutils-libelf chkconfig \
-     libuuid p11-kit libgcrypt grep file-libs pkgconfig shared-mime-info libdb-utils gawk cpio ncurses pth expat libsemanage libtasn1 ca-certificates libverto krb5-libs libcurl gzip cracklib-dicts libmount libpwquality libuser nss pam libblkid shadow-utils util-linux python gpgme rpm-build-libs yum-metadata-parser python-urlgrabber pyliblzma yum 
+    ncurses-base filesystem nss-softokn-freebl glibc libstdc++ bash pcre zlib libdb bzip2-libs popt libacl libgpg-error lua audit-libs sqlite libcom_err nss-softokn libassuan sed libxml2 keyutils-libs glib2 pinentry cyrus-sasl-lib diffutils libidn gmp gdbm ustr dbus-libs p11-kit-trust libcap-ng libssh2 openssl-libs openssl-ibmca curl cracklib rpm-libs systemd-libs rpm nss-tools coreutils openldap nss-sysinit libutempter python-libs gnupg2 pygpgme rpm-python python-pycurl python-iniparse pyxattr vim-minimal libgcc tzdata setup basesystem glibc-common xz-libs ncurses-libs libsepol libselinux info nspr nss-util libattr libcap readline libffi elfutils-libelf chkconfig \
+     libuuid p11-kit libgcrypt grep file-libs pkgconfig shared-mime-info libdb-utils gawk cpio ncurses pth expat libsemanage libtasn1 ca-certificates libverto krb5-libs libcurl gzip cracklib-dicts libmount libpwquality libuser nss pam libblkid shadow-utils util-linux python gpgme rpm-build-libs yum-metadata-parser python-urlgrabber pyliblzma yum yum-plugin-ovl
 
 cp epel.repo $target/etc/yum.repos.d/.
 
@@ -131,8 +131,10 @@ fi
 
 tar --numeric-owner -c -C "$target" . | docker import - $name:$version
 docker run --rm -i -t $name:$version echo success
-docker tag $name:$version scratch
 docker tag $name:$version centos7/centos7
 docker tag $name:$version centos:centos7
+if [ $version != "latest" ]; then
+	docker tag $name:$version $name:latest
+fi
 
 rm -rf "$target"

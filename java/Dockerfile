@@ -3,9 +3,9 @@ FROM		sinenomine/clefos-base-s390x:latest
 
 # The author
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="8.0-3.22"
+LABEL 		Vendor="ClefOS" License="GPLv2" Version="8.0-4.10"
 
-ENV		JAVABIN=ibm-java-s390x-sdk-8.0-3.22.bin
+ENV		JAVABIN=ibm-java-s390x-sdk-8.0-4.10.bin
 
 COPY 		dummy-java-1.8-0.el7.noarch.rpm $JAVABIN java.rsp /
 

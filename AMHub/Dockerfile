@@ -6,10 +6,7 @@ FROM 		sinenomine/nodejs-s390x
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
 LABEL 		Vendor="Alexander Zavgorodniy" License="MIT" Version="1.0.0-2"
 
-RUN		yum -y install supervisor rsyslog device-mapper device-mapper-libs git && \
-		mkdir -p /opt/docker/bin
-
-COPY		docker /opt/docker/bin/docker
+RUN		yum -y install supervisor rsyslog device-mapper device-mapper-libs git docker
 
 # install dev env
 RUN 		npm -g install grunt-cli karma --save-dev bower && \
@@ -37,6 +34,8 @@ RUN 		npm install && bower install --allow-root && \
 
 # build
 RUN 		grunt build --force
+
+ENV		DOCKER=/usr/bin/docker
 
 # default exec configuration to container
 CMD 		["supervisord","-c","/etc/supervisord.conf"]

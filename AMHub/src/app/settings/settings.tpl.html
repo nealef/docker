@@ -1,0 +1,146 @@
+<div class="modal-header">
+  <button class="close" ng-click="close()"><span>&times;</span></button>
+  <h3 class="modal-title"><i class="fa fa-cog"></i> Settings</h3>
+</div>
+<div class="modal-body" key-enter="close()">
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label for="filter" class="col-lg-2 control-label">Filter</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" id="filter" 
+        placeholder="Enter filter ..." ng-model="settings.filter" ng-change="updateCookies()"
+        ng-model-options="{debounce:600}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">View</label>
+      <div class="col-lg-10">
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="settings.advanced" ng-value="false" ng-change="updateCookies()">
+            Simple view
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="settings.advanced" ng-value="true" ng-change="updateCookies()">
+            Advanced view
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-if="settings.advanced">
+      <label class="col-lg-2 control-label">Variables</label>        
+      <div class="col-lg-10">
+        <div class="panel panel-default">          
+          <div class="table-responsive">
+            <table class="table panel-default">
+              <thead>
+                <tr>
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                          ng-click="config.variables.push({pair:newVariable});newVariable='';saveConfig()">
+                          Add
+                        </button>
+                      </span>     
+                      <input class="form-control" placeholder="Enter variable ..." 
+                        ng-model="newVariable">
+                    </div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in config.variables">                            
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-addon">
+                        <input type="checkbox" ng-model="checked" ng-click="edit=!edit">
+                      </span>
+                      <input type="text" class="form-control" placeholder="Enter variable ..." 
+                        ng-model="item.pair" ng-disabled="!checked" ng-change="saveConfig()" 
+                        ng-model-options="{debounce:1000}">                        
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                          ng-click="config.variables.splice($index,1);saveConfig()" ng-if="!edit">
+                          Remove
+                        </button>
+                      </span>
+                    </div>
+                  </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+       </div>
+    </div>
+    <div class="form-group" ng-if="settings.advanced">
+      <label class="col-lg-2 control-label">Addresses</label>        
+      <div class="col-lg-10">
+        <div class="panel panel-default">          
+          <div class="table-responsive">
+            <table class="table panel-default">
+              <thead>
+                <tr>
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                          ng-click="config.addresses.push({ip:newIp});newIp='';saveConfig()">
+                          Add
+                        </button>
+                      </span>     
+                      <input class="form-control" placeholder="Enter IPv4 ..." 
+                        ng-model="newIp">
+                    </div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="address in config.addresses">                            
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-addon">
+                        <input type="checkbox" ng-model="checked" ng-click="edit=!edit">
+                      </span>
+                      <input type="text" class="form-control" placeholder="Enter IPv4 ..." 
+                        ng-model="address.ip" ng-disabled="!checked" ng-change="saveConfig()" 
+                        ng-model-options="{debounce:1000}">                        
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                          ng-click="config.addresses.splice($index,1);saveConfig()" ng-if="!edit">
+                          Remove
+                        </button>
+                      </span>
+                    </div>
+                  </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="settings.disableAddressesLookup" ng-change="updateCookies()">
+            More then one container per address
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-if="settings.advanced">
+      <label class="col-lg-2 control-label">Docker</label>
+      <div class="col-lg-10">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="config.docker" 
+              ng-change="saveConfig()" ng-model-options="{debounce:1000}">
+            Enable Docker for all containers
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="close()">Close</button>
+</div>

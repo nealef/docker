@@ -1,0 +1,99 @@
+<div class="modal-header">
+  <button class="close" ng-click="close()"><span>&times;</span></button>
+  <h3 class="modal-title"><i class="fa fa-info-circle"></i> Container</h3>
+</div>
+<div class="modal-body" key-enter="close()">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Details</h3>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <td>{{:: container.Name.slice(1) }}</td>
+          </tr>
+          <tr>
+            <th>Created</th>
+            <td>{{:: container.Created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+          <tr>
+            <th>Started</th>
+            <td>{{:: container.State.StartedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+          <tr>
+            <th>Hostname</th>
+            <td>{{:: container.Config.Hostname }}</td>
+          </tr>
+          <tr>
+            <th>Ports</th>
+            <td>
+              <ul style="display:inline-table">
+                <li ng-repeat="(c, h) in container.NetworkSettings.Ports">
+                  <span ng-repeat="(k,v) in h">{{:: v.HostIp }}:{{:: v.HostPort }}</span> -> {{ c }}
+                  
+                  <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
+                  ng-if="(c=='3389/tcp')?true:false" 
+                  ng-click="connectRDP(h[0].HostIp, h[0].HostPort)">RDP Connect</a>
+                  
+                  <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
+                  ng-if="(c=='80/tcp' || c=='8080/tcp' || c=='9019/tcp')?true:false"
+                  ng-click="connectHTTP(h[0].HostIp, h[0].HostPort)" 
+                  target="_blank" ng-href="{{::targeturl}}">HTTP Connect</a>
+
+                  <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
+                  ng-if="(c=='443/tcp' || c=='8443/tcp')?true:false"
+                  ng-click="connectHTTPS(h[0].HostIp, h[0].HostPort)" 
+                  target="_blank" ng-href="{{::targeturl}}">HTTPS Connect</a>
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Path</th>
+            <td>{{:: container.Path }}</td>
+          </tr>
+          <tr>
+            <th>Environment</th>
+            <td>
+              <ul style="display:inline-table">
+                <li ng-repeat="k in container.Config.Env">{{:: k }}</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Volumes</th>
+            <td>
+              <ul style="display:inline-table">
+                <li ng-repeat="(k,v) in container.Volumes">{{:: v }} -> {{:: k }}</li>
+              </ul>
+            </td>
+          </tr>          
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panel panel-default" ng-if="top.Processes?true:false">
+    <div class="panel-heading">
+      <h3 class="panel-title">Running processes</h3>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th ng-repeat="title in top.Titles">{{ title }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="process in top.Processes">
+            <td ng-repeat="data in process">{{ data }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="close()">Close</button>
+</div>

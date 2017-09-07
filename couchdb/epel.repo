@@ -1,0 +1,7 @@
+[local]
+name=Sine Nomine Associates packages
+#baseurl=file:///var/lib/docker/git/src/github.com/hyperledger/fabric/images/base/repo
+baseurl=http://192.168.0.1/epelx
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-SNA
+enabled=1

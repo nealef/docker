@@ -5,9 +5,12 @@ LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0.0-1"
 
 WORKDIR		/home/mean
 
+COPY		mongo.repo /etc/yum.repos.d/
+
 # Install gem sass for  grunt-contrib-sass
-RUN 		yum install -y --setopt=tsflags=nodocs \
-				ruby mongodb-server mongo-tools mongodb perl-Digest-SHA \
+RUN 		yum install -y --setopt=tsflags=nodocs -x "*v8*5.2.258-11*" mongodb-enterprise \
+				mongodb-enterprise-server mongodb-enterprise-tools mongodb-enterprise-shell \
+				ruby ruby-devel perl-Digest-SHA git \
 				make gcc gcc-c++ krb5-devel phantomjs && \
 		npm config set registry http://registry.npmjs.org/ && \
 		gem install sass && \
@@ -21,9 +24,10 @@ RUN		npm install
 # Manually trigger bower. Why doesnt this work via npm install?
 ADD		.bowerrc /home/mean/.bowerrc
 ADD		bower.json /home/mean/bower.json
-RUN		bower --help && \
-		bower install --config.interactive=false --allow-root && \
-		yum erase -y make gcc gcc-c++ && \
+
+RUN		bower install --config.interactive=false --allow-root=true
+
+RUN		yum erase -y make gcc gcc-c++ git && \
 		yum clean all && \ 
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 

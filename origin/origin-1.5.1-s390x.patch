@@ -1,0 +1,144 @@
+diff --git a/Makefile b/Makefile
+index 7913016..53b0c48 100644
+--- a/Makefile
++++ b/Makefile
+@@ -216,12 +216,12 @@ clean:
+ 	rm -rf $(OUT_DIR)
+ .PHONY: clean
+ 
+-# Build a release of OpenShift for linux/amd64 and the images that depend on it.
++# Build a release of OpenShift for linux/[platform] and the images that depend on it.
+ #
+ # Example:
+ #   make release
+ release: clean
+-	OS_ONLY_BUILD_PLATFORMS="linux/amd64" hack/build-release.sh
++	OS_ONLY_BUILD_PLATFORMS="linux/${PLATFORM}" hack/build-release.sh
+ 	hack/build-images.sh
+ 	hack/extract-release.sh
+ .PHONY: release
+diff --git a/hack/update-generated-protobuf.sh b/hack/update-generated-protobuf.sh
+index 0562145..8fe8155 100755
+--- a/hack/update-generated-protobuf.sh
++++ b/hack/update-generated-protobuf.sh
+@@ -7,8 +7,8 @@ if [[ "${PROTO_OPTIONAL:-}" == "1" ]]; then
+ fi
+ 
+ os::util::ensure::system_binary_exists 'protoc'
+-if [[ "$(protoc --version)" != "libprotoc 3.0."* ]]; then
+-  os::log::fatal "Generating protobuf requires protoc 3.0.x. Please download and
++if [[ "$(protoc --version)" != "libprotoc 3."* ]]; then
++  os::log::fatal "Generating protobuf requires protoc 3.x.y. Please download and
+ install the platform appropriate Protobuf package for your OS:
+ 
+   https://github.com/google/protobuf/releases
+diff --git a/hack/verify-generated-completions.sh b/hack/verify-generated-completions.sh
+index 7c6451e..236b8fd 100755
+--- a/hack/verify-generated-completions.sh
++++ b/hack/verify-generated-completions.sh
+@@ -4,7 +4,7 @@ source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
+ echo "===== Verifying Generated Completions ====="
+ 
+ platform="$(os::build::host_platform)"
+-if [[ "${platform}" != "linux/amd64" ]]; then
++if [[ "${platform}" != "linux/amd64" -a "${platform}" != "linux/s390x" ]]; then
+   os::log::warn "Completions cannot be verified on non-Linux systems (${platform})"
+   exit 0
+ fi
+diff --git a/images/openvswitch/Dockerfile b/images/openvswitch/Dockerfile
+index 9faf4be..0cb0425 100644
+--- a/images/openvswitch/Dockerfile
++++ b/images/openvswitch/Dockerfile
+@@ -7,11 +7,11 @@ FROM openshift/origin-base
+ 
+ COPY scripts/* /usr/local/bin/
+ 
+-RUN curl -L -o /etc/yum.repos.d/origin-next-epel-7.repo https://copr.fedoraproject.org/coprs/maxamillion/origin-next/repo/epel-7/maxamillion-origin-next-epel-7.repo && \
+-    INSTALL_PKGS="openvswitch" && \
++RUN INSTALL_PKGS="openvswitch" && \
+     yum install -y $INSTALL_PKGS && \
+     rpm -V $INSTALL_PKGS && \
+     yum clean all && \
++    rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log && \
+     chmod +x /usr/local/bin/*
+ 
+ LABEL io.k8s.display-name="OpenShift Origin OpenVSwitch Daemon" \
+diff --git a/images/release/golang-1.7/Dockerfile b/images/release/golang-1.7/Dockerfile
+index a7c675a..5c86dbe 100644
+--- a/images/release/golang-1.7/Dockerfile
++++ b/images/release/golang-1.7/Dockerfile
+@@ -25,6 +25,7 @@ RUN mkdir $TMPDIR && \
+     curl https://storage.googleapis.com/golang/go$VERSION.linux-amd64.tar.gz | tar -C /usr/local -xzf - && \
+     go get golang.org/x/tools/cmd/cover golang.org/x/tools/cmd/goimports github.com/tools/godep github.com/golang/lint/golint && \
+     touch /os-build-image && \
++    rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log && \
+     git config --global user.name origin-release-container && \
+     git config --global user.email none@nowhere.com
+ 
+diff --git a/images/router/haproxy/conf/haproxy-config.template b/images/router/haproxy/conf/haproxy-config.template
+index 40bfb7a..dde273d 100644
+--- a/images/router/haproxy/conf/haproxy-config.template
++++ b/images/router/haproxy/conf/haproxy-config.template
+@@ -84,9 +84,11 @@ defaults
+ {{end}}
+ 
+ {{ if (gt .StatsPort 0) }}
+-listen stats :{{.StatsPort}}
++listen stats 
++bind :{{.StatsPort}}
+ {{ else }}
+-listen stats :1936
++listen stats 
++bind :1936
+ {{ end }}
+     mode http
+     # Health check monitoring uri.
+diff --git a/hack/build-images.sh b/hack/build-images.sh
+index c25a9b9..1551819 100755
+--- a/hack/build-images.sh
++++ b/hack/build-images.sh
+@@ -10,9 +10,20 @@ STARTTIME=$(date +%s)
+ source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
+ source "${OS_ROOT}/contrib/node/install-sdn.sh"
+ 
++ARCH=`uname -m`
++case ${ARCH} in 
++	"x86_64")
++		ARCH="amd64"
++		TAROUT="64bit"
++		;;
++	"s390x")
++		TAROUT="s390"
++		;;
++esac
++
+ if [[ "${OS_RELEASE:-}" == "n" ]]; then
+ 	# Use local binaries
+-	imagedir="${OS_OUTPUT_BINPATH}/linux/amd64"
++	imagedir="${OS_OUTPUT_BINPATH}/linux/${ARCH}"
+ 	# identical to build-cross.sh
+ 	os::build::os_version_vars
+ 	OS_RELEASE_COMMIT="${OS_GIT_VERSION//+/-}"
+@@ -34,7 +45,7 @@ else
+ 	fi
+ 
+ 	# Extract the release archives to a staging area.
+-	os::build::detect_local_release_tars "linux-64bit"
++	os::build::detect_local_release_tars "linux-${TAROUT}"
+ 
+ 	echo "Building images from release tars for commit ${OS_RELEASE_COMMIT}:"
+ 	echo " primary: $(basename ${OS_PRIMARY_RELEASE_TAR})"
+diff --git a/Makefile b/Makefile
+index 53b0c48..8950ded 100644
+--- a/Makefile
++++ b/Makefile
+@@ -258,7 +258,8 @@ install-travis:
+ # Example:
+ #   make build-rpms
+ build-rpms:
+-	OS_ONLY_BUILD_PLATFORMS='linux/amd64' hack/build-rpm-release.sh
++	PLATFORM=$(shell bash -c 'source hack/common.sh; os::build::host_platform')
++	OS_ONLY_BUILD_PLATFORMS=$(PLATFORM) hack/build-rpm-release.sh
+ .PHONY: build-rpms
+ 
+ # Build RPMs for all architectures

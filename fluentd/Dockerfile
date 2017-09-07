@@ -23,7 +23,7 @@ WORKDIR 	/home/fluentd/fluentd
 
 RUN 		git checkout -b release-v0.14.12 && \
 		bundle install --path=./vendor/bundle && \
-		bundle exec rake
+		bundle exec rake || true
 
 USER 		root
 

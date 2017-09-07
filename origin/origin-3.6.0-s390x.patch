@@ -1,0 +1,135 @@
+index 14c850c..33d0ee7 100755
+--- a/hack/build-images.sh
++++ b/hack/build-images.sh
+@@ -36,8 +36,9 @@ function ln_or_cp {
+ }
+ 
+ # Link or copy image binaries to the appropriate locations.
+-ln_or_cp "${OS_OUTPUT_BINPATH}/linux/amd64/hello-openshift" examples/hello-openshift/bin
+-ln_or_cp "${OS_OUTPUT_BINPATH}/linux/amd64/gitserver"       examples/gitserver/bin
++ARCH="$(go env GOHOSTARCH)"
++ln_or_cp "${OS_OUTPUT_BINPATH}/linux/${ARCH}/hello-openshift" examples/hello-openshift/bin
++ln_or_cp "${OS_OUTPUT_BINPATH}/linux/${ARCH}/gitserver"       examples/gitserver/bin
+ 
+ # determine the correct tag prefix
+ tag_prefix="${OS_IMAGE_PREFIX:-"openshift/origin"}"
+@@ -67,4 +68,4 @@ os::build::image "openshift/node"                      images/node
+ os::build::image "openshift/openvswitch"               images/openvswitch
+ 
+ # extra images (not part of infrastructure)
+-os::build::image "openshift/hello-openshift"           examples/hello-openshift
+\ No newline at end of file
++os::build::image "openshift/hello-openshift"           examples/hello-openshift
+diff --git a/hack/update-generated-protobuf.sh b/hack/update-generated-protobuf.sh
+index d6591c4..f6c8f20 100755
+--- a/hack/update-generated-protobuf.sh
++++ b/hack/update-generated-protobuf.sh
+@@ -7,8 +7,8 @@ if [[ "${PROTO_OPTIONAL:-}" == "1" ]]; then
+ fi
+ 
+ os::util::ensure::system_binary_exists 'protoc'
+-if [[ "$(protoc --version)" != "libprotoc 3.0."* ]]; then
+-  os::log::fatal "Generating protobuf requires protoc 3.0.x. Please download and
++if [[ "$(protoc --version)" != "libprotoc 3."* ]]; then
++  os::log::fatal "Generating protobuf requires protoc 3.x.y. Please download and
+ install the platform appropriate Protobuf package for your OS:
+ 
+   https://github.com/google/protobuf/releases
+diff --git a/hack/verify-generated-completions.sh b/hack/verify-generated-completions.sh
+index 11673c1..ef3080e 100755
+--- a/hack/verify-generated-completions.sh
++++ b/hack/verify-generated-completions.sh
+@@ -4,7 +4,7 @@ source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
+ echo "===== Verifying Generated Completions ====="
+ 
+ platform="$(os::build::host_platform)"
+-if [[ "${platform}" != "linux/amd64" ]]; then
++if [[ "${platform}" != "linux/amd64" -a ${platform} != "linux/s390x" ]]; then
+   os::log::warning "Completions cannot be verified on non-Linux systems (${platform})"
+   exit 0
+ fi
+diff --git a/images/openvswitch/Dockerfile b/images/openvswitch/Dockerfile
+index 8d37732..c36559c 100644
+--- a/images/openvswitch/Dockerfile
++++ b/images/openvswitch/Dockerfile
+@@ -9,7 +9,8 @@ COPY scripts/* /usr/local/bin/
+ RUN INSTALL_PKGS="openvswitch" && \
+     yum install -y ${INSTALL_PKGS} && \
+     rpm -V ${INSTALL_PKGS} && \
+-    yum clean all
++    yum clean all && \
++    rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
+ 
+ LABEL io.openshift.tags="openshift,openvswitch" \
+       io.k8s.display-name="OpenShift Origin OpenVSwitch Daemon" \
+diff --git a/images/release/golang-1.8/Dockerfile b/images/release/golang-1.8/Dockerfile
+index e622cdf..f3a8055 100644
+--- a/images/release/golang-1.8/Dockerfile
++++ b/images/release/golang-1.8/Dockerfile
+@@ -25,6 +25,7 @@ RUN mkdir $TMPDIR && \
+     curl https://storage.googleapis.com/golang/go$VERSION.linux-amd64.tar.gz | tar -C /usr/local -xzf - && \
+     go get golang.org/x/tools/cmd/cover golang.org/x/tools/cmd/goimports github.com/tools/godep github.com/golang/lint/golint github.com/openshift/imagebuilder/cmd/imagebuilder && \
+     touch /os-build-image && \
++    rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log && \
+     git config --system user.name origin-release-container && \
+     git config --system user.email none@nowhere.com
+ 
+diff --git a/images/router/haproxy/conf/haproxy-config.template b/images/router/haproxy/conf/haproxy-config.template
+index 8a814b4..4aa8d64 100644
+--- a/images/router/haproxy/conf/haproxy-config.template
++++ b/images/router/haproxy/conf/haproxy-config.template
+@@ -144,9 +144,11 @@ defaults
+ 
+ {{ if (gt .StatsPort -1) }}
+ {{ if (gt .StatsPort 0) }}
+-listen stats :{{.StatsPort}}
++listen stats 
++bind :{{.StatsPort}}
+ {{- else }}
+-listen stats :1936
++listen stats 
++bind :1936
+ {{- end }}
+   mode http
+   # Health check monitoring uri.
+diff --git a/origin.spec b/origin.spec
+index 969540a..d32b8b3 100644
+--- a/origin.spec
++++ b/origin.spec
+@@ -239,18 +239,23 @@ of docker.  Exclude those versions of docker.
+ # Create Binaries only for building arch
+ %ifarch x86_64
+   BUILD_PLATFORM="linux/amd64"
++  ARCH="amd64"
+ %endif
+ %ifarch %{ix86}
+   BUILD_PLATFORM="linux/386"
++  ARCH="i386"
+ %endif
+ %ifarch ppc64le
+   BUILD_PLATFORM="linux/ppc64le"
++  ARCH="ppc64le"
+ %endif
+ %ifarch %{arm} aarch64
+   BUILD_PLATFORM="linux/arm64"
++  ARCH="arm64"
+ %endif
+ %ifarch s390x
+   BUILD_PLATFORM="linux/s390x"
++  ARCH="s390x"
+ %endif
+ OS_ONLY_BUILD_PLATFORMS="${BUILD_PLATFORM}" %{os_git_vars} hack/build-cross.sh
+ OS_ONLY_BUILD_PLATFORMS="${BUILD_PLATFORM}" %{os_git_vars} hack/build-go.sh vendor/github.com/onsi/ginkgo/ginkgo
+@@ -281,9 +286,9 @@ install -p -m 755 _output/local/bin/${PLATFORM}/ginkgo %{buildroot}%{_libexecdir
+ %if 0%{?make_redistributable}
+ # Install client executable for windows and mac
+ install -d %{buildroot}%{_datadir}/%{name}/{linux,macosx,windows}
+-install -p -m 755 _output/local/bin/linux/amd64/oc %{buildroot}%{_datadir}/%{name}/linux/oc
+-install -p -m 755 _output/local/bin/darwin/amd64/oc %{buildroot}/%{_datadir}/%{name}/macosx/oc
+-install -p -m 755 _output/local/bin/windows/amd64/oc.exe %{buildroot}/%{_datadir}/%{name}/windows/oc.exe
++install -p -m 755 _output/local/bin/linux/${ARCH}/oc %{buildroot}%{_datadir}/%{name}/linux/oc
++install -p -m 755 _output/local/bin/darwin/${ARCH}/oc %{buildroot}/%{_datadir}/%{name}/macosx/oc
++install -p -m 755 _output/local/bin/windows/${ARCH}/oc.exe %{buildroot}/%{_datadir}/%{name}/windows/oc.exe
+ %endif
+ 
+ # Install federation services

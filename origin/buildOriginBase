@@ -1,0 +1,28 @@
+#!/bin/sh
+DIR[0]=base
+DIR[1]=builder
+DIR[2]=origin
+DIR[3]=haproxy-base
+DIR[4]=haproxy
+DIR[5]=deployer
+DIR[6]=registry
+DIR[7]=release
+NAME[0]="openshift/origin-base"
+NAME[1]="openshift/origin-builder"
+NAME[2]="openshift/origin"
+NAME[3]="openshift/origin-haproxy-base"
+NAME[4]="openshift/origin-haproxy"
+NAME[5]="openshift/origin-deployer"
+NAME[6]="openshift/origin-registry"
+NAME[7]="openshift/origin-release:golang-1.8"
+for (( i=0; i<${#DIR[@]}; i++ ))
+do
+	cd ${DIR[$i]}
+	docker build -t ${NAME[$i]} .
+	cd ..
+done
+docker tag openshift/origin-base:latest openshift/origin-base:v1.5.1
+docker tag openshift/origin-haproxy-base:latest openshift/haproxy-base:v1.5.1
+docker tag openshift/origin-haproxy:latest openshift/haproxy:v1.5.1
+docker tag sinenomine/clefos-base-s390x:latest centos7/centos7
+docker tag sinenomine/clefos-base-s390x:latest centos:centos7

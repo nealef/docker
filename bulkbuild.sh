@@ -66,6 +66,7 @@ DOCKER[40]=${DIR}/ulboracms
 DOCKER[41]=${DIR}/wordpress
 DOCKER[42]=${DIR}/openjdk
 DOCKER[43]=${DIR}/cobol
+echo "===================== Starting ===================="
 for (( i=0; i<${#DOCKER[@]}; i++ ))
 do
 	IMAGE=`basename ${DOCKER[$i]} | tr [:upper:] [:lower:]`
@@ -80,7 +81,7 @@ do
 		fi
 		if [ ${BUILD} -eq 1 ]; then
 			echo "Building ${IMAGE}"
-			docker build --rm -t sinenomine/${IMAGE}-s390x:latest .
+			docker build --rm --tag sinenomine/${IMAGE}-s390x:latest .
 			RC=$?
 		else
 			RC=0
@@ -89,13 +90,13 @@ do
 			docker push sinenomine/${IMAGE}-s390x:latest
 			RC=$?
 		fi
-		echo "---------------------------------------------------- Rc:" $RC
+		echo "${IMAGE} ---------------------------------------------------- Rc:" $RC
 		echo
 	fi
 done
+set -x
 IMAGE='busybox'
 cd ${DIR}/busybox
-set -x
 NOW=`stat --format=%Y build.sh`
 CREATED=`docker inspect -f '{{ .Created }}' busybox:glibc-test`
 BUILT=`date --date="${CREATED}" +%s`
@@ -103,7 +104,8 @@ X=`docker images | grep sinenomine/${IMAGE}`
 if [ $? -ne 0 -o ${FORCE} -eq 1 -o ${NOW} -gt ${BUILT} ]; then
 set +x
 	if [ ${FORCE} -eq 1 -a ${BUILD} -eq 1 ]; then
-		docker rmi sinenomine/${IMAGE}-s390x:latest
+		docker rmi sinenomine/${IMAGE}:glibc-test
+		docker rmi sinenomine/${IMAGE}:glibc-builder
 	fi
 	if [ ${BUILD} -eq 1 ]; then
 		echo "Building ${IMAGE}"
@@ -113,9 +115,10 @@ set +x
 		RC=0
 	fi
 	if [ ${RC} -eq 0 -a ${PUSH} -eq 1 ]; then
-		docker push sinenomine/${IMAGE}-s390x:latest
+		docker tag sinenomine/${IMAGE}:glibc-test sinenomine/${IMAGE}:glibc
+		docker push sinenomine/${IMAGE}:glibc
 	fi
-	echo "---------------------------------------------------- Rc:" $?
+	echo "${IMAGE} ------------------------------------------- Rc:" $?
 	echo
 fi
 cd ${DIR}

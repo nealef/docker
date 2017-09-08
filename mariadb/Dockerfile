@@ -4,7 +4,7 @@ MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 LABEL 		Vendor="ClefOS" License="GPLv2" Version="10.1.19-3"
 
 RUN		yum -y update --setopt=tsflags=nodocs && \
-		yum -y install --setopt=tsflags=nodocs --enablerepo=epel7 \
+		yum -y install --setopt=tsflags=nodocs --enablerepo=epel \
 			mariadb-server bind-utils psmisc hostname && \ 
 		yum -y erase vim-minimal && yum clean all && \
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log

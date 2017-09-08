@@ -6,109 +6,109 @@ Files to build Docker containers for ClefOS 7.x
 
 ## Images
 
-* ade - IBM Anomaly Detection Engine 
+* __ade__ - IBM Anomaly Detection Engine 
 
-* AMHub - Application Manager Docker Hub
+* __AMHub__ - Application Manager Docker Hub
 
-* ansible - Simple IT Automation
+* __ansible__ - Simple IT Automation
 
-* bacula - File Backup and Restore 
+* __bacula__ - File Backup and Restore 
 
-* base - ClefOS (CentOS Clone) Base Image
+* __base__ - ClefOS (CentOS Clone) Base Image
 
-* busybox - The Swiss Army Knife of Linux
+* __busybox__ - The Swiss Army Knife of Linux
 
-* cobol - GNU COBOL Development Environment
+* __cobol__ - GNU COBOL Development Environment
 
-* compose-ui - Docker Compose
+* __compose-ui__ - Docker Compose
 
-* couchdb - Apache CouchDB
+* __couchdb__ - Apache CouchDB
 
-* django - A high-level Python Web framework
+* __django__ - A high-level Python Web framework
 
-* docker-swarm-visualizer - A visualizer for Docker Swarm Mode 
+* __docker-swarm-visualizer__ - A visualizer for Docker Swarm Mode 
 
-* earthquake -  A terminal-based Twitter client
+* __earthquake__ -  A terminal-based Twitter client
 
-* erlang - A general-purpose, concurrent, functional programming language
+* __erlang__ - A general-purpose, concurrent, functional programming language
 
-* fluentd - An open source data collector for unified logging layer
+* __fluentd__ - An open source data collector for unified logging layer
 
-* golang - GO Programming Language Development Environment
+* __golang__ - GO Programming Language Development Environment
 
-* hadoop-openshift - Hadoop for use with OpenShift
+* __hadoop-openshift__ - Hadoop for use with OpenShift
 
-* hello-nodejs - A simple Hello World program in Node.js
+* __hello-nodejs__ - A simple Hello World program in Node.js
 
-* httpd - Apache Webserver
+* __httpd__ - Apache Webserver
 
-* java - IBM Java SDK
+* __java__ - IBM Java SDK
 
-* kubernetes - An open source container cluster manager
+* __kubernetes__ - An open source container cluster manager
 
-* lighttpd - A secure, fast, compliant, and very flexible web-server
+* __lighttpd__ - A secure, fast, compliant, and very flexible web-server
 
-* mariadb - A community-developed fork of the MySQL relational database management system
+* __mariadb__ - A community-developed fork of the MySQL relational database management system
 
-* MEAN - MEAN stack
+* __MEAN__ - MEAN stack
 
-* meanjs - Another MEAN stack
+* __meanjs__ - Another MEAN stack
 
-* mediawiki - A free software open source wiki package written in PHP
+* __mediawiki__ - A free software open source wiki package written in PHP
 
-* memcached - A general-purpose distributed memory caching system
+* __memcached__ - A general-purpose distributed memory caching system
 
-* mongodb - A free and open-source cross-platform document-oriented database program
+* __mongodb__ - A free and open-source cross-platform document-oriented database program
 
-* mono - .NET development environment
+* __mono__ - .NET development environment
 
-* nginx - A free, open-source, high-performance HTTP server, reverse proxy, and IMAP/POP3 proxy server
+* __nginx__ - A free, open-source, high-performance HTTP server, reverse proxy, and IMAP/POP3 proxy server
 
-* nodejs - A JavaScript runtime built on Chrome's V8 JavaScript engine
+* __nodejs__ - A JavaScript runtime built on Chrome's V8 JavaScript engine
 
-* openjdk - OpenJDK Development Environment
+* __openjdk__ - OpenJDK Development Environment
 
-* openshift-spark - Spark for OpenShift
+* __openshift-spark__ - Spark for OpenShift
 
-* origin - Bootstrap images for build OpenShift Origin
+* __origin__ - Bootstrap images for build OpenShift Origin
 
-* postgresql - Relational Database Management System
+* __postgresql__ - Relational Database Management System
 
-* puppet - A network tool for managing many disparate systems
+* __puppet__ - A network tool for managing many disparate systems
 
-* qpid - Messaging tools that speak AMQP and support many languages and platforms
+* __qpid__ - Messaging tools that speak AMQP and support many languages and platforms
 
-* R-base - Base image for the R programming language
+* __R-base__ - Base image for the R programming language
 
-* R-devel - R development environment
+* __R-devel__ - R development environment
 
-* redis - An open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker
+* __redis__ - An open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker
 
-* registry - Docker registry
+* __registry__ - Docker registry
 
-* saltmaster - A containerised Salt-Master server
+* __saltmaster__ - A containerised Salt-Master server
 
-* solr - An open source enterprise search platform written in Java
+* __solr__ - An open source enterprise search platform written in Java
 
-* spark - A fast and general engine for big data processing, with built-in modules for streaming, SQL, machine learning and graph processing
+* __spark__ - A fast and general engine for big data processing, with built-in modules for streaming, SQL, machine learning and graph processing
 
-* spark-ui-proxy - Spark UI with Proxy. For use in OpenShift Origin
+* __spark-ui-proxy__ - Spark UI with Proxy. For use in OpenShift Origin
 
-* swarm - Docker Cluster Manager
+* __swarm__ - Docker Cluster Manager
 
-* tomcat - An open source implementation of the Java Servlet, JavaServer Pages, Java Expression Language and Java WebSocket technologies
+* __tomcat__ - An open source implementation of the Java Servlet, JavaServer Pages, Java Expression Language and Java WebSocket technologies
 
-* ulboracms - A MEAN stack CMS and blog platform
+* __ulboracms__ - A MEAN stack CMS and blog platform
 
-* watchtower - A process for watching your Docker containers and automatically restarting them whenever their base image is refreshed
+* __watchtower__ - A process for watching your Docker containers and automatically restarting them whenever their base image is refreshed
 
-* websphere - Websphere Liberty Images
+* __websphere__ - Websphere Liberty Images
 
-* wildfly - Formerly known as JBoss AS, or simply JBoss, is an application server
+* __wildfly__ - Formerly known as JBoss AS, or simply JBoss, is an application server
 
-* wordpress - A free and open-source content management system (CMS) based on PHP and MySQL. Uses an external database
+* __wordpress__ - A free and open-source content management system (CMS) based on PHP and MySQL. Uses an external database
 
-* wordpress-sa - A self-contained Wordpress container
+* __wordpress-sa__ - A self-contained Wordpress container
 
 ## Special Requirements
 

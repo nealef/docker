@@ -3,8 +3,8 @@
 #
 # Derived from https://github.com/dockerfile/nginx
 #
-FROM 		sinenomine/clefos-base-s390x:latest
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.8.0-14"
+FROM 		clefos:clefos7
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
 

@@ -1,25 +1,21 @@
 # Bacula on Docker
 
-This work is derived in its entirety on the work of Jasper Lievisse Adriaanse of The Red Cool Beans company - (https://www.redcoolbeans.com/contact/) who is the original author and provides support and development for these containers. I have adapted the build process and some content for the s390x environment.
+This work is derived in its entirety on the work of Jasper Lievisse Adriaanse of [The Red Cool Beans company](https://www.redcoolbeans.com/contact/) who is the original author and provides support and development for these containers. I have adapted the build process and some content for the s390x environment.
 
 ## Introduction
 
-This is a working technology preview of running Bacula (Open Source) 7.4.0 in
-multiple [Docker](https://www.docker.com/) containers.
+This is a working technology preview of running Bacula (Open Source) 7.4.0 in multiple [Docker](https://www.docker.com/) containers.
 
-To make it easier to get started a `docker-compose.yml` is provided and it's
-assumed that `docker-compose` is used to start the containers. For actual
-deployment the `docker` binary ought to be used directly (e.g. by starting
-the containers as a service).
+To make it easier to get started a `docker-compose.yml` is provided and it's assumed that `docker-compose` is used to start the containers. For actual deployment the `docker` binary ought to be used directly (e.g. by starting the containers as a service).
 
 ## Images
 
 The images are available on the [Docker Hub](https://hub.docker.com/) as:
-- [brunswickheads/bacula-db-data-s390x](https://hub.docker.com/r/brunswickheads/bacula-db-data-s390x/)
-- [brunswickheads/bacula-db-s390x](https://hub.docker.com/r/brunswickheads/bacula-db-s390x/)
-- [brunswickheads/bacula-dir-s390x](https://hub.docker.com/r/brunswickheads/bacula-dir-s390x/)
-- [brunswickheads/bacula-sd-s390x](https://hub.docker.com/r/brunswickheads/bacula-sd-s390x/)
-- [brunswickheads/bacula-fd-s390x](https://hub.docker.com/r/brunswickheads/bacula-fd-s390x/)
+- [clefos/bacula-db-data](https://hub.docker.com/r/clefos/bacula-db-data/)
+- [clefos/bacula-db](https://hub.docker.com/r/clefos/bacula-db/)
+- [clefos/bacula-dir](https://hub.docker.com/r/clefos/bacula-dir/)
+- [clefos/bacula-sd](https://hub.docker.com/r/clefos/bacula-sd/)
+- [clefos/bacula-fd](https://hub.docker.com/r/clefos/bacula-fd/)
 
 ## Requirements
 

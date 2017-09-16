@@ -1,7 +1,7 @@
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0.0-0"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 ADD		watchtower /usr/bin
 

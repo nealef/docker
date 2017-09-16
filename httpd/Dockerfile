@@ -1,6 +1,6 @@
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 MAINTAINER 	ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="Sine Nomine Associates" License=GPLv2 Version="2.4.6-40"
+LABEL 		Vendor="Sine Nomine Associates" License=GPLv2
 
 RUN 		yum -y update && \
 		yum -y install httpd && yum clean all && \

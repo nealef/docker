@@ -1,7 +1,7 @@
-FROM 		sinenomine/nodejs-s390x
+FROM 		clefos/nodejs
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0.0-1"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 WORKDIR		/home/mean
 

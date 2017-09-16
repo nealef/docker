@@ -12,16 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM 		sinenomine/java-s390x
+FROM 		clefos/ibmjava
 
 MAINTAINER 	David Currie <david_currie@uk.ibm.com> (@dcurrie)
 
-RUN 		yum install -y --setopt=tsflags=nodocs unzip wget &&
+RUN 		yum install -y --setopt=tsflags=nodocs unzip wget && \
 		yum clean all && \
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
 # Install WebSphere Liberty
-ENV LIBERTY_VERSION 2017.2.0_0
+ENV 		LIBERTY_VERSION 2017.9.0_0
 
 RUN 		LIBERTY_URL=$(wget -q -O - https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/index.yml  | grep $LIBERTY_VERSION -A 3 | sed -n 's/\s*webProfile7:\s//p' | tr -d '\r') && \
 		echo $LIBERTY_URL && \

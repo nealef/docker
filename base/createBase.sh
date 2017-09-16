@@ -8,9 +8,8 @@
 
 usage() {
     cat <<EOOPTS
-$(basename $0) [OPTIONS] <name>
+$(basename $0) [OPTIONS] 
 OPTIONS:
-  -v <version>  Version of the image (defaults to version of ClefOS that is running)
   -y <yumconf>  The path to the yum config to install packages from. The
                 default is /etc/yum.conf.
 EOOPTS
@@ -29,9 +28,6 @@ while getopts "y:v:h" opt; do
         h)
             usage
             ;;
-	v)
-	    version=$OPTARG
-	    ;;
         \?)
             echo "Invalid option: -$OPTARG"
             usage
@@ -39,11 +35,9 @@ while getopts "y:v:h" opt; do
     esac
 done
 shift $((OPTIND - 1))
-name=$1
 
-if [[ -z ${name} ]]; then
-    name="sinenomine/clefos-base-s390x"
-fi
+name="clefos"
+version="clefos7"
 
 #--------------------
 
@@ -133,12 +127,15 @@ if [ -z "${version}" ]; then
     version="${name}"
 fi
 
-tar --numeric-owner -c -C ${target} . | docker import - ${name}:${version}
-docker run --rm -i -t ${name}:${version} echo success
+tar -cJf clefos-7-docker.tar.xz --numeric-owner -c -C ${target} .
+docker build --rm --tag ${name}:${version} .
+
+docker run --rm -i -t ${name}:${version}  echo success
 docker tag ${name}:${version} centos7/centos7
 docker tag ${name}:${version} centos:centos7
+docker tag ${name}:${version} clefos/clefos7:clefos7
 if [ ${version} != "latest" ]; then
-	docker tag ${name}:${version} ${name}:latest
+    docker tag ${name}:${version} ${name}:latest
 fi
 
-rm -rf ${target}
+rm -rf ${target} clefos-7-docker.tar.xz

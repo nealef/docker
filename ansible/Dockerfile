@@ -1,7 +1,7 @@
-FROM		sinenomine/clefos-base-s390x
+FROM		clefos:clefos7
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.9.2-43.1"
+LABEL 		Vendor="ClefOS" License="GPLv2" 
 
 RUN		yum upgrade -y --setopt=tsflags=nodocs && \
 		yum install -y --setopt=tsflags=nodocs ansible python-jinja2 \

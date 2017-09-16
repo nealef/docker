@@ -1,11 +1,11 @@
-FROM		sinenomine/java-s390x
+FROM		clefos/ibmjava
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="3.2.4"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 ADD		docker-entrypoint.sh /
 
-ENV		R_BASE_VERSION=3.2.4
+ENV		R_BASE_VERSION=3.4.1
 
 RUN		yum -y update --setopt=tsflags=nodocs && \
 		yum install --setopt=tsflags=nodocs R-littler R-littler-examples R-core-devel R-devel -y || true 

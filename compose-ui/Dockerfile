@@ -2,7 +2,7 @@
 # DOCKER-VERSION 1.9.1
 # Adapted from the Dockerfile by Francesco Uliana <francesco@uliana.it> 
 # https://github.com/francescou/docker-compose-ui
-FROM 		sinenomine/swarm-s390x:latest
+FROM 		clefos/swarm
 MAINTAINER 	"The ClefOS Project" <neale@sinenomine.net>
 
 RUN             yum install python34 python-virtualenv gcc -y

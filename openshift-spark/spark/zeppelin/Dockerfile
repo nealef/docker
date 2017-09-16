@@ -15,10 +15,14 @@
 # This image relies on the zeppelin-build image to get the zeppelin
 # binaries built, and the Makefile to put it in this directory.
 
-FROM 	sinenomine/spark:latest
+FROM 	clefos/spark
 
-ENV 	ZEPPELIN_VER  0.7.1
+ENV 	ZEPPELIN_VER  0.7.2
 
+RUN	yum install -y --setopt=tsflags=nodocs wget tar && \
+	yum clean all && \
+	rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
+	
 RUN 	mkdir -p /opt && \
     	cd /opt && \
     	curl http://www.us.apache.org/dist/zeppelin/zeppelin-${ZEPPELIN_VER}/zeppelin-${ZEPPELIN_VER}-bin-all.tgz | \
@@ -26,10 +30,6 @@ RUN 	mkdir -p /opt && \
     	ln -s zeppelin-${ZEPPELIN_VER}-bin-all zeppelin && \
     	echo Zeppelin ${ZEPPELIN_VER} installed in /opt
 
-RUN	yum install -y --setopt=tsflags=nodocs wget && \
-	yum clean all && \
-	rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
-	
 ADD 	zeppelin-log4j.properties /opt/zeppelin/conf/log4j.properties
 ADD 	zeppelin-env.sh /opt/zeppelin/conf/zeppelin-env.sh
 ADD 	docker-zeppelin.sh /opt/zeppelin/bin/docker-zeppelin.sh

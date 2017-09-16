@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM 		sinenomine/websphere-liberty:webProfile7
+FROM 		clefos/websphere-liberty:webProfile7
 
 COPY 		server.xml /config/
 ARG 		REPOSITORIES_PROPERTIES=""

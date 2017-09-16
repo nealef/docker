@@ -1,30 +1,10 @@
-# application-images
+# Spark
 
-This repository houses the Docker image build contents for (some) applications
-that run on Kubernetes. Specifically, it houses the build content and rules for
-any applications that require custom built Docker images.
+This is a Docker image appropriate for running Spark on Kuberenetes. It produces three main images:
+* `spark-master` - Runs a Spark master in Standalone mode and exposes a port for Spark and a port for the WebUI.
+* `spark-worker` - Runs a Spark worer in Standalone mode and connects to the Spark master via DNS name `spark-master`.
+* `zeppelin` - Runs a Zeppelin web notebook and connects to the Spark master via DNS name `spark-master` and exposes a port for the WebUI.
 
-## Structure
-
-Each directory should include:
-* a top-level README describing the contents
-* a Makefile with a `make push` rule that will push to
-  `gcr.io/google_containers` (it has to be something that @k8s-oncall can push
-  to).
-
-## Contributing
-
-When in doubt, see the official Kubernetes
-[contributing guidelines](https://github.com/kubernetes/kubernetes/blob/80569e8866966c554a0c293df907f1bf9de368d2/CONTRIBUTING.md).
-
-## Merge guidelines
-
-You or the reviewer can merge on a single LGTM. After you submit a PR, mention
-@k8s-oncall to get the image pushed (if you or the merger aren't able).
-
-## Joining the team
-
-If you've submitted an image to this repo and will maintain it actively,
-consider asking to join the
-[application-images-maintainers](https://github.com/orgs/kubernetes/teams/application-images-maintainers)
-team.
+In addition, there are two additional pushed images:
+* `spark-base` - This base image for `spark-master` and `spark-worker` that starts nothing.
+* `spark-driver` - This image, just like the `zeppelin` image, allows running things like `pyspark` to connect to `spark-master`, but is lighter weight than the `zeppelin` image.

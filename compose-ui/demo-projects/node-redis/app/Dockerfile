@@ -1,9 +1,9 @@
-FROM node
+FROM 	clefos/nodejs
 
-RUN npm install redis
+RUN 	npm install redis
 
-EXPOSE 8080
+EXPOSE 	8080
 
-ADD ./app.js /opt/
+ADD 	./app.js /opt/
 
-CMD ["node", "/opt/app.js"]
+CMD 	["node", "/opt/app.js"]

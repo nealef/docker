@@ -1,10 +1,10 @@
 #
 # Entirely derived from https://github.com/alex-agency/AMHub.git Alexander Zavgorodniy alex.agency@gmail.com
 #
-FROM 		sinenomine/nodejs-s390x
+FROM 		clefos/nodejs
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
-LABEL 		Vendor="Alexander Zavgorodniy" License="MIT" Version="1.0.0-2"
+LABEL 		Vendor="Alexander Zavgorodniy" License="MIT" 
 
 RUN		yum -y install supervisor rsyslog device-mapper device-mapper-libs git docker
 

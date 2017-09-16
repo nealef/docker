@@ -4,7 +4,7 @@
 #
 # The standard name for this image is openshift/origin-base
 #
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:7
 
 RUN		touch /var/lib/rpm/* && \
 		INSTALL_PKGS="which git tar wget hostname sysvinit-tools util-linux bsdtar \

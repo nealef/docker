@@ -1,6 +1,7 @@
-FROM 		sinenomine/clefos-base-s390x
+FROM 		clefos:clefos7
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 RUN		yum update --setopt=tsflags=nodocs -y && \
 		yum -y install --setopt=tsflags=nodocs kubernetes etcd iptables && \

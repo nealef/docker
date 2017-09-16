@@ -1,35 +1,18 @@
-all : env ${HOME}/go/bin/glide build 
+VERSION=$(shell cat VERSION)
 
-${HOME}/go/bin/glide : 
-	go get -u github.com/Masterminds/glide # installs glide for vendoring
+all:		watchtower
 
-build:
-	PATH=${PATH}:${HOME}/go/bin glide install  # retrieves package dependencies
-	GOPATH=/tmp/go go build                    # compiles and packages an executable binary, watchtower
-	rm -rf /tmp/go
+watchtower:	Dockerfile
+		docker build --rm --tag clefos/watchtower --label VERSION=$(VERSION) . 
 
-test:
-	go test 
+push:
+		docker tag clefos/watchtower:latest clefos/watchtower:clefos7
+		docker tag clefos/watchtower:latest clefos/watchtower:$(VERSION)
+		docker push clefos/watchtower:latest
+		docker push clefos/watchtower:clefos7
+		docker push clefos/watchtower:$(VERSION)
 
-env:
-	pwd
-	rm -rf /tmp/go; 							\
-	mkdir -p /tmp/go/src/github.com/{Sirupsen,robfig,urfave,v2tec,docker,x};\
-	mkdir -p /tmp/go/src/golang.org/x;					\
-	cd /tmp/go/src/github.com/Sirupsen; 					\
-	git clone http://github.com/Sirupsen/logrus; 				\
-	cd ../robfig;								\
-	git clone http://github.com/robfig/cron;				\
-	cd ../urfave;								\
-	git clone http://github.com/urfave/cli;					\
-	cd ../v2tec;								\
-	git clone http://github.com/v2tec/watchtower;				\
-	cd ../docker;								\
-	git clone http://github.com/docker/docker;				\
-	cd docker;								\
-	git checkout 1.13.x;							\
-	cd /tmp/go/src/golang.org/x;	 					\
-	git clone https://go.googlesource.com/net;				\
-	git clone https://go.googlesource.com/sys;				\
-	git clone https://go.googlesource.com/crypto;				\
-	pwd
+clean:
+		docker rmi clefos/watchtower:latest || true
+		docker rmi clefos/watchtower:clefos7 || true
+		docker rmi clefos/watchtower:$(VERSION) || true

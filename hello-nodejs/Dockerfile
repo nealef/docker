@@ -1,9 +1,7 @@
-# Base image
-FROM 		sinenomine/nodejs-s390x:latest
+FROM 		clefos/nodejs
 
-# The author
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0-0.1"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 RUN 		mkdir -p /src && \
 		cd /src && \

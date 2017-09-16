@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM 		sinenomine/websphere-liberty
+FROM 		clefos/websphere-liberty
 
 MAINTAINER 	Kavitha Suresh Kumar <kavisuresh@in.ibm.com>
 

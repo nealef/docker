@@ -1,4 +1,4 @@
-############### Linux on z Systems Dockerfile for Apache Solr version 6.1.0 ############
+############### Linux on z Systems Dockerfile for Apache Solr version 6.6.1 ############
 #
 # To build Apache Solr image from the directory containing this Dockerfile
 # (assuming that the file is named "Dockerfile"):
@@ -15,11 +15,11 @@
 #    and was configured to access suitable repositories for installing dependent software packages.
 
 # Base image
-FROM		sinenomine/java-s390x
+FROM		clefos/ibmjava
 
 # The author
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="6.1.0"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 # Install following build dependencies
 RUN 		yum install --setopt=tsflags=nodocs -y wget tar bzip2
@@ -35,21 +35,21 @@ RUN 		wget http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.6-bin.tar.
 RUN 		tar -xjf apache-ant-1.9.6-bin.tar.bz2
 ENV 		PATH $PATH:/Apache_Solr/apache-ant-1.9.6/bin:/opt/ibm/java/bin
 
-# Download Apache Solr 6.1.0 source code
+# Download Apache Solr 6.6.1 source code
 WORKDIR 	/Apache_Solr
-RUN 		wget http://archive.apache.org/dist/lucene/solr/6.1.0/solr-6.1.0-src.tgz
-RUN 		tar -xzf solr-6.1.0-src.tgz
+RUN 		wget http://archive.apache.org/dist/lucene/solr/6.6.1/solr-6.6.1-src.tgz
+RUN 		tar -xzf solr-6.6.1-src.tgz
 
 # Set JAVA_HOME
 ENV 		JAVA_HOME /opt/ibm/java
 
 # Build Apache Solr 
-WORKDIR 	/Apache_Solr/solr-6.1.0/solr
+WORKDIR 	/Apache_Solr/solr-6.6.1/solr
 RUN 		ant ivy-bootstrap
 RUN 		ant server
 
 # Edit the solr and solr.cmd file 
-WORKDIR 	/Apache_Solr/solr-6.1.0/solr/bin
+WORKDIR 	/Apache_Solr/solr-6.6.1/solr/bin
 RUN 		sed -i 's/Xloggc/Xverbosegclog/g' solr && \
 		sed -i 's/JAVA_VERSION:(-2)/JAVA_VERSION:(-1)/g' solr && \
 		sed -i 's/Xloggc/Xverbosegclog/g' solr.cmd
@@ -63,4 +63,4 @@ RUN 		chmod a+x solr && \
 		yum clean all && \
 		rm -rf /var/cache/yum/* /var/log/yum.log /tmp/*
 
-CMD 		./solr start && tail -F /Apache_Solr/solr-6.1.0/solr/server/logs/solr.log
+CMD 		./solr start && tail -F /Apache_Solr/solr-6.6.1/solr/server/logs/solr.log

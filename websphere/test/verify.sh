@@ -140,12 +140,12 @@ testFeatureList()
    fi
    
    if [[ $LIBERTY_URL == *jar ]]; then
-     required_features=$(docker run -e JAVA_HOME=/opt/ibm/java --rm sinenomine/java-s390x:latest yum install -y wget >/dev/null 2>&1 && sh -c \
+     required_features=$(docker run -e JAVA_HOME=/opt/ibm/java --rm clefos/ibmjava:latest yum install -y wget >/dev/null 2>&1 && sh -c \
        "wget -q $LIBERTY_URL -U UA-IBM-WebSphere-Liberty-Docker -O /tmp/wlp.jar
 /opt/ibm/java/bin -jar /tmp/wlp.jar --acceptLicense /opt/ibm > /dev/null
 /opt/ibm/wlp/bin/productInfo featureInfo" | cut -d ' ' -f1 | sort)
    else
-     required_features=$(docker run -e JAVA_HOME=/opt/ibm/java --rm sinenomine/java-s390x:latest yum install -y wget >/dev/null 2>&1 && sh -c \
+     required_features=$(docker run -e JAVA_HOME=/opt/ibm/java --rm clefos/ibmjava:latest yum install -y wget >/dev/null 2>&1 && sh -c \
        "wget -q $LIBERTY_URL -U UA-IBM-WebSphere-Liberty-Docker -O /tmp/wlp.zip
 unzip -o -q /tmp/wlp.zip -d /opt/ibm
 /opt/ibm/wlp/bin/productInfo featureInfo" | cut -d ' ' -f1 | sort)

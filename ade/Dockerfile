@@ -1,7 +1,7 @@
-FROM 		sinenomine/java-s390x:latest
+FROM 		clefos/ibmjava
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0.0-0"
+LABEL 		Vendor="ClefOS" License="GPLv2" 
 
 ENV 		JAVA_HOME=/opt/ibm/java PATH=$PATH:$JAVA_HOME/bin JAVA_CLASSPATH=$JAVA_CLASSPATH:$JAVA_HOME:lib
 

@@ -1,7 +1,7 @@
 # This image provides a base for building and running WildFly applications.
 # It builds using maven and runs the resulting artifacts on WildFly 10.1.0 Final
 
-FROM 		sinenomine/java-s390x:latest
+FROM 		clefos/ibmjava
 
 MAINTAINER 	Neale Ferguson <neale@sinenomine.net>
 

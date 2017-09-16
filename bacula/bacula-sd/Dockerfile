@@ -1,7 +1,7 @@
 #
 # Derived from the Red Cool Beans Project
 #
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 
 MAINTAINER 	"The ClefOS Project" <neale@sinenomine.net>
 ENV 		BACULA_VERSION "5.2.13"

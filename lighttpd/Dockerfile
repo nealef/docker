@@ -4,9 +4,9 @@
 # Originally written for Fedora-Dockerfiles by
 #   "Maciej Lasyk" <maciek@lasyk.info>
 
-FROM		sinenomine/clefos-base-s390x:latest
+FROM		clefos:clefos7
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.4.37-1"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 # install main packages:
 RUN		yum -y update && \

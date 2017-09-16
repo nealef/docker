@@ -1,4 +1,4 @@
-FROM		sinenomine/java-s390x
+FROM		clefos/ibmjava
 
 MAINTAINER	"Neale Ferguson" <neale@sinenomine.net>
 

@@ -1,9 +1,7 @@
-# Base image
-FROM 		sinenomine/java-s390x:latest
+FROM 		clefos/ibmjava:8
 
-# The author
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="6.11.2.0"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 ENV 		JAVA_HOME=/opt/ibm/java PATH=$PATH:$JAVA_HOME/bin:/opt/ibm/nodejs/bin \
 		NODEBIN=ibm-6.11.2.0-node-v6.11.2-linux-s390x.bin

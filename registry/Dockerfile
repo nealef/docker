@@ -4,9 +4,9 @@
 # Originally written for Fedora-Dockerfiles by
 #   Stephen Tweedie <sct@redhat.com>
 
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="2.5.0-1"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 RUN 		yum update -y  && \
 		yum install -y docker-distribution redis && yum clean all && \

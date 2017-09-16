@@ -1,5 +1,5 @@
 #Latest version of node tested on.
-FROM 	sinenomine/nodejs-s390x
+FROM 	clefos/nodejs
 
 WORKDIR /app
 

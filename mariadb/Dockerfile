@@ -1,20 +1,33 @@
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="10.1.19-3"
+LABEL 		Vendor="ClefOS" License=GPLv2
+LABEL 		Build docker build --rm --tag clefos/mariadb .
 
-RUN		yum -y update --setopt=tsflags=nodocs && \
-		yum -y install --setopt=tsflags=nodocs --enablerepo=epel \
-			mariadb-server bind-utils psmisc hostname && \ 
-		yum -y erase vim-minimal && yum clean all && \
+RUN 		yum -y install --setopt=tsflags=nodocs epel-release && \ 
+    		yum -y install --setopt=tsflags=nodocs mariadb-server bind-utils pwgen psmisc hostname && \ 
+		yum -y erase vim-minimal && \
+		yum -y update && yum clean all && \
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
-VOLUME 		/var/lib/mysql
+# Fix permissions to allow for running on openshift
+COPY 		fix-permissions.sh ./
+
+RUN 		./fix-permissions.sh /var/lib/mysql/   && \
+    		./fix-permissions.sh /var/log/mariadb/ && \
+    		./fix-permissions.sh /var/run/
 
 COPY 		docker-entrypoint.sh /
 
+COPY		allow-skip-name.cnf /etc/my.cnf.d/
+
 ENTRYPOINT 	["/docker-entrypoint.sh"]
 
-EXPOSE 		3306
+# Place VOLUME statement below all changes to /var/lib/mysql
+VOLUME 		[/var/lib/mysql]
 
-CMD 		["mysqld_safe"]
+# By default will run as random user on openshift and the mysql user (27)
+# everywhere else
+USER 		27
+
+EXPOSE 		3306

@@ -1,4 +1,4 @@
-FROM 	sinenomine/clefos-base-s390x:latest
+FROM 	clefos:clefos7
 
 COPY 	./spark-ui-proxy.py /
 

@@ -9,7 +9,7 @@
 #                                                                                   #
 #####################################################################################
 
-docker pull sinenomine/java-s390x:latest
+docker pull clefos/java
 
 while read -r imageName buildContextDirectory
 do

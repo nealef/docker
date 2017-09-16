@@ -1,7 +1,7 @@
-FROM 		sinenomine/java-s390x:latest
+FROM 		clefos/ibmjava
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="8.5.11"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 ENV 		CATALINA_HOME=/opt/tomcat PATH=$CATALINA_HOME/bin:$PATH
 RUN 		mkdir -p "$CATALINA_HOME"

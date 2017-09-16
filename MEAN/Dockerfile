@@ -1,14 +1,16 @@
-FROM    	sinenomine/nodejs-s390x
+FROM    	clefos/nodejs
 
 MAINTAINER	The ClefOS project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0.0-2"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
-RUN 		yum install -y --setopt=tsflags=nodocs \
-			git tar gcc gcc-c++ make mongodb mongodb-server mongo-tools \
-			krb5-devel perl-Digest-SHA && \	
+RUN 		yum install -y --setopt=tsflags=nodocs -x "*v8*5.2.258-11*" \
+			git tar gcc gcc-c++ make mongodb-enterprise-server mongodb-enterprise-tools \
+			mongodb-enterprise-shell krb5-devel perl-Digest-SHA && \	
         	npm install -g express && \
         	npm install -g mongodb && \
         	npm install -g tar mkdirp 
+
+COPY		mongo.repo /etc/yum.repos.d/
 
 WORKDIR 	/mean
 

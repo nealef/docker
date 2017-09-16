@@ -1,6 +1,0 @@
-[epel]
-name=Sine Nomine Associates EPEL packages
-baseurl=http://nqs-build-master.devlab.sinenomine.net/sna7
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-SNA
-enabled=1

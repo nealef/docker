@@ -5,6 +5,10 @@ if [ "${1:0:1}" = '-' ]; then
 	set -- mysqld_safe "$@"
 fi
 
+if [ $# -eq 0 ]; then
+	set -- mysqld_safe
+fi
+
 if [ "$1" = 'mysqld_safe' ]; then
 	DATADIR="/var/lib/mysql"
 	
@@ -48,7 +52,6 @@ if [ "$1" = 'mysqld_safe' ]; then
 		set -- "$@" --init-file="$tempSqlFile"
 	fi
 	
-	chown -R mysql:mysql "$DATADIR"
 fi
 
 exec "$@"

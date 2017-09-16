@@ -1,6 +1,6 @@
-sinenomine/websphere-liberty:kernel       ../ga/developer/kernel
-sinenomine/websphere-liberty:microProfile ../ga/developer/microProfile
-sinenomine/websphere-liberty:webProfile6  ../ga/developer/webProfile6
-sinenomine/websphere-liberty:webProfile7  ../ga/developer/webProfile7
-sinenomine/websphere-liberty:javaee7      ../ga/developer/javaee7
-sinenomine/websphere-liberty:beta         ../beta
+clefos/websphere-liberty:kernel       ../ga/developer/kernel
+clefos/websphere-liberty:microProfile ../ga/developer/microProfile
+clefos/websphere-liberty:webProfile6  ../ga/developer/webProfile6
+clefos/websphere-liberty:webProfile7  ../ga/developer/webProfile7
+clefos/websphere-liberty:javaee7      ../ga/developer/javaee7
+clefos/websphere-liberty:beta         ../beta

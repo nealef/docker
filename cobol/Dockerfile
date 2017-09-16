@@ -1,9 +1,7 @@
-# Base image
-FROM		sinenomine/clefos-base-s390x:latest
+FROM		clefos:clefos7
 
-# The author
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.1-2"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 RUN 		yum install -y gnu-cobol && \
 		yum clean all && \

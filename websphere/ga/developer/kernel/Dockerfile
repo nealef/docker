@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM 		sinenomine/java-s390x:latest
+FROM 		clefos/ibmjava
 
 MAINTAINER 	David Currie <david_currie@uk.ibm.com> (@davidcurrie)
 
@@ -22,7 +22,7 @@ RUN		yum upgrade -y --setopt=tsflags=nodocs && \
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
 # Install WebSphere Liberty
-ENV 		LIBERTY_VERSION 16.0.0_04
+ENV 		LIBERTY_VERSION 17.0.0_02
 ARG 		LIBERTY_URL
 ARG 		DOWNLOAD_OPTIONS=""
 

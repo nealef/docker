@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM 		sinenomine/java-s390x:latest
+FROM 		clefos/ibmjava
 
 # Install Liberty
 ADD 		wlp-*-runtime-*.jar /tmp/wlp-runtime.jar

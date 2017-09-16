@@ -4,9 +4,9 @@
 # Originally written for Fedora-Dockerfiles by
 #   scollier <scollier@redhat.com>
 
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="9.2.15-1"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 RUN 		yum -y --setopt=tsflags=nodocs update && \
 		yum -y --setopt=tsflags=nodocs install sudo supervisor \

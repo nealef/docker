@@ -1,7 +1,7 @@
-FROM node
+FROM 	clefos/nodejs
 
-EXPOSE 1337
+EXPOSE 	1337
 
-ADD ./hello.js /opt/
+ADD 	./hello.js /opt/
 
-CMD ["node", "/opt/hello.js"]
+CMD 	["node", "/opt/hello.js"]

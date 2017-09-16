@@ -1,4 +1,4 @@
-FROM 	sinenomine/clefos-base-s390x:latest
+FROM 	clefos:clefos7
 
 ENV 	hadoop_ver 2.8.1
 ENV 	spark_ver 2.1.0.1

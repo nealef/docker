@@ -1,7 +1,7 @@
-FROM    	sinenomine/mean-s390x:latest
+FROM    	clefos/mean:latest
 
 MAINTAINER	The ClefOS project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.0.0-1"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 ADD		server.sh /
 

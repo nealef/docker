@@ -4,9 +4,9 @@
 # Originally written for Fedora-Dockerfiles by
 #   Aditya Patawari <adimania@fedoraproject.org>
 
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.6.11-3"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 RUN 		yum -y update && \
 		yum -y install python-pip python-django git sqlite && yum clean all && \

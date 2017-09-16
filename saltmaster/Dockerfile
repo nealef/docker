@@ -3,8 +3,8 @@
 #
 # Derived from the Dockerfile by dorks@thisissoon.com
 #
-FROM 		sinenomine/clefos-base-s390x:latest
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="2016.3.1-1"
+FROM 		clefos:clefos7
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 MAINTAINER	The ClefOS Project <neale@sinenomine.net> 
 

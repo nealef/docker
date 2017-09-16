@@ -1,9 +1,9 @@
 # Base image
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 
 # The author
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="3.4.1-1"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 COPY		mongo.repo /etc/yum.repos.d/
 

@@ -1,7 +1,7 @@
-FROM 		sinenomine/clefos-base-s390x
+FROM 		clefos:clefos7
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 
-LABEL 		Vendor="ClefOS" License="Apache" Version="1.7.1-2"
+LABEL 		Vendor="ClefOS" License="Apache"
 
 COPY		IBM_Spark_DK_1.5.2.0_Linux_s390x.bin spark.rsp start-spark.sh /
 

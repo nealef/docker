@@ -1,10 +1,10 @@
 #
 # Derived from the Dockerfiles for RedCoolBeans Project
 #
-FROM 	sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 
-MAINTAINER The ClefOS Project <neale@sinenomine.net>
+MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 
-LABEL 	com.baculasystems.bacula.version="5.2.13" 
+LABEL 		com.baculasystems.bacula.version="5.2.13" 
 
-VOLUME 	/var/lib/postgresql/data
+VOLUME 		/var/lib/postgresql/data

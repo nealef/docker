@@ -1,8 +1,8 @@
-FROM 		sinenomine/clefos-base-s390x:latest
+FROM 		clefos:clefos7
 
 MAINTAINER 	"The ClefOS Project" <neale@sinenomine.net>
 
-ENV BACULA_VERSION "5.2.13"
+ENV 		BACULA_VERSION "5.2.13"
 
 LABEL 		com.baculasystems.bacula.version="${BACULA_VERSION}"
 

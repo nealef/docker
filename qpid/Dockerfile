@@ -4,10 +4,10 @@
 # Originally written for Fedora-Dockerfiles by
 #   William Henry <whenry@redhat.com>
 
-FROM		sinenomine/clefos-base-s390x
+FROM		clefos:clefos7
 
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" Version="1.36.0-1"
+LABEL 		Vendor="ClefOS" License="GPLv2"
 
 RUN 		yum -y --setopt=tsflags=nodocs update && \
 		yum install --disablerepo=oss -y --setopt=tsflags=nodocs python-qpid qpid-cpp-server \

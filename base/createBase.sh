@@ -126,16 +126,5 @@ if [ -z "${version}" ]; then
     echo >&2 "warning: cannot autodetect OS version, using '${name}' as tag"
     version="${name}"
 fi
-
 tar -cJf clefos-7-docker.tar.xz --numeric-owner -c -C ${target} .
-docker build --rm --tag ${name}:${version} .
-
-docker run --rm -i -t ${name}:${version}  echo success
-docker tag ${name}:${version} centos7/centos7
-docker tag ${name}:${version} centos:centos7
-docker tag ${name}:${version} clefos/clefos7:clefos7
-if [ ${version} != "latest" ]; then
-    docker tag ${name}:${version} ${name}:latest
-fi
-
-rm -rf ${target} clefos-7-docker.tar.xz
+rm -rf ${target} 

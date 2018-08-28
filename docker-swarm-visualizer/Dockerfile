@@ -6,7 +6,7 @@ WORKDIR /app
 RUN	yum --setopt=tsflags=nodocs install -y vim-minimal
 
 # Only run npm install if these files change.
-ADD ./package.json /app/package.json
+ADD 	./package.json /app/package.json
 
 # Install dependencies
 RUN 	npm install --unsafe-perm=true

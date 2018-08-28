@@ -15,9 +15,9 @@
 # This image relies on the zeppelin-build image to get the zeppelin
 # binaries built, and the Makefile to put it in this directory.
 
-FROM 	clefos/spark
+FROM 	clefos/spark:2.1.0
 
-ENV 	ZEPPELIN_VER  0.7.2
+ENV 	ZEPPELIN_VER  0.7.3
 
 RUN	yum install -y --setopt=tsflags=nodocs wget tar && \
 	yum clean all && \

@@ -16,6 +16,13 @@
 
 . /start-common.sh
 
+MASTER="spark://${APPLICATION_NAME}-master.${APPLICATION_NAMESPACE}.svc.cluster.local:7077"
+
+# Run spark-class directly so that when it exits (or crashes), the pod restarts.
+spark-class org.apache.spark.deploy.worker.Worker ${MASTER} --webui-port 8081
+
+exit
+
 MASTER_IP=""
 
 while [ -z "${MASTER_IP}" ]

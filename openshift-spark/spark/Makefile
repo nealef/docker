@@ -7,21 +7,24 @@ push: push-spark push-zeppelin
 # Hadoop libs at that point (we grab the 2.6.1 libs, which are
 # appropriate for 1.5.2-with-2.6). Note that you'll need to re-test
 # Zeppelin (and it may not have caught up to newest Spark).
-TAG = 2.1.0
+TAG=$(shell cat VERSION)
+HADOOP_VERSION=$(shell cat ../../hadoop-openshift/VERSION)
 
 # To bump the Zeppelin version, bump the version in
 # zeppelin/Dockerfile and bump this tag and reset to v1.
-ZEPPELIN_TAG = 0.7.2
+ZEPPELIN_TAG=$(shell cat zeppelin/VERSION)
 
 spark:
+	@cp -f ../../hadoop-openshift/hadoop-$(HADOOP_VERSION).tar.gz .
 	docker build --rm -t docker.io/clefos/spark .
 	docker tag docker.io/clefos/spark docker.io/clefos/spark:$(TAG)
 	docker tag docker.io/clefos/spark:$(TAG) gcr.io/google_containers/spark:$(TAG)
+	@rm -f hadoop-$(HADOOP_VERSION).tar.gz
 
 # This target is useful when needing to use an unreleased version of Zeppelin
 zeppelin-build:
 	docker build --rm -t docker.io/clefos/zeppelin-build zeppelin-build
-	docker tag docker.io/clefos/zeppelin-build docker.io/clefos/zeppelin-build:$(TAG)
+	docker tag docker.io/clefos/zeppelin-build docker.io/clefos/zeppelin-build:$(ZEPPELIN_TAG)
 	docker tag docker.io/clefos/zeppelin-build:$(ZEPPELIN_TAG) gcr.io/google_containers/zeppelin-build:$(ZEPPELIN_TAG)
 
 zeppelin:
@@ -43,9 +46,4 @@ clean:
 	docker rmi docker.io/clefos/spark || :
 
 	docker rmi gcr.io/google_containers/zeppelin:$(ZEPPELIN_TAG) || :
-	docker rmi docker.io/clefos/zeppelin:$(TAG) || :
 	docker rmi docker.io/clefos/zeppelin || :
-
-	docker rmi gcr.io/google_containers/zeppelin-build:$(ZEPPELIN_TAG) || :
-	docker rmi docker.io/clefos/zeppelin-build:$(TAG) || :
-	docker rmi docker.io/clefos/zeppelin-build || :

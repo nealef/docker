@@ -14,6 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+MASTER_IP=spark://${APPLICATION_NAME}-master.${APPLICATION_NAMESPACE}.svc.cluster.local
+export HADOOP_IP=${APPLICATION_NAME}-namenode.${APPLICATION_NAMESPACE}.svc.cluster.local
+
+echo "MASTER_IP: ${MASTER_IP}"
+echo "HADOOP_IP: ${HADOOP_IP}"
+
+export SPARK_HOME=/opt/ibm/spark
+export ZEPPELIN_JAVA_OPTS="-Dspark.jars=/opt/spark/lib/gcs-connector-latest-hadoop2.jar"
+# TODO(zmerlynn): Setting global CLASSPATH *should* be unnecessary,
+# but ZEPPELIN_JAVA_OPTS isn't enough here. :(
+export CLASSPATH="/opt/ibm/spark/lib/gcs-connector-latest-hadoop2.jar"
+export ZEPPELIN_NOTEBOOK_DIR="${ZEPPELIN_HOME}/notebook"
+export ZEPPELIN_MEM=-Xmx1024m
+export ZEPPELIN_PORT=8080
+export PYTHONPATH=${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.10.4-src.zip
+export PATH=${JAVA_HOME}/bin:${SPARK_HOME}/bin:$PATH:/opt/hadoop/bin
+export ZEPPELIN_WEBSOCKET_MAX_TEXT_MESSAGE_SIZE=4194304
+if [ 1 == 0 ]; then
 MASTER_IP=""
 HADOOP_IP=""
 
@@ -52,3 +70,4 @@ export ZEPPELIN_PORT=8080
 export PYTHONPATH=${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.10.4-src.zip
 export PATH=${JAVA_HOME}/bin:${SPARK_HOME}/bin:$PATH:/opt/hadoop/bin
 export ZEPPELIN_WEBSOCKET_MAX_TEXT_MESSAGE_SIZE=4194304
+fi

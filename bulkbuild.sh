@@ -32,6 +32,8 @@ DOCKERS=`find . -maxdepth 1 -type d | grep -Ev "^\.$|^\./\.git"`
 DOCKER=(${DOCKERS})
 for (( i=0; i<${#DOCKER[@]}; i++ ))
 do
+	if [ ! -f ${DOCKER[$i]}/Makefile ]; then
+		continue
 	if [ ${DELETE} -eq 1 ]; then
 		cd ${DOCKER[$i]}
 		make clean

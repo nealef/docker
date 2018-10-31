@@ -1,0 +1,9 @@
+FROM	clefos/nodejs:latest
+
+ADD	volume/react-api.tar.gz .
+
+WORKDIR api
+
+EXPOSE 	80
+
+CMD 	["npm", "start"]

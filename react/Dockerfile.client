@@ -1,0 +1,9 @@
+FROM	clefos/nodejs:latest
+
+ADD	volume/react-client.tar.gz .
+
+WORKDIR client
+
+EXPOSE 	3000
+
+CMD 	["npm", "start"]

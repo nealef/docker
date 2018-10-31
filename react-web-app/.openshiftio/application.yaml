@@ -20,7 +20,7 @@ parameters:
   - name: SOURCE_REPOSITORY_DIR
     description: The location within the source repo of the application
     displayName: Source Directory
-    value: .
+    value: react-web-app
     required: true
   - name: OUTPUT_DIR
     description: The location of the compiled static files from your web apps builder

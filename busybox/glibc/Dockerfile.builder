@@ -1,4 +1,4 @@
-FROM 		clefos:clefos7
+FROM 		docker.io/clefos/clefos:latest
 ENV 		BUSYBOX_VERSION 1.26.2
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>

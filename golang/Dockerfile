@@ -1,9 +1,9 @@
-FROM 		clefos:clefos7
+FROM 		docker.io/clefos/clefos
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
 LABEL 		Vendor="ClefOS" License="GPLv2"
 
-ENV 		GOLANG_VERSION 1.8
+ENV 		GOLANG_VERSION 1.10
 
 RUN 		yum -y --setopt=tsflags=nodocs update && \
 		yum -y --setopt=tsflags=nodocs --enablerepo=extras install golang && \

@@ -1,0 +1,30 @@
+diff --git a/Dockerfile b/Dockerfile
+index 8ef29aa..2bbf241 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,13 +1,13 @@
+ 
+ # We use npm for dependency management
+-FROM node:alpine as dependencies-solver
+-RUN apk add --no-cache git
++FROM 	clefos/nodejs:latest AS dependencies-solver
++RUN	yum install git -y
+ COPY package*.json /bats/
+ WORKDIR /bats
+ RUN npm install
+ 
+ # Minimalistic image
+-FROM alpine:3.7
++FROM clefos:7
+ LABEL Maintainer="Damien DUPORTAL <damien.duportal@gmail.com>"
+ ENV BATS_HELPERS_DIR=/opt/bats-helpers
+ 
+@@ -21,6 +21,8 @@ COPY --from=dependencies-solver /bats/node_modules/bats-assert /opt/bats-helpers
+ 
+ 
+ RUN apk add --no-cache bash \
++RUN yum install bash -y \
++  && yum clean all && rm -rf /var/yum/cache/* /tmp/* \
+   && ln -s /opt/bats/libexec/bats /sbin/bats
+ 
+ WORKDIR /tests

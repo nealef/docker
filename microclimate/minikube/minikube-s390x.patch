@@ -1,0 +1,179 @@
+diff --git a/Makefile b/Makefile
+index 6b3e648..87552df 100755
+--- a/Makefile
++++ b/Makefile
+@@ -297,7 +297,7 @@ out/storage-provisioner:
+ 
+ .PHONY: storage-provisioner-image
+ storage-provisioner-image: out/storage-provisioner
+-	docker build -t $(REGISTRY)/storage-provisioner:$(STORAGE_PROVISIONER_TAG) -f deploy/storage-provisioner/Dockerfile .
++	docker build -t $(REGISTRY)/storage-provisioner-s390x:$(STORAGE_PROVISIONER_TAG) -f deploy/storage-provisioner/Dockerfile .
+ 
+ .PHONY: push-storage-provisioner-image
+ push-storage-provisioner-image: storage-provisioner-image
+diff --git a/deploy/addons/addon-manager.yaml b/deploy/addons/addon-manager.yaml
+index 105bfd7..6552068 100644
+--- a/deploy/addons/addon-manager.yaml
++++ b/deploy/addons/addon-manager.yaml
+@@ -25,7 +25,7 @@ spec:
+   hostNetwork: true
+   containers:
+   - name: kube-addon-manager
+-    image: k8s.gcr.io/kube-addon-manager:v8.6
++    image: k8s.gcr.io/kube-addon-manager-s390x:v8.6
+     env:
+     - name: KUBECONFIG
+       value: /var/lib/minikube/kubeconfig
+diff --git a/deploy/addons/dashboard/dashboard-dp.yaml b/deploy/addons/dashboard/dashboard-dp.yaml
+index dc71ee9..497fbf0 100644
+--- a/deploy/addons/dashboard/dashboard-dp.yaml
++++ b/deploy/addons/dashboard/dashboard-dp.yaml
+@@ -37,7 +37,7 @@ spec:
+     spec:
+       containers:
+       - name: kubernetes-dashboard
+-        image: k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.0
++        image: k8s.gcr.io/kubernetes-dashboard-s390x:v1.10.0
+         imagePullPolicy: IfNotPresent
+         ports:
+         - containerPort: 9090
+diff --git a/deploy/addons/heapster/heapster-rc.yaml b/deploy/addons/heapster/heapster-rc.yaml
+index db49b16..3f1d545 100644
+--- a/deploy/addons/heapster/heapster-rc.yaml
++++ b/deploy/addons/heapster/heapster-rc.yaml
+@@ -37,7 +37,7 @@ spec:
+     spec:
+       containers:
+       - name: heapster
+-        image: k8s.gcr.io/heapster-amd64:v1.5.3
++        image: k8s.gcr.io/heapster-s390x:v1.5.3
+         imagePullPolicy: IfNotPresent
+         command:
+         - /heapster
+diff --git a/deploy/addons/kube-dns/kube-dns-controller.yaml b/deploy/addons/kube-dns/kube-dns-controller.yaml
+index aa625ec..7311541 100644
+--- a/deploy/addons/kube-dns/kube-dns-controller.yaml
++++ b/deploy/addons/kube-dns/kube-dns-controller.yaml
+@@ -44,7 +44,7 @@ spec:
+           optional: true
+       containers:
+       - name: kubedns
+-        image: k8s.gcr.io/k8s-dns-kube-dns-amd64:1.14.5
++        image: k8s.gcr.io/k8s-dns-kube-dns-s390x:1.14.5
+         imagePullPolicy: IfNotPresent
+         resources:
+           # TODO: Set memory limits when we've profiled the container for large
+@@ -96,7 +96,7 @@ spec:
+         - name: kube-dns-config
+           mountPath: /kube-dns-config
+       - name: dnsmasq
+-        image: k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.14.5
++        image: k8s.gcr.io/k8s-dns-dnsmasq-nanny-s390x:1.14.5
+         imagePullPolicy: IfNotPresent
+         livenessProbe:
+           httpGet:
+@@ -135,7 +135,7 @@ spec:
+         - name: kube-dns-config
+           mountPath: /etc/k8s/dns/dnsmasq-nanny
+       - name: sidecar
+-        image: k8s.gcr.io/k8s-dns-sidecar-amd64:1.14.5
++        image: k8s.gcr.io/k8s-dns-sidecar-s390x:1.14.5
+         imagePullPolicy: IfNotPresent
+         livenessProbe:
+           httpGet:
+diff --git a/deploy/addons/storage-provisioner/storage-provisioner.yaml b/deploy/addons/storage-provisioner/storage-provisioner.yaml
+index 72ee7fe..44610d4 100644
+--- a/deploy/addons/storage-provisioner/storage-provisioner.yaml
++++ b/deploy/addons/storage-provisioner/storage-provisioner.yaml
+@@ -51,7 +51,7 @@ spec:
+   hostNetwork: true
+   containers:
+   - name: storage-provisioner
+-    image: gcr.io/k8s-minikube/storage-provisioner:v1.8.1
++    image: gcr.io/k8s-minikube/storage-provisioner-s390x:v1.8.1
+     command: ["/storage-provisioner"]
+     imagePullPolicy: IfNotPresent
+     volumeMounts:
+diff --git a/pkg/minikube/constants/constants.go b/pkg/minikube/constants/constants.go
+index f367e69..a1cea37 100644
+--- a/pkg/minikube/constants/constants.go
++++ b/pkg/minikube/constants/constants.go
+@@ -169,7 +169,7 @@ const (
+ )
+ 
+ func GetKubernetesReleaseURL(binaryName, version string) string {
+-	return fmt.Sprintf("https://storage.googleapis.com/kubernetes-release/release/%s/bin/linux/amd64/%s", version, binaryName)
++	return fmt.Sprintf("https://storage.googleapis.com/kubernetes-release/release/%s/bin/linux/s390x/%s", version, binaryName)
+ }
+ 
+ func GetKubernetesReleaseURLSha1(binaryName, version string) string {
+@@ -183,10 +183,10 @@ const FileScheme = "file"
+ func GetKubeadmCachedImages(kubernetesVersionStr string) []string {
+ 
+ 	var images = []string{
+-		"k8s.gcr.io/kube-proxy-amd64:" + kubernetesVersionStr,
+-		"k8s.gcr.io/kube-scheduler-amd64:" + kubernetesVersionStr,
+-		"k8s.gcr.io/kube-controller-manager-amd64:" + kubernetesVersionStr,
+-		"k8s.gcr.io/kube-apiserver-amd64:" + kubernetesVersionStr,
++		"k8s.gcr.io/kube-proxy-s390x:" + kubernetesVersionStr,
++		"k8s.gcr.io/kube-scheduler-s390x:" + kubernetesVersionStr,
++		"k8s.gcr.io/kube-controller-manager-s390x:" + kubernetesVersionStr,
++		"k8s.gcr.io/kube-apiserver-s390x:" + kubernetesVersionStr,
+ 	}
+ 
+ 	gt_v1_10 := semver.MustParseRange(">=1.11.0")
+@@ -201,36 +201,36 @@ func GetKubeadmCachedImages(kubernetesVersionStr string) []string {
+ 
+ 	if v1_10(kubernetesVersion) || gt_v1_10(kubernetesVersion) {
+ 		images = append(images, []string{
+-			"k8s.gcr.io/pause-amd64:3.1",
+-			"k8s.gcr.io/k8s-dns-kube-dns-amd64:1.14.8",
+-			"k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.14.8",
+-			"k8s.gcr.io/k8s-dns-sidecar-amd64:1.14.8",
+-			"k8s.gcr.io/etcd-amd64:3.1.12",
++			"k8s.gcr.io/pause-s390x:3.1",
++			"k8s.gcr.io/k8s-dns-kube-dns-s390x:1.14.8",
++			"k8s.gcr.io/k8s-dns-dnsmasq-nanny-s390x:1.14.8",
++			"k8s.gcr.io/k8s-dns-sidecar-s390x:1.14.8",
++			"k8s.gcr.io/etcd-s390x:3.1.12",
+ 		}...)
+ 
+ 	} else if v1_9(kubernetesVersion) {
+ 		images = append(images, []string{
+-			"k8s.gcr.io/pause-amd64:3.0",
+-			"k8s.gcr.io/k8s-dns-kube-dns-amd64:1.14.7",
+-			"k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.14.7",
+-			"k8s.gcr.io/k8s-dns-sidecar-amd64:1.14.7",
+-			"k8s.gcr.io/etcd-amd64:3.1.10",
++			"k8s.gcr.io/pause-s390x:3.0",
++			"k8s.gcr.io/k8s-dns-kube-dns-s390x:1.14.7",
++			"k8s.gcr.io/k8s-dns-dnsmasq-nanny-s390x:1.14.7",
++			"k8s.gcr.io/k8s-dns-sidecar-s390x:1.14.7",
++			"k8s.gcr.io/etcd-s390x:3.1.10",
+ 		}...)
+ 
+ 	} else if v1_8(kubernetesVersion) {
+ 		images = append(images, []string{
+-			"k8s.gcr.io/pause-amd64:3.0",
+-			"k8s.gcr.io/k8s-dns-kube-dns-amd64:1.14.5",
+-			"k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.14.5",
+-			"k8s.gcr.io/k8s-dns-sidecar-amd64:1.14.5",
+-			"k8s.gcr.io/etcd-amd64:3.0.17",
++			"k8s.gcr.io/pause-s390x:3.0",
++			"k8s.gcr.io/k8s-dns-kube-dns-s390x:1.14.5",
++			"k8s.gcr.io/k8s-dns-dnsmasq-nanny-s390x:1.14.5",
++			"k8s.gcr.io/k8s-dns-sidecar-s390x:1.14.5",
++			"k8s.gcr.io/etcd-s390x:3.0.17",
+ 		}...)
+ 	}
+ 
+ 	images = append(images, []string{
+-		"k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.0",
+-		"k8s.gcr.io/kube-addon-manager:v8.6",
+-		"gcr.io/k8s-minikube/storage-provisioner:v1.8.1",
++		"k8s.gcr.io/kubernetes-dashboard-s390x:v1.10.0",
++		"k8s.gcr.io/kube-addon-manager-s390x:v8.6",
++		"gcr.io/k8s-minikube/storage-provisioner-s390x:v1.8.1",
+ 	}...)
+ 
+ 	return images

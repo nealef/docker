@@ -23,7 +23,7 @@ FROM clefos/ibmjava:8-sdk
 
 MAINTAINER The ClefOS Project <neale@sinenomine.net>
 
-ARG MAVEN_VERSION=3.3.9
+ARG MAVEN_VERSION=3.6.0
 
 RUN yum update -y \
     && yum install -y wget tar
@@ -37,4 +37,4 @@ RUN mkdir -p /usr/share/maven \
 ENV MAVEN_HOME /usr/share/maven
 
 CMD ["/usr/bin/mvn"]
-RUN yum erase -y wget tar     && yum clean all     && rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
+RUN yum erase -y wget     && yum clean all     && rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log

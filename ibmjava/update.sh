@@ -19,31 +19,25 @@
 set -eo pipefail
 
 # Dockerfiles to be generated
-version="8 9"
+version="8"
 package="jre sdk sfj"
 tools="maven"
 
 # sha256sum for the various versions, packages and arches
 # Version 8 sums [DO NO EDIT THIS LINE]
 declare -A jre_8_sums=(
-	[version]="1.8.0_sr5"
-	[s390x]="b0b39f01ace528ba7f6cd7bb59a5311cc989afc8774eefd2e877c8f03a27380d"
+	[version]="1.8.0_sr5fp26"
+	[s390x]="81acd84a1365a631ceb3d848838e3978d23b99dec362adc112ad3a159739ecf1"
 )
 
 declare -A sdk_8_sums=(
-	[version]="1.8.0_sr5"
-	[s390x]="f2aec41f74441a829e5bbbc62f14dc8dd85d8a256c2d6e46ec4e8c071f3b23ed"
+	[version]="1.8.0_sr5fp26"
+	[s390x]="4271fb374261c44fe8f4e487f519cf648bcb45075487fb0e6b8cd3fd55079cc3"
 )
 
 declare -A sfj_8_sums=(
-	[version]="1.8.0_sr5"
-	[s390x]="a6c4fc3822305d80db4fe0034b5a492c0e6230da1f6e8850b9d0837820a56d7d"
-)
-
-# Version 9 sums [DO NO EDIT THIS LINE]
-declare -A sdk_9_sums=(
-	[version]="1.9.0_ea2"
-	[s390x]="6e823afa1df83e364381f827f4244bfe29b0ddd58ef0203eb60df9b8c0d123af"
+	[version]="1.8.0_sr5fp26"
+	[s390x]="6d7e2df30f9e41a741a2eaa8598023f29d10760db039bd617da0fce7a2dab355"
 )
 
 # Generate the common license and copyright header
@@ -83,7 +77,7 @@ print_maint() {
 # Print the supported Ubuntu OS
 print_clefos_os() {
 	cat >> $1 <<-EOI
-	FROM clefos:clefos7
+	FROM docker.io/clefos/clefos:clefos7
 
 	EOI
 }
@@ -92,7 +86,7 @@ print_clefos_os() {
 print_clefos_pkg() {
 	cat >> $1 <<'EOI'
 
-RUN yum -y update \
+RUN yum -y update --setopt=tsflags=nodocs \
     && yum install -y wget tar ca-certificates \
     && yum clean all \
     && rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
@@ -141,30 +135,7 @@ EOI
     && rm -f /tmp/index.yml \
 EOI
 
-	# For Java 9 JRE, use jlink with the java.se.ee aggregator module.
-	if [ "${ver}" == "9" ]; then
-		if [ "$dpkg" == "jre" ]; then
-			JCMD="&& rm -f /tmp/ibm-java.bin \\
-    && cd /opt/ibm \\
-    && ./java/bin/jlink -G --module-path ./java/jmods --add-modules java.se.ee --output jre \\
-    && rm -rf java/* \\
-    && mv jre java"
-
-		# For Java 9 SFJ, use jlink with sfj-exclude.txt.
-		elif [ "$dpkg" == "sfj" ]; then
-			JCMD="&& rm -f /tmp/ibm-java.bin \\
-    && cd /opt/ibm \\
-    && ./java/bin/jlink -G --module-path ./java/jmods --add-modules java.activation,java.base,java.compiler,java.datatransfer,java.desktop,java.instrument,java.logging,java.management,java.naming,java.prefs,java.rmi,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,java.xml,com.ibm.management --exclude-files=@/tmp/sfj-exclude.txt --output jre \\
-    && rm -rf java/* /tmp/sfj-exclude.txt \\
-    && mv jre java"
-		else
-			JCMD="&& rm -f /tmp/ibm-java.bin"
-		fi
-
-	# For other Java versions, nothing to be done.
-	else
-		JCMD="&& rm -f /tmp/ibm-java.bin"
-	fi
+	JCMD="&& rm -f /tmp/ibm-java.bin"
 
 	cat >> $1 <<EOI
     $JCMD
@@ -175,9 +146,6 @@ print_java_env() {
 	if [ "$pack" == "sdk" ]; then
 		if [ "${ver}" == "8" ]; then
 			JHOME="/opt/ibm/java/jre"
-			JPATH="/opt/ibm/java/bin"
-		elif [ "${ver}" == "9" ]; then
-			JHOME="/opt/ibm/java"
 			JPATH="/opt/ibm/java/bin"
 		fi
 	else
@@ -190,12 +158,13 @@ print_java_env() {
 
 ENV JAVA_HOME=$JHOME \\
     $TPATH
+
 EOI
 }
 
 print_clefos_cleanup() {
 	cat >> $1 <<-EOI
-RUN yum erase -y wget tar \
+RUN yum erase -y wget \
     && yum clean all \
     && rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 EOI
@@ -204,21 +173,10 @@ EOI
 print_exclude_file() {
 	spkg=$2
 	dpkg=$3
-	if [ "${ver}" == "9" -a "$dpkg" == "sfj" ]; then
-		cp sfj-exclude.txt ${ver}/${dpkg}/.
-		cat >> $1 <<-EOI
-COPY sfj-exclude.txt /tmp
-
-EOI
-	fi
 }
 
 generate_java() {
-	if [ "${ver}" == "9" ]; then
-		spkg="sdk";
-	else
-		spkg=$pack;
-	fi
+	spkg=$pack;
 	dpkg=$pack;
 	print_env ${file} $spkg;
 	print_exclude_file ${file} $spkg $dpkg;
@@ -251,7 +209,7 @@ print_java() {
 print_maven() {
 	cat >> $1 <<'EOI'
 
-ARG MAVEN_VERSION=3.3.9
+ARG MAVEN_VERSION=3.6.0
 
 RUN yum update -y \
     && yum install -y wget tar

@@ -19,18 +19,18 @@
 # limitations under the License.
 #
 
-FROM clefos:clefos7
+FROM docker.io/clefos/clefos:clefos7
 
 MAINTAINER The ClefOS Project <neale@sinenomine.net>
 
-RUN yum -y update \
+RUN yum -y update --setopt=tsflags=nodocs \
     && yum install -y wget tar ca-certificates \
     && yum clean all \
     && rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
-ENV JAVA_VERSION 1.8.0_sr5
+ENV JAVA_VERSION 1.8.0_sr5fp26
 
-RUN ESUM="a6c4fc3822305d80db4fe0034b5a492c0e6230da1f6e8850b9d0837820a56d7d" \
+RUN ESUM="6d7e2df30f9e41a741a2eaa8598023f29d10760db039bd617da0fce7a2dab355" \
     && BASE_URL="https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/" \
     && YML_FILE="sfj/linux/s390x/index.yml" \
     && wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml $BASE_URL/$YML_FILE \
@@ -49,4 +49,5 @@ RUN ESUM="a6c4fc3822305d80db4fe0034b5a492c0e6230da1f6e8850b9d0837820a56d7d" \
 
 ENV JAVA_HOME=/opt/ibm/java/jre \
     PATH=/opt/ibm/java/jre/bin:$PATH
-RUN yum erase -y wget tar     && yum clean all     && rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
+
+RUN yum erase -y wget     && yum clean all     && rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log

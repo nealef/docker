@@ -1,0 +1,29 @@
+diff --git a/api/app.js b/api/app.js
+index 01c9c9a..3971aed 100644
+--- a/api/app.js
++++ b/api/app.js
+@@ -8,6 +8,14 @@ var cors = require("cors");
+ var indexRouter = require("./routes/index");
+ var usersRouter = require("./routes/users");
+ var testAPIRouter = require("./routes/testAPI");
++var appsMod = require("./apps/reactApps");
++
++apps = appsMod.getApps();
++
++var appRouter = []
++for (let i = 0; i < apps.length; i++) {
++	appRouter[i] = require(apps[i][0]);
++}	
+ 
+ var app = express();
+ 
+@@ -25,6 +33,9 @@ app.use(express.static(path.join(__dirname, "public")));
+ app.use("/", indexRouter);
+ app.use("/users", usersRouter);
+ app.use("/testAPI", testAPIRouter);
++for (let i = 0; i < apps.length; i++) {
++	app.use(apps[i][1], appRouter[i]);
++}	
+ 
+ // catch 404 and forward to error handler
+ app.use(function(req, res, next) {

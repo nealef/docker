@@ -8,9 +8,7 @@ metadata:
     tags: spark,instant-app
   creationTimestamp: 2018-05-02T19:59:26Z
   name: spark
-  namespace: ${APPLICATION_NAMESPACE}
   resourceVersion: "9597"
-  selfLink: /apis/template.openshift.io/v1/namespaces/${APPLICATION_NAMESPACE}/templates/spark
   uid: 51570b43-4e43-11e8-9970-020010000011
 objects:
 - apiVersion: v1
@@ -513,10 +511,6 @@ objects:
   status:
     loadBalancer: {}
 parameters:
-- description: The name space for the application.
-  name: APPLICATION_NAMESPACE
-  required: true
-  value: sinenomine
 - description: The name for the application.
   name: APPLICATION_NAME
   required: true

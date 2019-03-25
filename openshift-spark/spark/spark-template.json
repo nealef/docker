@@ -80,7 +80,7 @@
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}-master",
-                                "image": "docker.io/sinenomine/spark:2.1.0",
+                                "image": "docker.io/clefos/spark:2.1.0",
                                 "command": [
                                     "/start-master"
                                 ],
@@ -98,6 +98,14 @@
                                     {
                                         "name": "APPLICATION_NAME",
                                         "value": "${APPLICATION_NAME}"
+                                    },
+                                    {
+                                        "name": "APPLICATION_NAMESPACE",
+                                        "valueFrom": { 
+                                            "fieldRef": {
+                                                "fieldPath": metadata.namespace
+                                            }
+                                        }
                                     }
                                 ],
                                 "resources": {
@@ -144,7 +152,7 @@
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}-ui-proxy",
-                                "image": "docker.io/sinenomine/spark-ui-proxy:1.0",
+                                "image": "docker.io/clefos/spark-ui-proxy:1.0.0",
                                 "args": [
                                     "${APPLICATION_NAME}-master:8080"
                                 ],
@@ -158,6 +166,14 @@
                                     {
                                         "name": "APPLICATION_NAME",
                                         "value": "${APPLICATION_NAME}"
+                                    },
+                                    {
+                                        "name": "APPLICATION_NAMESPACE",
+                                        "valueFrom": { 
+                                            "fieldRef": {
+                                                "fieldPath": metadata.namespace
+                                            }
+                                        }
                                     }
                                 ],
                                 "resources": {
@@ -216,7 +232,7 @@
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}-worker",
-                                "image": "docker.io/sinenomine/spark:2.1.0",
+                                "image": "docker.io/clefos/spark:2.1.0",
                                 "command": [
                                     "/start-worker"
                                 ],
@@ -232,7 +248,7 @@
                                         "value": "${APPLICATION_NAME}"
                                     },
                                     {
-                                        "name": "POD_NAMESPACE",
+                                        "name": "APPLICATION_NAMESPACE",
                                         "valueFrom": {
                                             "fieldRef": {
                                                 "fieldPath": "metadata.namespace"
@@ -293,7 +309,7 @@
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}-zeppelin",
-                                "image": "docker.io/sinenomine/zeppelin:0.7.1",
+                                "image": "docker.io/clefos/zeppelin:0.7.3",
                                 "ports": [
                                     {
                                         "containerPort": 8080,
@@ -306,7 +322,7 @@
                                         "value": "${APPLICATION_NAME}"
                                     },
                                     {
-                                        "name": "POD_NAMESPACE",
+                                        "name": "APPLICATION_NAMESPACE",
                                         "valueFrom": {
                                             "fieldRef": {
                                                 "fieldPath": "metadata.namespace"
@@ -325,7 +341,7 @@
                                         "mountPath": "/opt/zeppelin/vol"
                                     }
                                 ],
-                                "imagePullPolicy": "Always"
+                                "imagePullPolicy": "IfNotPresent"
                             }
                         ],
                         "serviceAccount": "deployer",
@@ -379,7 +395,7 @@
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}-namenode",
-                                "image": "docker.io/sinenomine/hadoop-s390x:2.8.1",
+                                "image": "docker.io/clefos/hadoop:3.1.0",
                                 "args": ["start_namenode.sh"],
                                 "ports": [
                                     {
@@ -452,6 +468,10 @@
                                     },
                                     {
                                         "containerPort": 8088,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 9870,
                                         "protocol": "TCP"
                                     },
                                     {
@@ -530,7 +550,7 @@
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}-datanode",
-                                "image": "docker.io/sinenomine/hadoop-s390x:2.8.1",
+                                "image": "docker.io/clefos/hadoop:3.1.0",
                                 "args": ["start_datanode.sh"],
                                 "ports": [
                                     {
@@ -603,6 +623,10 @@
                                     },
                                     {
                                         "containerPort": 8088,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 9870,
                                         "protocol": "TCP"
                                     },
                                     {
@@ -708,7 +732,7 @@
                         "name": "namenode-web",
                         "protocol": "TCP",
                         "port": 80,
-                        "targetPort": 50070,
+                        "targetPort": 9870,
                         "nodePort": 0
                     },
                     {
@@ -738,8 +762,8 @@
                     {
                         "name": "namenode-web",
                         "protocol": "TCP",
-                        "port": 50070,
-                        "targetPort": 50070,
+                        "port": 9870,
+                        "targetPort": 9870,
                         "nodePort": 0
                     }
                 ],
@@ -792,7 +816,7 @@
                     {
                         "protocol": "TCP",
                         "port": 8080,
-                        "targetPort": 8080,
+                        "targetPort": 8080
                     }
                 ],
                 "selector": {
@@ -814,7 +838,7 @@
                     {
                         "protocol": "TCP",
                         "port": 80,
-                        "targetPort": 8080,
+                        "targetPort": 8080
                     }
                 ],
                 "selector": {
@@ -826,6 +850,6 @@
             "status": {
                 "loadBalancer": {}
             }
-        },
+        }
     ]
 }

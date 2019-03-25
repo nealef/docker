@@ -1,0 +1,36 @@
+FROM	docker.io/clefos/nodejs:latest
+
+ARG	GRAFANATAG
+
+ENV	GOPATH=/go
+
+COPY	build-image.sh .
+
+RUN	npm install -g yarn && \
+	yum install -y --disablerepo=epel --enablerepo=extras git centos-release-grafana-origin311 make gcc gcc-c++ && \
+	yum install -y --enablerepo=epel phantomjs golang
+
+RUN	mkdir -p /go/src/github.com/grafana && \
+	cd /go/src/github.com/grafana && \
+	git clone https://github.com/grafana/grafana.git && \
+	cd grafana && \
+	mkdir make && \
+	git checkout tags/v${GRAFANATAG} -b grafana_s390x && \
+	git submodule update --init
+
+RUN	cd /go/src/github.com/grafana/grafana && \
+	echo "***** Building Backend *****" && \
+	go run build.go setup && \
+	go run build.go build && \
+	echo "***** Building Frontend *****" && \
+	yarn install --pure-lockfile && \
+	go run build.go build-frontend && \
+	mv bin/linux-s390x/* bin/. && \
+	echo ${GRAFANATAG} > VERSION && \
+	rm -rf bin/linux-s390x
+
+VOLUME 	output
+
+USER	root
+
+ENTRYPOINT ./build-image.sh

@@ -1,0 +1,1221 @@
+nohup: ignoring input
+rm -f grafana
+docker build --rm --build-arg GRAFANATAG=5.4.2 --tag docker.io/clefos/grafbuilder:5.4.2 --file Dockerfile-builder -v /root/grafana:/output:rw .
+Sending build context to Docker daemon 31.06 MB
+Step 1/9 : FROM docker.io/clefos/nodejs:latest
+ ---> 8839318cddc7
+Step 2/9 : ARG GRAFANATAG
+ ---> [Warning] bind mount mode is read-write for /root/grafana:/output:rw, it will be changed to read-only
+ ---> Running in 0524bb335366
+ ---> 6cc03f53b469
+Removing intermediate container 0524bb335366
+Step 3/9 : ENV GOPATH /go
+ ---> Running in e0b3ed216d74
+ ---> f48b84a146da
+Removing intermediate container e0b3ed216d74
+Step 4/9 : COPY build-image.sh .
+ ---> 9297dfa81c10
+Removing intermediate container 2f8c6ccb9fef
+Step 5/9 : RUN npm install -g yarn && 	yum install -y --disablerepo=epel --enablerepo=extras git centos-release-grafana-origin311 make gcc gcc-c++ && 	yum install -y --enablerepo=epel phantomjs golang
+ ---> Running in 87e373e5c232
+
+[91m[0m/opt/ibm/nodejs/bin/yarn -> /opt/ibm/nodejs/lib/node_modules/yarn/bin/yarn.js
+/opt/ibm/nodejs/bin/yarnpkg -> /opt/ibm/nodejs/lib/node_modules/yarn/bin/yarn.js
++ yarn@1.13.0
+added 1 package in 0.532s
+Loaded plugins: fastestmirror, ovl
+Determining fastest mirrors
+No package centos-release-grafana-origin311 available.
+Resolving Dependencies
+--> Running transaction check
+---> Package gcc.s390x 0:4.8.5-36.el7 will be installed
+--> Processing Dependency: cpp = 4.8.5-36.el7 for package: gcc-4.8.5-36.el7.s390x
+--> Processing Dependency: libgomp = 4.8.5-36.el7 for package: gcc-4.8.5-36.el7.s390x
+--> Processing Dependency: binutils >= 2.20.51.0.2-12 for package: gcc-4.8.5-36.el7.s390x
+--> Processing Dependency: glibc-devel >= 2.2.90-12 for package: gcc-4.8.5-36.el7.s390x
+--> Processing Dependency: libgcc >= 4.8.5-36.el7 for package: gcc-4.8.5-36.el7.s390x
+--> Processing Dependency: libgomp.so.1()(64bit) for package: gcc-4.8.5-36.el7.s390x
+--> Processing Dependency: libmpc.so.3()(64bit) for package: gcc-4.8.5-36.el7.s390x
+--> Processing Dependency: libmpfr.so.4()(64bit) for package: gcc-4.8.5-36.el7.s390x
+---> Package gcc-c++.s390x 0:4.8.5-36.el7 will be installed
+--> Processing Dependency: libstdc++ = 4.8.5-36.el7 for package: gcc-c++-4.8.5-36.el7.s390x
+--> Processing Dependency: libstdc++-devel = 4.8.5-36.el7 for package: gcc-c++-4.8.5-36.el7.s390x
+---> Package git.s390x 0:1.8.3.1-20.el7 will be installed
+--> Processing Dependency: perl-Git = 1.8.3.1-20.el7 for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl >= 5.008 for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: /usr/bin/perl for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: less for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: openssh-clients for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(Error) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(Exporter) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(File::Basename) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(File::Copy) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(File::Find) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(File::Path) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(File::Spec) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(File::Temp) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(File::stat) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(Getopt::Long) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(Git) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(Term::ReadKey) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(lib) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(strict) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(vars) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: perl(warnings) for package: git-1.8.3.1-20.el7.s390x
+--> Processing Dependency: rsync for package: git-1.8.3.1-20.el7.s390x
+---> Package make.s390x 1:3.82-23.el7 will be installed
+--> Running transaction check
+---> Package binutils.s390x 0:2.27-34.base.el7 will be installed
+---> Package cpp.s390x 0:4.8.5-36.el7 will be installed
+---> Package glibc-devel.s390x 0:2.17-260.el7_6.3 will be installed
+--> Processing Dependency: glibc = 2.17-260.el7_6.3 for package: glibc-devel-2.17-260.el7_6.3.s390x
+--> Processing Dependency: glibc-headers = 2.17-260.el7_6.3 for package: glibc-devel-2.17-260.el7_6.3.s390x
+--> Processing Dependency: glibc-headers for package: glibc-devel-2.17-260.el7_6.3.s390x
+---> Package less.s390x 0:458-9.el7 will be installed
+--> Processing Dependency: groff-base for package: less-458-9.el7.s390x
+---> Package libgcc.s390x 0:4.8.5-16.el7_4.1 will be updated
+---> Package libgcc.s390x 0:4.8.5-36.el7 will be an update
+---> Package libgomp.s390x 0:4.8.5-36.el7 will be installed
+---> Package libmpc.s390x 0:1.0.1-3.el7 will be installed
+---> Package libstdc++.s390x 0:4.8.5-16.el7_4.1 will be updated
+---> Package libstdc++.s390x 0:4.8.5-36.el7 will be an update
+---> Package libstdc++-devel.s390x 0:4.8.5-36.el7 will be installed
+---> Package mpfr.s390x 0:3.1.1-4.el7 will be installed
+---> Package openssh-clients.s390x 0:7.4p1-16.el7 will be installed
+--> Processing Dependency: openssh = 7.4p1-16.el7 for package: openssh-clients-7.4p1-16.el7.s390x
+--> Processing Dependency: fipscheck-lib(s390-64) >= 1.3.0 for package: openssh-clients-7.4p1-16.el7.s390x
+--> Processing Dependency: libedit.so.0()(64bit) for package: openssh-clients-7.4p1-16.el7.s390x
+--> Processing Dependency: libfipscheck.so.1()(64bit) for package: openssh-clients-7.4p1-16.el7.s390x
+---> Package perl.s390x 4:5.16.3-294.el7_6 will be installed
+--> Processing Dependency: perl-libs = 4:5.16.3-294.el7_6 for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Scalar::Util) >= 1.10 for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Socket) >= 1.3 for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Carp) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Filter::Util::Call) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Pod::Simple::Search) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Pod::Simple::XHTML) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Scalar::Util) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Socket) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Storable) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Time::HiRes) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(Time::Local) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(constant) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(threads) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl(threads::shared) for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl-libs for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: perl-macros for package: 4:perl-5.16.3-294.el7_6.s390x
+--> Processing Dependency: libperl.so()(64bit) for package: 4:perl-5.16.3-294.el7_6.s390x
+---> Package perl-Error.noarch 1:0.17020-2.el7 will be installed
+---> Package perl-Exporter.noarch 0:5.68-3.el7 will be installed
+---> Package perl-File-Path.noarch 0:2.09-2.el7 will be installed
+---> Package perl-File-Temp.noarch 0:0.23.01-3.el7 will be installed
+---> Package perl-Getopt-Long.noarch 0:2.40-3.el7 will be installed
+--> Processing Dependency: perl(Pod::Usage) >= 1.14 for package: perl-Getopt-Long-2.40-3.el7.noarch
+--> Processing Dependency: perl(Text::ParseWords) for package: perl-Getopt-Long-2.40-3.el7.noarch
+---> Package perl-Git.noarch 0:1.8.3.1-20.el7 will be installed
+---> Package perl-PathTools.s390x 0:3.40-5.el7 will be installed
+---> Package perl-TermReadKey.s390x 0:2.30-20.el7 will be installed
+---> Package rsync.s390x 0:3.1.2-4.el7 will be installed
+--> Processing Dependency: systemd-units for package: rsync-3.1.2-4.el7.s390x
+--> Processing Dependency: systemd-units for package: rsync-3.1.2-4.el7.s390x
+--> Running transaction check
+---> Package fipscheck-lib.s390x 0:1.4.1-6.el7 will be installed
+--> Processing Dependency: /usr/bin/fipscheck for package: fipscheck-lib-1.4.1-6.el7.s390x
+---> Package glibc.s390x 0:2.17-196.el7_4.2 will be updated
+--> Processing Dependency: glibc = 2.17-196.el7_4.2 for package: glibc-common-2.17-196.el7_4.2.s390x
+---> Package glibc.s390x 0:2.17-260.el7_6.3 will be an update
+---> Package glibc-headers.s390x 0:2.17-260.el7_6.3 will be installed
+--> Processing Dependency: kernel-headers >= 2.2.1 for package: glibc-headers-2.17-260.el7_6.3.s390x
+--> Processing Dependency: kernel-headers for package: glibc-headers-2.17-260.el7_6.3.s390x
+---> Package groff-base.s390x 0:1.22.2-8.el7 will be installed
+---> Package libedit.s390x 0:3.0-12.20121213cvs.el7 will be installed
+---> Package openssh.s390x 0:7.4p1-16.el7 will be installed
+---> Package perl-Carp.noarch 0:1.26-244.el7 will be installed
+---> Package perl-Filter.s390x 0:1.49-3.el7 will be installed
+---> Package perl-Pod-Simple.noarch 1:3.28-4.el7 will be installed
+--> Processing Dependency: perl(Pod::Escapes) >= 1.04 for package: 1:perl-Pod-Simple-3.28-4.el7.noarch
+--> Processing Dependency: perl(Encode) for package: 1:perl-Pod-Simple-3.28-4.el7.noarch
+---> Package perl-Pod-Usage.noarch 0:1.63-3.el7 will be installed
+--> Processing Dependency: perl(Pod::Text) >= 3.15 for package: perl-Pod-Usage-1.63-3.el7.noarch
+--> Processing Dependency: perl-Pod-Perldoc for package: perl-Pod-Usage-1.63-3.el7.noarch
+---> Package perl-Scalar-List-Utils.s390x 0:1.27-248.el7 will be installed
+---> Package perl-Socket.s390x 0:2.010-4.el7 will be installed
+---> Package perl-Storable.s390x 0:2.45-3.el7 will be installed
+---> Package perl-Text-ParseWords.noarch 0:3.29-4.el7 will be installed
+---> Package perl-Time-HiRes.s390x 4:1.9725-3.el7 will be installed
+---> Package perl-Time-Local.noarch 0:1.2300-2.el7 will be installed
+---> Package perl-constant.noarch 0:1.27-2.el7 will be installed
+---> Package perl-libs.s390x 4:5.16.3-294.el7_6 will be installed
+---> Package perl-macros.s390x 4:5.16.3-294.el7_6 will be installed
+---> Package perl-threads.s390x 0:1.87-4.el7 will be installed
+---> Package perl-threads-shared.s390x 0:1.43-6.el7 will be installed
+---> Package systemd.s390x 0:219-62.el7_6.5 will be installed
+--> Processing Dependency: systemd-libs = 219-62.el7_6.5 for package: systemd-219-62.el7_6.5.s390x
+--> Processing Dependency: kmod >= 18-4 for package: systemd-219-62.el7_6.5.s390x
+--> Processing Dependency: acl for package: systemd-219-62.el7_6.5.s390x
+--> Processing Dependency: dbus for package: systemd-219-62.el7_6.5.s390x
+--> Processing Dependency: libcryptsetup.so.12(CRYPTSETUP_2.0)(64bit) for package: systemd-219-62.el7_6.5.s390x
+--> Processing Dependency: libkmod.so.2(LIBKMOD_5)(64bit) for package: systemd-219-62.el7_6.5.s390x
+--> Processing Dependency: libcryptsetup.so.12()(64bit) for package: systemd-219-62.el7_6.5.s390x
+--> Processing Dependency: libkmod.so.2()(64bit) for package: systemd-219-62.el7_6.5.s390x
+--> Processing Dependency: liblz4.so.1()(64bit) for package: systemd-219-62.el7_6.5.s390x
+--> Processing Dependency: libqrencode.so.3()(64bit) for package: systemd-219-62.el7_6.5.s390x
+--> Running transaction check
+---> Package acl.s390x 0:2.2.51-14.el7 will be installed
+--> Processing Dependency: libacl = 2.2.51-14.el7 for package: acl-2.2.51-14.el7.s390x
+---> Package cryptsetup-libs.s390x 0:2.0.3-3.el7 will be installed
+--> Processing Dependency: libdevmapper.so.1.02(Base)(64bit) for package: cryptsetup-libs-2.0.3-3.el7.s390x
+--> Processing Dependency: libdevmapper.so.1.02(DM_1_02_97)(64bit) for package: cryptsetup-libs-2.0.3-3.el7.s390x
+--> Processing Dependency: libdevmapper.so.1.02()(64bit) for package: cryptsetup-libs-2.0.3-3.el7.s390x
+--> Processing Dependency: libjson-c.so.2()(64bit) for package: cryptsetup-libs-2.0.3-3.el7.s390x
+---> Package dbus.s390x 1:1.10.24-12.el7 will be installed
+--> Processing Dependency: dbus-libs(s390-64) = 1:1.10.24-12.el7 for package: 1:dbus-1.10.24-12.el7.s390x
+--> Processing Dependency: libdbus-1.so.3(LIBDBUS_1_3)(64bit) for package: 1:dbus-1.10.24-12.el7.s390x
+--> Processing Dependency: libdbus-1.so.3(LIBDBUS_PRIVATE_1.10.24)(64bit) for package: 1:dbus-1.10.24-12.el7.s390x
+---> Package fipscheck.s390x 0:1.4.1-6.el7 will be installed
+---> Package glibc-common.s390x 0:2.17-196.el7_4.2 will be updated
+---> Package glibc-common.s390x 0:2.17-260.el7_6.3 will be an update
+---> Package kernel-headers.s390x 0:3.10.0-957.5.1.el7 will be installed
+---> Package kmod.s390x 0:20-23.el7 will be installed
+--> Processing Dependency: /usr/bin/xz for package: kmod-20-23.el7.s390x
+--> Processing Dependency: dracut for package: kmod-20-23.el7.s390x
+---> Package kmod-libs.s390x 0:20-23.el7 will be installed
+---> Package lz4.s390x 0:1.7.5-2.el7 will be installed
+---> Package perl-Encode.s390x 0:2.51-7.el7 will be installed
+---> Package perl-Pod-Escapes.noarch 1:1.04-294.el7_6 will be installed
+---> Package perl-Pod-Perldoc.noarch 0:3.20-4.el7 will be installed
+--> Processing Dependency: perl(HTTP::Tiny) for package: perl-Pod-Perldoc-3.20-4.el7.noarch
+--> Processing Dependency: perl(parent) for package: perl-Pod-Perldoc-3.20-4.el7.noarch
+---> Package perl-podlators.noarch 0:2.5.1-3.el7 will be installed
+---> Package qrencode-libs.s390x 0:3.4.1-3.el7 will be installed
+---> Package systemd-libs.s390x 0:219-42.el7_4.7 will be updated
+---> Package systemd-libs.s390x 0:219-62.el7_6.5 will be an update
+--> Running transaction check
+---> Package dbus-libs.s390x 1:1.6.12-17.el7 will be updated
+---> Package dbus-libs.s390x 1:1.10.24-12.el7 will be an update
+---> Package device-mapper-libs.s390x 7:1.02.149-10.el7_6.3 will be installed
+--> Processing Dependency: device-mapper = 7:1.02.149-10.el7_6.3 for package: 7:device-mapper-libs-1.02.149-10.el7_6.3.s390x
+---> Package dracut.s390x 0:033-554.el7 will be installed
+--> Processing Dependency: hardlink for package: dracut-033-554.el7.s390x
+--> Processing Dependency: kpartx for package: dracut-033-554.el7.s390x
+--> Processing Dependency: procps-ng for package: dracut-033-554.el7.s390x
+--> Processing Dependency: tar for package: dracut-033-554.el7.s390x
+---> Package json-c.s390x 0:0.11-4.el7_0 will be installed
+---> Package libacl.s390x 0:2.2.51-12.el7 will be updated
+---> Package libacl.s390x 0:2.2.51-14.el7 will be an update
+---> Package perl-HTTP-Tiny.noarch 0:0.033-3.el7 will be installed
+---> Package perl-parent.noarch 1:0.225-244.el7 will be installed
+---> Package xz.s390x 0:5.2.2-1.el7 will be installed
+--> Running transaction check
+---> Package device-mapper.s390x 7:1.02.149-10.el7_6.3 will be installed
+---> Package hardlink.s390x 1:1.0-19.el7 will be installed
+---> Package kpartx.s390x 0:0.4.9-123.el7 will be installed
+---> Package procps-ng.s390x 0:3.3.10-23.el7 will be installed
+---> Package tar.s390x 2:1.26-35.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                   Arch      Version                   Repository  Size
+================================================================================
+Installing:
+ gcc                       s390x     4.8.5-36.el7              base        13 M
+ gcc-c++                   s390x     4.8.5-36.el7              base       6.8 M
+ git                       s390x     1.8.3.1-20.el7            updates    4.3 M
+ make                      s390x     1:3.82-23.el7             base       419 k
+Installing for dependencies:
+ acl                       s390x     2.2.51-14.el7             base        82 k
+ binutils                  s390x     2.27-34.base.el7          base       3.3 M
+ cpp                       s390x     4.8.5-36.el7              base       5.5 M
+ cryptsetup-libs           s390x     2.0.3-3.el7               base       323 k
+ dbus                      s390x     1:1.10.24-12.el7          base       238 k
+ device-mapper             s390x     7:1.02.149-10.el7_6.3     updates    290 k
+ device-mapper-libs        s390x     7:1.02.149-10.el7_6.3     updates    314 k
+ dracut                    s390x     033-554.el7               base       328 k
+ fipscheck                 s390x     1.4.1-6.el7               base        21 k
+ fipscheck-lib             s390x     1.4.1-6.el7               base        10 k
+ glibc-devel               s390x     2.17-260.el7_6.3          updates    1.1 M
+ glibc-headers             s390x     2.17-260.el7_6.3          updates    669 k
+ groff-base                s390x     1.22.2-8.el7              base       934 k
+ hardlink                  s390x     1:1.0-19.el7              base        14 k
+ json-c                    s390x     0.11-4.el7_0              base        30 k
+ kernel-headers            s390x     3.10.0-957.5.1.el7        updates    8.0 M
+ kmod                      s390x     20-23.el7                 base       119 k
+ kmod-libs                 s390x     20-23.el7                 base        49 k
+ kpartx                    s390x     0.4.9-123.el7             base        77 k
+ less                      s390x     458-9.el7                 base       118 k
+ libedit                   s390x     3.0-12.20121213cvs.el7    base        91 k
+ libgomp                   s390x     4.8.5-36.el7              base       158 k
+ libmpc                    s390x     1.0.1-3.el7               base        49 k
+ libstdc++-devel           s390x     4.8.5-36.el7              base       1.5 M
+ lz4                       s390x     1.7.5-2.el7               base       109 k
+ mpfr                      s390x     3.1.1-4.el7               base       209 k
+ openssh                   s390x     7.4p1-16.el7              base       476 k
+ openssh-clients           s390x     7.4p1-16.el7              base       659 k
+ perl                      s390x     4:5.16.3-294.el7_6        updates    8.0 M
+ perl-Carp                 noarch    1.26-244.el7              base        19 k
+ perl-Encode               s390x     2.51-7.el7                base       1.5 M
+ perl-Error                noarch    1:0.17020-2.el7           base        32 k
+ perl-Exporter             noarch    5.68-3.el7                base        28 k
+ perl-File-Path            noarch    2.09-2.el7                base        26 k
+ perl-File-Temp            noarch    0.23.01-3.el7             base        56 k
+ perl-Filter               s390x     1.49-3.el7                base        76 k
+ perl-Getopt-Long          noarch    2.40-3.el7                base        56 k
+ perl-Git                  noarch    1.8.3.1-20.el7            updates     55 k
+ perl-HTTP-Tiny            noarch    0.033-3.el7               base        38 k
+ perl-PathTools            s390x     3.40-5.el7                base        82 k
+ perl-Pod-Escapes          noarch    1:1.04-294.el7_6          updates     51 k
+ perl-Pod-Perldoc          noarch    3.20-4.el7                base        87 k
+ perl-Pod-Simple           noarch    1:3.28-4.el7              base       216 k
+ perl-Pod-Usage            noarch    1.63-3.el7                base        27 k
+ perl-Scalar-List-Utils    s390x     1.27-248.el7              base        36 k
+ perl-Socket               s390x     2.010-4.el7               base        48 k
+ perl-Storable             s390x     2.45-3.el7                base        74 k
+ perl-TermReadKey          s390x     2.30-20.el7               base        30 k
+ perl-Text-ParseWords      noarch    3.29-4.el7                base        14 k
+ perl-Time-HiRes           s390x     4:1.9725-3.el7            base        45 k
+ perl-Time-Local           noarch    1.2300-2.el7              base        24 k
+ perl-constant             noarch    1.27-2.el7                base        19 k
+ perl-libs                 s390x     4:5.16.3-294.el7_6        updates    677 k
+ perl-macros               s390x     4:5.16.3-294.el7_6        updates     44 k
+ perl-parent               noarch    1:0.225-244.el7           base        12 k
+ perl-podlators            noarch    2.5.1-3.el7               base       112 k
+ perl-threads              s390x     1.87-4.el7                base        49 k
+ perl-threads-shared       s390x     1.43-6.el7                base        38 k
+ procps-ng                 s390x     3.3.10-23.el7             base       291 k
+ qrencode-libs             s390x     3.4.1-3.el7               base        51 k
+ rsync                     s390x     3.1.2-4.el7               base       403 k
+ systemd                   s390x     219-62.el7_6.5            updates    4.8 M
+ tar                       s390x     2:1.26-35.el7             base       843 k
+ xz                        s390x     5.2.2-1.el7               base       229 k
+Updating for dependencies:
+ dbus-libs                 s390x     1:1.10.24-12.el7          base       164 k
+ glibc                     s390x     2.17-260.el7_6.3          updates    3.6 M
+ glibc-common              s390x     2.17-260.el7_6.3          updates     12 M
+ libacl                    s390x     2.2.51-14.el7             base        27 k
+ libgcc                    s390x     4.8.5-36.el7              base        90 k
+ libstdc++                 s390x     4.8.5-36.el7              base       320 k
+ systemd-libs              s390x     219-62.el7_6.5            updates    387 k
+
+Transaction Summary
+================================================================================
+Install  4 Packages (+64 Dependent packages)
+Upgrade             (  7 Dependent packages)
+
+Total download size: 84 M
+Downloading packages:
+Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+--------------------------------------------------------------------------------
+Total                                              6.8 MB/s |  84 MB  00:12     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Updating   : libgcc-4.8.5-36.el7.s390x                                   1/82 
+  Updating   : glibc-common-2.17-260.el7_6.3.s390x                         2/82 
+  Updating   : glibc-2.17-260.el7_6.3.s390x                                3/82 
+  Updating   : libacl-2.2.51-14.el7.s390x                                  4/82 
+  Installing : mpfr-3.1.1-4.el7.s390x                                      5/82 
+  Installing : libmpc-1.0.1-3.el7.s390x                                    6/82 
+  Updating   : libstdc++-4.8.5-36.el7.s390x                                7/82 
+  Installing : groff-base-1.22.2-8.el7.s390x                               8/82 
+  Installing : xz-5.2.2-1.el7.s390x                                        9/82 
+  Installing : lz4-1.7.5-2.el7.s390x                                      10/82 
+  Updating   : systemd-libs-219-62.el7_6.5.s390x                          11/82 
+  Installing : binutils-2.27-34.base.el7.s390x                            12/82 
+install-info: /usr/share/info/dir: could not read (No such file or directory) and could not create (No such file or directory)
+install-info: /usr/share/info/dir: could not read (No such file or directory) and could not create (No such file or directory)
+install-info: /usr/share/info/dir: could not read (No such file or directory) and could not create (No such file or directory)
+install-info: /usr/share/info/dir: could not read (No such file or directory) and could not create (No such file or directory)
+install-info: /usr/share/info/dir: could not read (No such file or directory) and could not create (No such file or directory)
+  Updating   : 1:dbus-libs-1.10.24-12.el7.s390x                           13/82 
+  Installing : procps-ng-3.3.10-23.el7.s390x                              14/82 
+  Installing : 1:perl-parent-0.225-244.el7.noarch                         15/82 
+  Installing : perl-HTTP-Tiny-0.033-3.el7.noarch                          16/82 
+  Installing : perl-podlators-2.5.1-3.el7.noarch                          17/82 
+  Installing : perl-Pod-Perldoc-3.20-4.el7.noarch                         18/82 
+  Installing : 1:perl-Pod-Escapes-1.04-294.el7_6.noarch                   19/82 
+  Installing : perl-Text-ParseWords-3.29-4.el7.noarch                     20/82 
+  Installing : perl-Encode-2.51-7.el7.s390x                               21/82 
+  Installing : perl-Pod-Usage-1.63-3.el7.noarch                           22/82 
+  Installing : perl-Exporter-5.68-3.el7.noarch                            23/82 
+  Installing : 4:perl-Time-HiRes-1.9725-3.el7.s390x                       24/82 
+  Installing : perl-Filter-1.49-3.el7.s390x                               25/82 
+  Installing : perl-Socket-2.010-4.el7.s390x                              26/82 
+  Installing : perl-Carp-1.26-244.el7.noarch                              27/82 
+  Installing : perl-threads-1.87-4.el7.s390x                              28/82 
+  Installing : perl-threads-shared-1.43-6.el7.s390x                       29/82 
+  Installing : perl-Scalar-List-Utils-1.27-248.el7.s390x                  30/82 
+  Installing : perl-Storable-2.45-3.el7.s390x                             31/82 
+  Installing : 4:perl-macros-5.16.3-294.el7_6.s390x                       32/82 
+  Installing : 4:perl-libs-5.16.3-294.el7_6.s390x                         33/82 
+  Installing : perl-Time-Local-1.2300-2.el7.noarch                        34/82 
+  Installing : perl-constant-1.27-2.el7.noarch                            35/82 
+  Installing : perl-File-Temp-0.23.01-3.el7.noarch                        36/82 
+  Installing : perl-File-Path-2.09-2.el7.noarch                           37/82 
+  Installing : perl-PathTools-3.40-5.el7.s390x                            38/82 
+  Installing : 1:perl-Pod-Simple-3.28-4.el7.noarch                        39/82 
+  Installing : perl-Getopt-Long-2.40-3.el7.noarch                         40/82 
+  Installing : 4:perl-5.16.3-294.el7_6.s390x                              41/82 
+  Installing : 1:perl-Error-0.17020-2.el7.noarch                          42/82 
+  Installing : perl-TermReadKey-2.30-20.el7.s390x                         43/82 
+  Installing : less-458-9.el7.s390x                                       44/82 
+  Installing : libstdc++-devel-4.8.5-36.el7.s390x                         45/82 
+  Installing : cpp-4.8.5-36.el7.s390x                                     46/82 
+  Installing : acl-2.2.51-14.el7.s390x                                    47/82 
+  Installing : 2:tar-1.26-35.el7.s390x                                    48/82 
+  Installing : 1:hardlink-1.0-19.el7.s390x                                49/82 
+  Installing : kmod-libs-20-23.el7.s390x                                  50/82 
+  Installing : fipscheck-lib-1.4.1-6.el7.s390x                            51/82 
+  Installing : fipscheck-1.4.1-6.el7.s390x                                52/82 
+  Installing : openssh-7.4p1-16.el7.s390x                                 53/82 
+  Installing : json-c-0.11-4.el7_0.s390x                                  54/82 
+  Installing : libedit-3.0-12.20121213cvs.el7.s390x                       55/82 
+  Installing : openssh-clients-7.4p1-16.el7.s390x                         56/82 
+  Installing : qrencode-libs-3.4.1-3.el7.s390x                            57/82 
+  Installing : kpartx-0.4.9-123.el7.s390x                                 58/82 
+  Installing : 7:device-mapper-1.02.149-10.el7_6.3.s390x                  59/82 
+  Installing : 7:device-mapper-libs-1.02.149-10.el7_6.3.s390x             60/82 
+  Installing : cryptsetup-libs-2.0.3-3.el7.s390x                          61/82 
+  Installing : dracut-033-554.el7.s390x                                   62/82 
+  Installing : kmod-20-23.el7.s390x                                       63/82 
+  Installing : systemd-219-62.el7_6.5.s390x                               64/82 
+Failed to get D-Bus connection: Operation not permitted
+  Installing : 1:dbus-1.10.24-12.el7.s390x                                65/82 
+  Installing : rsync-3.1.2-4.el7.s390x                                    66/82 
+  Installing : perl-Git-1.8.3.1-20.el7.noarch                             67/82 
+  Installing : git-1.8.3.1-20.el7.s390x                                   68/82 
+  Installing : libgomp-4.8.5-36.el7.s390x                                 69/82 
+  Installing : kernel-headers-3.10.0-957.5.1.el7.s390x                    70/82 
+  Installing : glibc-headers-2.17-260.el7_6.3.s390x                       71/82 
+  Installing : glibc-devel-2.17-260.el7_6.3.s390x                         72/82 
+  Installing : gcc-4.8.5-36.el7.s390x                                     73/82 
+  Installing : gcc-c++-4.8.5-36.el7.s390x                                 74/82 
+  Installing : 1:make-3.82-23.el7.s390x                                   75/82 
+  Cleanup    : systemd-libs-219-42.el7_4.7.s390x                          76/82 
+  Cleanup    : libstdc++-4.8.5-16.el7_4.1.s390x                           77/82 
+  Cleanup    : 1:dbus-libs-1.6.12-17.el7.s390x                            78/82 
+  Cleanup    : libacl-2.2.51-12.el7.s390x                                 79/82 
+  Cleanup    : glibc-common-2.17-196.el7_4.2.s390x                        80/82 
+  Cleanup    : glibc-2.17-196.el7_4.2.s390x                               81/82 
+  Cleanup    : libgcc-4.8.5-16.el7_4.1.s390x                              82/82 
+  Verifying  : perl-HTTP-Tiny-0.033-3.el7.noarch                           1/82 
+  Verifying  : xz-5.2.2-1.el7.s390x                                        2/82 
+  Verifying  : acl-2.2.51-14.el7.s390x                                     3/82 
+  Verifying  : libacl-2.2.51-14.el7.s390x                                  4/82 
+  Verifying  : 1:dbus-1.10.24-12.el7.s390x                                 5/82 
+  Verifying  : 7:device-mapper-libs-1.02.149-10.el7_6.3.s390x              6/82 
+  Verifying  : 1:perl-Pod-Escapes-1.04-294.el7_6.noarch                    7/82 
+  Verifying  : perl-Exporter-5.68-3.el7.noarch                             8/82 
+  Verifying  : 4:perl-Time-HiRes-1.9725-3.el7.s390x                        9/82 
+  Verifying  : perl-Filter-1.49-3.el7.s390x                               10/82 
+  Verifying  : 2:tar-1.26-35.el7.s390x                                    11/82 
+  Verifying  : 1:hardlink-1.0-19.el7.s390x                                12/82 
+  Verifying  : 1:dbus-libs-1.10.24-12.el7.s390x                           13/82 
+  Verifying  : perl-Socket-2.010-4.el7.s390x                              14/82 
+  Verifying  : 7:device-mapper-1.02.149-10.el7_6.3.s390x                  15/82 
+  Verifying  : kpartx-0.4.9-123.el7.s390x                                 16/82 
+  Verifying  : 1:perl-parent-0.225-244.el7.noarch                         17/82 
+  Verifying  : cpp-4.8.5-36.el7.s390x                                     18/82 
+  Verifying  : kmod-20-23.el7.s390x                                       19/82 
+  Verifying  : git-1.8.3.1-20.el7.s390x                                   20/82 
+  Verifying  : kmod-libs-20-23.el7.s390x                                  21/82 
+  Verifying  : perl-Pod-Usage-1.63-3.el7.noarch                           22/82 
+  Verifying  : libstdc++-devel-4.8.5-36.el7.s390x                         23/82 
+  Verifying  : fipscheck-1.4.1-6.el7.s390x                                24/82 
+  Verifying  : perl-File-Temp-0.23.01-3.el7.noarch                        25/82 
+  Verifying  : lz4-1.7.5-2.el7.s390x                                      26/82 
+  Verifying  : libgcc-4.8.5-36.el7.s390x                                  27/82 
+  Verifying  : perl-TermReadKey-2.30-20.el7.s390x                         28/82 
+  Verifying  : 4:perl-5.16.3-294.el7_6.s390x                              29/82 
+  Verifying  : perl-Time-Local-1.2300-2.el7.noarch                        30/82 
+  Verifying  : procps-ng-3.3.10-23.el7.s390x                              31/82 
+  Verifying  : glibc-common-2.17-260.el7_6.3.s390x                        32/82 
+  Verifying  : glibc-devel-2.17-260.el7_6.3.s390x                         33/82 
+  Verifying  : perl-Pod-Perldoc-3.20-4.el7.noarch                         34/82 
+  Verifying  : rsync-3.1.2-4.el7.s390x                                    35/82 
+  Verifying  : dracut-033-554.el7.s390x                                   36/82 
+  Verifying  : openssh-clients-7.4p1-16.el7.s390x                         37/82 
+  Verifying  : libstdc++-4.8.5-36.el7.s390x                               38/82 
+  Verifying  : gcc-4.8.5-36.el7.s390x                                     39/82 
+  Verifying  : libmpc-1.0.1-3.el7.s390x                                   40/82 
+  Verifying  : perl-Carp-1.26-244.el7.noarch                              41/82 
+  Verifying  : 1:perl-Error-0.17020-2.el7.noarch                          42/82 
+  Verifying  : perl-threads-shared-1.43-6.el7.s390x                       43/82 
+  Verifying  : perl-threads-1.87-4.el7.s390x                              44/82 
+  Verifying  : less-458-9.el7.s390x                                       45/82 
+  Verifying  : perl-Git-1.8.3.1-20.el7.noarch                             46/82 
+  Verifying  : perl-Scalar-List-Utils-1.27-248.el7.s390x                  47/82 
+  Verifying  : 1:perl-Pod-Simple-3.28-4.el7.noarch                        48/82 
+  Verifying  : perl-Storable-2.45-3.el7.s390x                             49/82 
+  Verifying  : gcc-c++-4.8.5-36.el7.s390x                                 50/82 
+  Verifying  : 4:perl-macros-5.16.3-294.el7_6.s390x                       51/82 
+  Verifying  : fipscheck-lib-1.4.1-6.el7.s390x                            52/82 
+  Verifying  : json-c-0.11-4.el7_0.s390x                                  53/82 
+  Verifying  : mpfr-3.1.1-4.el7.s390x                                     54/82 
+  Verifying  : libedit-3.0-12.20121213cvs.el7.s390x                       55/82 
+  Verifying  : binutils-2.27-34.base.el7.s390x                            56/82 
+  Verifying  : glibc-2.17-260.el7_6.3.s390x                               57/82 
+  Verifying  : perl-podlators-2.5.1-3.el7.noarch                          58/82 
+  Verifying  : openssh-7.4p1-16.el7.s390x                                 59/82 
+  Verifying  : 1:make-3.82-23.el7.s390x                                   60/82 
+  Verifying  : systemd-219-62.el7_6.5.s390x                               61/82 
+  Verifying  : qrencode-libs-3.4.1-3.el7.s390x                            62/82 
+  Verifying  : 4:perl-libs-5.16.3-294.el7_6.s390x                         63/82 
+  Verifying  : perl-constant-1.27-2.el7.noarch                            64/82 
+  Verifying  : groff-base-1.22.2-8.el7.s390x                              65/82 
+  Verifying  : libgomp-4.8.5-36.el7.s390x                                 66/82 
+  Verifying  : perl-Getopt-Long-2.40-3.el7.noarch                         67/82 
+  Verifying  : perl-Text-ParseWords-3.29-4.el7.noarch                     68/82 
+  Verifying  : perl-Encode-2.51-7.el7.s390x                               69/82 
+  Verifying  : perl-File-Path-2.09-2.el7.noarch                           70/82 
+  Verifying  : cryptsetup-libs-2.0.3-3.el7.s390x                          71/82 
+  Verifying  : perl-PathTools-3.40-5.el7.s390x                            72/82 
+  Verifying  : glibc-headers-2.17-260.el7_6.3.s390x                       73/82 
+  Verifying  : kernel-headers-3.10.0-957.5.1.el7.s390x                    74/82 
+  Verifying  : systemd-libs-219-62.el7_6.5.s390x                          75/82 
+  Verifying  : libstdc++-4.8.5-16.el7_4.1.s390x                           76/82 
+  Verifying  : 1:dbus-libs-1.6.12-17.el7.s390x                            77/82 
+  Verifying  : libacl-2.2.51-12.el7.s390x                                 78/82 
+  Verifying  : systemd-libs-219-42.el7_4.7.s390x                          79/82 
+  Verifying  : glibc-common-2.17-196.el7_4.2.s390x                        80/82 
+  Verifying  : libgcc-4.8.5-16.el7_4.1.s390x                              81/82 
+  Verifying  : glibc-2.17-196.el7_4.2.s390x                               82/82 
+
+Installed:
+  gcc.s390x 0:4.8.5-36.el7              gcc-c++.s390x 0:4.8.5-36.el7           
+  git.s390x 0:1.8.3.1-20.el7            make.s390x 1:3.82-23.el7               
+
+Dependency Installed:
+  acl.s390x 0:2.2.51-14.el7                                                     
+  binutils.s390x 0:2.27-34.base.el7                                             
+  cpp.s390x 0:4.8.5-36.el7                                                      
+  cryptsetup-libs.s390x 0:2.0.3-3.el7                                           
+  dbus.s390x 1:1.10.24-12.el7                                                   
+  device-mapper.s390x 7:1.02.149-10.el7_6.3                                     
+  device-mapper-libs.s390x 7:1.02.149-10.el7_6.3                                
+  dracut.s390x 0:033-554.el7                                                    
+  fipscheck.s390x 0:1.4.1-6.el7                                                 
+  fipscheck-lib.s390x 0:1.4.1-6.el7                                             
+  glibc-devel.s390x 0:2.17-260.el7_6.3                                          
+  glibc-headers.s390x 0:2.17-260.el7_6.3                                        
+  groff-base.s390x 0:1.22.2-8.el7                                               
+  hardlink.s390x 1:1.0-19.el7                                                   
+  json-c.s390x 0:0.11-4.el7_0                                                   
+  kernel-headers.s390x 0:3.10.0-957.5.1.el7                                     
+  kmod.s390x 0:20-23.el7                                                        
+  kmod-libs.s390x 0:20-23.el7                                                   
+  kpartx.s390x 0:0.4.9-123.el7                                                  
+  less.s390x 0:458-9.el7                                                        
+  libedit.s390x 0:3.0-12.20121213cvs.el7                                        
+  libgomp.s390x 0:4.8.5-36.el7                                                  
+  libmpc.s390x 0:1.0.1-3.el7                                                    
+  libstdc++-devel.s390x 0:4.8.5-36.el7                                          
+  lz4.s390x 0:1.7.5-2.el7                                                       
+  mpfr.s390x 0:3.1.1-4.el7                                                      
+  openssh.s390x 0:7.4p1-16.el7                                                  
+  openssh-clients.s390x 0:7.4p1-16.el7                                          
+  perl.s390x 4:5.16.3-294.el7_6                                                 
+  perl-Carp.noarch 0:1.26-244.el7                                               
+  perl-Encode.s390x 0:2.51-7.el7                                                
+  perl-Error.noarch 1:0.17020-2.el7                                             
+  perl-Exporter.noarch 0:5.68-3.el7                                             
+  perl-File-Path.noarch 0:2.09-2.el7                                            
+  perl-File-Temp.noarch 0:0.23.01-3.el7                                         
+  perl-Filter.s390x 0:1.49-3.el7                                                
+  perl-Getopt-Long.noarch 0:2.40-3.el7                                          
+  perl-Git.noarch 0:1.8.3.1-20.el7                                              
+  perl-HTTP-Tiny.noarch 0:0.033-3.el7                                           
+  perl-PathTools.s390x 0:3.40-5.el7                                             
+  perl-Pod-Escapes.noarch 1:1.04-294.el7_6                                      
+  perl-Pod-Perldoc.noarch 0:3.20-4.el7                                          
+  perl-Pod-Simple.noarch 1:3.28-4.el7                                           
+  perl-Pod-Usage.noarch 0:1.63-3.el7                                            
+  perl-Scalar-List-Utils.s390x 0:1.27-248.el7                                   
+  perl-Socket.s390x 0:2.010-4.el7                                               
+  perl-Storable.s390x 0:2.45-3.el7                                              
+  perl-TermReadKey.s390x 0:2.30-20.el7                                          
+  perl-Text-ParseWords.noarch 0:3.29-4.el7                                      
+  perl-Time-HiRes.s390x 4:1.9725-3.el7                                          
+  perl-Time-Local.noarch 0:1.2300-2.el7                                         
+  perl-constant.noarch 0:1.27-2.el7                                             
+  perl-libs.s390x 4:5.16.3-294.el7_6                                            
+  perl-macros.s390x 4:5.16.3-294.el7_6                                          
+  perl-parent.noarch 1:0.225-244.el7                                            
+  perl-podlators.noarch 0:2.5.1-3.el7                                           
+  perl-threads.s390x 0:1.87-4.el7                                               
+  perl-threads-shared.s390x 0:1.43-6.el7                                        
+  procps-ng.s390x 0:3.3.10-23.el7                                               
+  qrencode-libs.s390x 0:3.4.1-3.el7                                             
+  rsync.s390x 0:3.1.2-4.el7                                                     
+  systemd.s390x 0:219-62.el7_6.5                                                
+  tar.s390x 2:1.26-35.el7                                                       
+  xz.s390x 0:5.2.2-1.el7                                                        
+
+Dependency Updated:
+  dbus-libs.s390x 1:1.10.24-12.el7           glibc.s390x 0:2.17-260.el7_6.3     
+  glibc-common.s390x 0:2.17-260.el7_6.3      libacl.s390x 0:2.2.51-14.el7       
+  libgcc.s390x 0:4.8.5-36.el7                libstdc++.s390x 0:4.8.5-36.el7     
+  systemd-libs.s390x 0:219-62.el7_6.5       
+
+Complete!
+Loaded plugins: fastestmirror, ovl
+Loading mirror speeds from cached hostfile
+Resolving Dependencies
+--> Running transaction check
+---> Package golang.s390x 0:1.11.5-1.el7 will be installed
+--> Processing Dependency: golang-bin = 1.11.5-1.el7 for package: golang-1.11.5-1.el7.s390x
+--> Processing Dependency: golang-src = 1.11.5-1.el7 for package: golang-1.11.5-1.el7.s390x
+---> Package phantomjs.s390x 0:2.1.1-1.el7 will be installed
+--> Processing Dependency: libfontconfig.so.1()(64bit) for package: phantomjs-2.1.1-1.el7.s390x
+--> Processing Dependency: libfreetype.so.6()(64bit) for package: phantomjs-2.1.1-1.el7.s390x
+--> Processing Dependency: libicudata.so.50()(64bit) for package: phantomjs-2.1.1-1.el7.s390x
+--> Processing Dependency: libicui18n.so.50()(64bit) for package: phantomjs-2.1.1-1.el7.s390x
+--> Processing Dependency: libicuuc.so.50()(64bit) for package: phantomjs-2.1.1-1.el7.s390x
+--> Running transaction check
+---> Package fontconfig.s390x 0:2.13.0-4.3.el7 will be installed
+--> Processing Dependency: dejavu-sans-fonts for package: fontconfig-2.13.0-4.3.el7.s390x
+--> Processing Dependency: fontpackages-filesystem for package: fontconfig-2.13.0-4.3.el7.s390x
+---> Package freetype.s390x 0:2.8-12.el7_6.1 will be installed
+--> Processing Dependency: libpng15.so.15(PNG15_0)(64bit) for package: freetype-2.8-12.el7_6.1.s390x
+--> Processing Dependency: libpng15.so.15()(64bit) for package: freetype-2.8-12.el7_6.1.s390x
+---> Package golang-bin.s390x 0:1.11.5-1.el7 will be installed
+--> Processing Dependency: subversion for package: golang-bin-1.11.5-1.el7.s390x
+--> Processing Dependency: mercurial for package: golang-bin-1.11.5-1.el7.s390x
+---> Package golang-src.noarch 0:1.11.5-1.el7 will be installed
+---> Package libicu.s390x 0:50.1.2-17.el7 will be installed
+--> Running transaction check
+---> Package dejavu-sans-fonts.noarch 0:2.33-6.el7 will be installed
+--> Processing Dependency: dejavu-fonts-common = 2.33-6.el7 for package: dejavu-sans-fonts-2.33-6.el7.noarch
+---> Package fontpackages-filesystem.noarch 0:1.44-8.el7 will be installed
+---> Package libpng.s390x 2:1.5.13-7.el7_2 will be installed
+---> Package mercurial.s390x 0:2.6.2-8.el7_4 will be installed
+---> Package subversion.s390x 0:1.7.14-14.el7 will be installed
+--> Processing Dependency: subversion-libs(s390-64) = 1.7.14-14.el7 for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: systemd-sysv for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libapr-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libaprutil-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libneon.so.27()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_client-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_delta-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_diff-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_fs-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_fs_base-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_fs_fs-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_fs_util-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_ra-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_ra_local-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_ra_neon-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_ra_svn-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_repos-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_subr-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Processing Dependency: libsvn_wc-1.so.0()(64bit) for package: subversion-1.7.14-14.el7.s390x
+--> Running transaction check
+---> Package apr.s390x 0:1.4.8-3.el7_4.1 will be installed
+---> Package apr-util.s390x 0:1.5.2-6.el7 will be installed
+---> Package dejavu-fonts-common.noarch 0:2.33-6.el7 will be installed
+---> Package neon.s390x 0:0.30.0-3.el7 will be installed
+--> Processing Dependency: libgnutls.so.28(GNUTLS_1_4)(64bit) for package: neon-0.30.0-3.el7.s390x
+--> Processing Dependency: libgnutls.so.28(GNUTLS_2_12)(64bit) for package: neon-0.30.0-3.el7.s390x
+--> Processing Dependency: libgnutls.so.28()(64bit) for package: neon-0.30.0-3.el7.s390x
+--> Processing Dependency: libpakchois.so.0()(64bit) for package: neon-0.30.0-3.el7.s390x
+--> Processing Dependency: libproxy.so.1()(64bit) for package: neon-0.30.0-3.el7.s390x
+---> Package subversion-libs.s390x 0:1.7.14-14.el7 will be installed
+---> Package systemd-sysv.s390x 0:219-62.el7_6.5 will be installed
+--> Running transaction check
+---> Package gnutls.s390x 0:3.3.29-8.el7 will be installed
+--> Processing Dependency: trousers >= 0.3.11.2 for package: gnutls-3.3.29-8.el7.s390x
+--> Processing Dependency: libhogweed.so.2()(64bit) for package: gnutls-3.3.29-8.el7.s390x
+--> Processing Dependency: libnettle.so.4()(64bit) for package: gnutls-3.3.29-8.el7.s390x
+---> Package libproxy.s390x 0:0.4.11-11.el7 will be installed
+--> Processing Dependency: libmodman.so.1()(64bit) for package: libproxy-0.4.11-11.el7.s390x
+---> Package pakchois.s390x 0:0.4-10.el7 will be installed
+--> Running transaction check
+---> Package libmodman.s390x 0:2.0.1-8.el7 will be installed
+---> Package nettle.s390x 0:2.7.1-8.el7 will be installed
+---> Package trousers.s390x 0:0.3.14-2.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                     Arch       Version               Repository   Size
+================================================================================
+Installing:
+ golang                      s390x      1.11.5-1.el7          epel        631 k
+ phantomjs                   s390x      2.1.1-1.el7           epel         14 M
+Installing for dependencies:
+ apr                         s390x      1.4.8-3.el7_4.1       base        102 k
+ apr-util                    s390x      1.5.2-6.el7           base         91 k
+ dejavu-fonts-common         noarch     2.33-6.el7            base         64 k
+ dejavu-sans-fonts           noarch     2.33-6.el7            base        1.4 M
+ fontconfig                  s390x      2.13.0-4.3.el7        base        253 k
+ fontpackages-filesystem     noarch     1.44-8.el7            base        9.8 k
+ freetype                    s390x      2.8-12.el7_6.1        updates     375 k
+ gnutls                      s390x      3.3.29-8.el7          base        626 k
+ golang-bin                  s390x      1.11.5-1.el7          epel         89 M
+ golang-src                  noarch     1.11.5-1.el7          epel        6.4 M
+ libicu                      s390x      50.1.2-17.el7         base        6.8 M
+ libmodman                   s390x      2.0.1-8.el7           base         28 k
+ libpng                      s390x      2:1.5.13-7.el7_2      base        212 k
+ libproxy                    s390x      0.4.11-11.el7         base         62 k
+ mercurial                   s390x      2.6.2-8.el7_4         base        2.6 M
+ neon                        s390x      0.30.0-3.el7          base        163 k
+ nettle                      s390x      2.7.1-8.el7           base        328 k
+ pakchois                    s390x      0.4-10.el7            base         14 k
+ subversion                  s390x      1.7.14-14.el7         base        1.0 M
+ subversion-libs             s390x      1.7.14-14.el7         base        878 k
+ systemd-sysv                s390x      219-62.el7_6.5        updates      84 k
+ trousers                    s390x      0.3.14-2.el7          base        268 k
+
+Transaction Summary
+================================================================================
+Install  2 Packages (+22 Dependent packages)
+
+Total download size: 125 M
+Installed size: 423 M
+Downloading packages:
+--------------------------------------------------------------------------------
+Total                                              7.4 MB/s | 125 MB  00:17     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : apr-1.4.8-3.el7_4.1.s390x                                   1/24 
+  Installing : apr-util-1.5.2-6.el7.s390x                                  2/24 
+  Installing : fontpackages-filesystem-1.44-8.el7.noarch                   3/24 
+  Installing : dejavu-fonts-common-2.33-6.el7.noarch                       4/24 
+  Installing : dejavu-sans-fonts-2.33-6.el7.noarch                         5/24 
+  Installing : pakchois-0.4-10.el7.s390x                                   6/24 
+  Installing : trousers-0.3.14-2.el7.s390x                                 7/24 
+  Installing : libicu-50.1.2-17.el7.s390x                                  8/24 
+  Installing : systemd-sysv-219-62.el7_6.5.s390x                           9/24 
+  Installing : nettle-2.7.1-8.el7.s390x                                   10/24 
+install-info: /usr/share/info/dir: could not read (No such file or directory) and could not create (No such file or directory)
+  Installing : gnutls-3.3.29-8.el7.s390x                                  11/24 
+  Installing : mercurial-2.6.2-8.el7_4.s390x                              12/24 
+  Installing : 2:libpng-1.5.13-7.el7_2.s390x                              13/24 
+  Installing : freetype-2.8-12.el7_6.1.s390x                              14/24 
+  Installing : fontconfig-2.13.0-4.3.el7.s390x                            15/24 
+  Installing : libmodman-2.0.1-8.el7.s390x                                16/24 
+  Installing : libproxy-0.4.11-11.el7.s390x                               17/24 
+  Installing : neon-0.30.0-3.el7.s390x                                    18/24 
+  Installing : subversion-libs-1.7.14-14.el7.s390x                        19/24 
+  Installing : subversion-1.7.14-14.el7.s390x                             20/24 
+  Installing : golang-src-1.11.5-1.el7.noarch                             21/24 
+  Installing : golang-1.11.5-1.el7.s390x                                  22/24 
+  Installing : golang-bin-1.11.5-1.el7.s390x                              23/24 
+  Installing : phantomjs-2.1.1-1.el7.s390x                                24/24 
+  Verifying  : libproxy-0.4.11-11.el7.s390x                                1/24 
+  Verifying  : fontconfig-2.13.0-4.3.el7.s390x                             2/24 
+  Verifying  : fontpackages-filesystem-1.44-8.el7.noarch                   3/24 
+  Verifying  : golang-src-1.11.5-1.el7.noarch                              4/24 
+  Verifying  : golang-bin-1.11.5-1.el7.s390x                               5/24 
+  Verifying  : phantomjs-2.1.1-1.el7.s390x                                 6/24 
+  Verifying  : dejavu-fonts-common-2.33-6.el7.noarch                       7/24 
+  Verifying  : libmodman-2.0.1-8.el7.s390x                                 8/24 
+  Verifying  : neon-0.30.0-3.el7.s390x                                     9/24 
+  Verifying  : subversion-1.7.14-14.el7.s390x                             10/24 
+  Verifying  : 2:libpng-1.5.13-7.el7_2.s390x                              11/24 
+  Verifying  : gnutls-3.3.29-8.el7.s390x                                  12/24 
+  Verifying  : apr-util-1.5.2-6.el7.s390x                                 13/24 
+  Verifying  : mercurial-2.6.2-8.el7_4.s390x                              14/24 
+  Verifying  : freetype-2.8-12.el7_6.1.s390x                              15/24 
+  Verifying  : nettle-2.7.1-8.el7.s390x                                   16/24 
+  Verifying  : dejavu-sans-fonts-2.33-6.el7.noarch                        17/24 
+  Verifying  : systemd-sysv-219-62.el7_6.5.s390x                          18/24 
+  Verifying  : libicu-50.1.2-17.el7.s390x                                 19/24 
+  Verifying  : golang-1.11.5-1.el7.s390x                                  20/24 
+  Verifying  : trousers-0.3.14-2.el7.s390x                                21/24 
+  Verifying  : pakchois-0.4-10.el7.s390x                                  22/24 
+  Verifying  : apr-1.4.8-3.el7_4.1.s390x                                  23/24 
+  Verifying  : subversion-libs-1.7.14-14.el7.s390x                        24/24 
+
+Installed:
+  golang.s390x 0:1.11.5-1.el7           phantomjs.s390x 0:2.1.1-1.el7          
+
+Dependency Installed:
+  apr.s390x 0:1.4.8-3.el7_4.1                                                   
+  apr-util.s390x 0:1.5.2-6.el7                                                  
+  dejavu-fonts-common.noarch 0:2.33-6.el7                                       
+  dejavu-sans-fonts.noarch 0:2.33-6.el7                                         
+  fontconfig.s390x 0:2.13.0-4.3.el7                                             
+  fontpackages-filesystem.noarch 0:1.44-8.el7                                   
+  freetype.s390x 0:2.8-12.el7_6.1                                               
+  gnutls.s390x 0:3.3.29-8.el7                                                   
+  golang-bin.s390x 0:1.11.5-1.el7                                               
+  golang-src.noarch 0:1.11.5-1.el7                                              
+  libicu.s390x 0:50.1.2-17.el7                                                  
+  libmodman.s390x 0:2.0.1-8.el7                                                 
+  libpng.s390x 2:1.5.13-7.el7_2                                                 
+  libproxy.s390x 0:0.4.11-11.el7                                                
+  mercurial.s390x 0:2.6.2-8.el7_4                                               
+  neon.s390x 0:0.30.0-3.el7                                                     
+  nettle.s390x 0:2.7.1-8.el7                                                    
+  pakchois.s390x 0:0.4-10.el7                                                   
+  subversion.s390x 0:1.7.14-14.el7                                              
+  subversion-libs.s390x 0:1.7.14-14.el7                                         
+  systemd-sysv.s390x 0:219-62.el7_6.5                                           
+  trousers.s390x 0:0.3.14-2.el7                                                 
+
+Complete!
+ ---> 786884b0f033
+Removing intermediate container 87e373e5c232
+Step 6/9 : RUN mkdir -p /go/src/github.com/grafana && 	cd /go/src/github.com/grafana && 	git clone https://github.com/grafana/grafana.git && 	cd grafana && 	mkdir make && 	git checkout tags/v${GRAFANATAG} -b grafana_s390x && 	git submodule update --init
+ ---> Running in 14a343d5c7c3
+
+[91m[0mCloning into 'grafana'...
+[91mSwitched to a new branch 'grafana_s390x'
+[0m ---> 08e84d4f336e
+Removing intermediate container 14a343d5c7c3
+Step 7/9 : RUN cd /go/src/github.com/grafana/grafana && 	echo "***** Building Backend *****" && 	go run build.go setup && 	go run build.go build && 	echo "***** Building Frontend *****" && 	yarn install --pure-lockfile && 	go run build.go build-frontend && 	mv bin/linux-s390x/* bin/. && 	rm -rf bin/linux-s390x
+ ---> Running in 508dd9c482eb
+
+[91m[0m***** Building Backend *****
+Version: 5.4.2, Linux Version: 5.4.2, Package Iteration: 1552192813
+go get -v github.com/golang/dep
+[91mgithub.com/golang/dep (download)
+[0m[91mgithub.com/golang/dep/vendor/github.com/Masterminds/semver
+[0m[91mgithub.com/golang/dep/vendor/github.com/Masterminds/vcs
+[0m[91mgithub.com/golang/dep/vendor/github.com/armon/go-radix
+[0m[91mgithub.com/golang/dep/vendor/github.com/boltdb/bolt
+[0m[91mgithub.com/golang/dep/vendor/github.com/golang/protobuf/proto
+[0m[91mgithub.com/golang/dep/gps/paths
+[0m[91mgithub.com/golang/dep/gps/pkgtree
+[0m[91mgithub.com/golang/dep/vendor/github.com/pkg/errors
+[0m[91mgithub.com/golang/dep/internal/fs
+[0m[91mgithub.com/golang/dep/vendor/github.com/jmank88/nuts
+[0m[91mgithub.com/golang/dep/vendor/github.com/nightlyone/lockfile
+[0m[91mgithub.com/golang/dep/vendor/github.com/sdboyer/constext
+[0m[91mgithub.com/golang/dep/vendor/golang.org/x/net/context
+[0m[91mgithub.com/golang/dep/vendor/golang.org/x/sync/errgroup
+[0m[91mgithub.com/golang/dep/vendor/golang.org/x/sys/unix
+[0m[91mgithub.com/golang/dep/gps/internal/pb
+[0m[91mgithub.com/golang/dep/vendor/github.com/pelletier/go-toml
+[0m[91mgithub.com/golang/dep/gps
+[0m[91mgithub.com/golang/dep/gps/verify
+[0m[91mgithub.com/golang/dep
+[0mgo install -v ./pkg/cmd/grafana-server
+[91mgithub.com/grafana/grafana/vendor/github.com/facebookgo/structtag
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/facebookgo/inject
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/Unknwon/com
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-macaron/inject
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/crypto/pbkdf2
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/ini.v1
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-stack/stack
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/teris-io/shortid
+[0m[91mgithub.com/grafana/grafana/pkg/util
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/mattn/go-isatty
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/mattn/go-colorable
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/macaron.v1
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/inconshreveable/log15
+[0m[91mgithub.com/grafana/grafana/pkg/log
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/patrickmn/go-cache
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-macaron/binding
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-macaron/session
+[0m[91mgithub.com/grafana/grafana/pkg/components/null
+[0m[91mgithub.com/grafana/grafana/pkg/components/simplejson
+[0m[91mgithub.com/grafana/grafana/pkg/setting
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/rainycape/unidecode
+[0m[91mgithub.com/grafana/grafana/pkg/api/avatar
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/gosimple/slug
+[0m[91mgithub.com/grafana/grafana/pkg/components/securejsondata
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/bradfitz/gomemcache/memcache
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/lib/pq/oid
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/lib/pq
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-macaron/session/memcache
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/bufio.v1
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/redis.v2
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-macaron/session/postgres
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-sql-driver/mysql
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/beorn7/perks/quantile
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-macaron/session/redis
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/golang/protobuf/proto
+[0m[91mgithub.com/grafana/grafana/pkg/services/session
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/common/model
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/procfs/internal/util
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/procfs/nfs
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/procfs/xfs
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/procfs
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/hashicorp/go-hclog
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/hashicorp/yamux
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/mitchellh/go-testing-interface
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/oklog/run
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/client_model/go
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/matttproud/golang_protobuf_extensions/pbutil
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/net/context
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/common/expfmt
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/text/transform
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/text/unicode/bidi
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/client_golang/prometheus
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/text/secure/bidirule
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/text/unicode/norm
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/net/idna
+[0m[91mgithub.com/grafana/grafana/pkg/models
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/net/http/httpguts
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/net/http2/hpack
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/net/http2
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/net/internal/timeseries
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/net/trace
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/grpclog
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/connectivity
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/credentials
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/resolver
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/balancer
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/balancer/base
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/balancer/roundrobin
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/codes
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/encoding
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/encoding/proto
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/grpclb/grpc_lb_v1/messages
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/internal
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/keepalive
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/metadata
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/naming
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/peer
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/resolver/dns
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/resolver/passthrough
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/stats
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/golang/protobuf/ptypes/any
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/golang/protobuf/ptypes/duration
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/golang/protobuf/ptypes/timestamp
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/genproto/googleapis/rpc/status
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/golang/protobuf/ptypes
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/tap
+[0m[91mgithub.com/grafana/grafana/pkg/bus
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/status
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-xorm/core
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/transport
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-xorm/builder
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-xorm/xorm
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/health/grpc_health_v1
+[0m[91mgithub.com/grafana/grafana/vendor/google.golang.org/grpc/health
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/hashicorp/go-plugin
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/grafana/grafana-plugin-model/go/datasource
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/VividCortex/mysqlerr
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/mattn/go-sqlite3
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb
+[0m[91mgithub.com/grafana/grafana/pkg/plugins/datasource/wrapper
+[0m[91mgithub.com/grafana/grafana/pkg/services/guardian
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/hashicorp/go-version
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/gorilla/websocket
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/opentracing/opentracing-go/log
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/opentracing/opentracing-go
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/net/context/ctxhttp
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/oauth2/internal
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/oauth2
+[0m[91mgithub.com/grafana/grafana/vendor/cloud.google.com/go/compute/metadata
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/oauth2/jws
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/oauth2/jwt
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/oauth2/google
+[0m[91mgithub.com/grafana/grafana/pkg/api/routing
+[0m[91mgithub.com/grafana/grafana/pkg/api/static
+[0m[91mgithub.com/grafana/grafana/pkg/components/apikeygen
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/sergi/go-diff/diffmatchpatch
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/yudai/golcs
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/yudai/gojsondiff
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/yudai/gojsondiff/formatter
+[0m[91mgithub.com/grafana/grafana/pkg/components/dashdiffs
+[0m[91mgithub.com/grafana/grafana/pkg/events
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/BurntSushi/toml
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/davecgh/go-spew/spew
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/asn1-ber.v1
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-ldap/ldap
+[0m[91mgithub.com/grafana/grafana/pkg/services/quota
+[0m[91mgithub.com/grafana/grafana/pkg/login
+[0m[91mgithub.com/grafana/grafana/pkg/metrics/graphitebridge
+[0m[91mgithub.com/grafana/grafana/pkg/social
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/klauspost/compress/flate
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/klauspost/crc32
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/klauspost/compress/gzip
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-macaron/gzip
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/opentracing/opentracing-go/ext
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/benbjohnson/clock
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/awserr
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/internal/shareddefaults
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/go-ini/ini
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/credentials
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/endpoints
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/internal/sdkio
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/client/metadata
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/jmespath/go-jmespath
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/awsutil
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/request
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/internal/sdkrand
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/client
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/corehandlers
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/ec2metadata
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/credentials/endpointcreds
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/defaults
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/private/protocol
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/private/protocol/rest
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/signer/v4
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/private/protocol/query/queryutil
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/private/protocol/query
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/service/sts
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/credentials/stscreds
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/csm
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/aws/session
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/private/protocol/eventstream
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/private/protocol/eventstream/eventstreamapi
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/private/protocol/restxml
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/service/s3
+[0m[91mgithub.com/grafana/grafana/pkg/components/imguploader
+[0m[91mgithub.com/grafana/grafana/pkg/services/annotations
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/grafana/grafana-plugin-model/go/renderer
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/sync/errgroup
+[0m[91mgithub.com/grafana/grafana/pkg/services/cache
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/testdata
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/client_golang/prometheus/promhttp
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/crypto/ed25519/internal/edwards25519
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/crypto/ed25519
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/square/go-jose.v2/cipher
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/square/go-jose.v2/json
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/square/go-jose.v2
+[0m[91mgithub.com/grafana/grafana/pkg/extensions
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/mail.v2
+[0m[91mgithub.com/grafana/grafana/vendor/gopkg.in/yaml.v2
+[0m[91mgithub.com/grafana/grafana/pkg/services/provisioning/datasources
+[0m[91mgithub.com/grafana/grafana/pkg/services/sqlstore/sqlutil
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/denisenkom/go-mssqldb/internal/cp
+[0m[91mgithub.com/grafana/grafana/vendor/golang.org/x/crypto/md4
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/denisenkom/go-mssqldb
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/mssql
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/pkg/errors
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/internal/baggage
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/internal/spanlog
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/internal/throttler
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/log
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/thrift
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/thrift-gen/jaeger
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/thrift-gen/sampling
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/thrift-gen/zipkincore
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/thrift-gen/agent
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/utils
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/codahale/hdrhistogram
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-lib/metrics
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/thrift-gen/baggage
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/internal/baggage/remote
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/internal/throttler/remote
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/rpcmetrics
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/uber/jaeger-client-go/config
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/service/cloudwatch
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/private/protocol/ec2query
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/service/ec2
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/aws/aws-sdk-go/service/ec2/ec2iface
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/elasticsearch/client
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/elasticsearch
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/graphite
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/influxdb
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/mysql
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/opentsdb
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/postgres
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/client_golang/api
+[0m[91mgithub.com/grafana/grafana/vendor/github.com/prometheus/client_golang/api/prometheus/v1
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/prometheus
+[0m[91mgithub.com/grafana/grafana/pkg/services/sqlstore/migrator
+[0m[91mgithub.com/grafana/grafana/pkg/registry
+[0m[91mgithub.com/grafana/grafana/pkg/services/sqlstore/migrations
+[0m[91mgithub.com/grafana/grafana/pkg/services/search
+[0m[91mgithub.com/grafana/grafana/pkg/services/dashboards
+[0m[91mgithub.com/grafana/grafana/pkg/plugins
+[0m[91mgithub.com/grafana/grafana/pkg/services/datasources
+[0m[91mgithub.com/grafana/grafana/pkg/services/cleanup
+[0m[91mgithub.com/grafana/grafana/pkg/services/notifications
+[0m[91mgithub.com/grafana/grafana/pkg/api/dtos
+[0m[91mgithub.com/grafana/grafana/pkg/api/pluginproxy
+[0m[91mgithub.com/grafana/grafana/pkg/api/live
+[0m[91mgithub.com/grafana/grafana/pkg/metrics
+[0m[91mgithub.com/grafana/grafana/pkg/services/hooks
+[0m[91mgithub.com/grafana/grafana/pkg/services/provisioning/dashboards
+[0m[91mgithub.com/grafana/grafana/pkg/middleware
+[0m[91mgithub.com/grafana/grafana/pkg/services/provisioning
+[0m[91mgithub.com/grafana/grafana/pkg/services/sqlstore
+[0m[91mgithub.com/grafana/grafana/pkg/services/rendering
+[0m[91mgithub.com/grafana/grafana/pkg/services/alerting
+[0m[91mgithub.com/grafana/grafana/pkg/api
+[0m[91mgithub.com/grafana/grafana/pkg/services/alerting/conditions
+[0m[91mgithub.com/grafana/grafana/pkg/services/alerting/notifiers
+[0m[91mgithub.com/grafana/grafana/pkg/tracing
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/cloudwatch
+[0m[91mgithub.com/grafana/grafana/pkg/tsdb/stackdriver
+[0m[91mgithub.com/grafana/grafana/pkg/cmd/grafana-server
+[0mVersion: 5.4.2, Linux Version: 5.4.2, Package Iteration: 1552192891
+rm -r ./bin/linux-s390x/grafana-server
+rm -r ./bin/linux-s390x/grafana-server.md5
+go version
+go version go1.11.5 linux/s390x
+Targeting linux/s390x
+go build -ldflags -w -X main.version=5.4.2 -X main.commit=d812109 -X main.buildstamp=1544705363 -X main.buildBranch=grafana_s390x -o ./bin/linux-s390x/grafana-server ./pkg/cmd/grafana-server
+rm -r ./bin/linux-s390x/grafana-cli
+rm -r ./bin/linux-s390x/grafana-cli.md5
+go version
+go version go1.11.5 linux/s390x
+Targeting linux/s390x
+go build -ldflags -w -X main.version=5.4.2 -X main.commit=d812109 -X main.buildstamp=1544705363 -X main.buildBranch=grafana_s390x -o ./bin/linux-s390x/grafana-cli ./pkg/cmd/grafana-cli
+***** Building Frontend *****
+yarn install v1.13.0
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+info fsevents@1.2.4: The platform "linux" is incompatible with this module.
+info "fsevents@1.2.4" is an optional dependency and failed compatibility check. Excluding it from installation.
+[3/4] Linking dependencies...
+[91mwarning " > slate-prism@0.5.0" has incorrect peer dependency "slate@^0.32.0".
+[0m[4/4] Building fresh packages...
+Done in 165.57s.
+Version: 5.4.2, Linux Version: 5.4.2, Package Iteration: 1552193067
+./node_modules/.bin/grunt build --pkgVer=5.4.2-1552193067 --arch=s390x --platform=linux
+Version 5.4.2-1552193067
+Running "clean:release" (clean) task
+>> 0 paths cleaned.
+
+Running "clean:build" (clean) task
+>> 0 paths cleaned.
+
+Running "phantomjs" task
+
+Running "copy:phantom_bin" (copy) task
+Copied 1 file
+
+Running "exec:webpack" (exec) task
+Starting type checking service...
+Using 1 worker with 2048MB memory limit
+Hash: dfabdd44b3be44288eac
+Version: webpack 4.19.1
+Time: 424219ms
+Built at: 2019-03-10 04:51:36
+                                 Asset        Size  Chunks                    Chunk Names
+    vendor.dfabdd44b3be44288eac.js.map    12.1 MiB       0  [emitted]         vendor
+        vendor.dfabdd44b3be44288eac.js    3.39 MiB       0  [emitted]  [big]  vendor
+ grafana.dark.dfabdd44b3be44288eac.css     291 KiB       2  [emitted]  [big]  dark
+          dark.dfabdd44b3be44288eac.js  1010 bytes       2  [emitted]         dark
+grafana.light.dfabdd44b3be44288eac.css     291 KiB       3  [emitted]  [big]  light
+         light.dfabdd44b3be44288eac.js  1010 bytes       3  [emitted]         light
+       explore.dfabdd44b3be44288eac.js    35.4 KiB       4  [emitted]         explore
+           app.dfabdd44b3be44288eac.js    1.47 MiB       1  [emitted]  [big]  app
+       app.dfabdd44b3be44288eac.js.map    3.75 MiB       1  [emitted]         app
+      dark.dfabdd44b3be44288eac.js.map    4.43 KiB       2  [emitted]         dark
+     light.dfabdd44b3be44288eac.js.map    4.43 KiB       3  [emitted]         light
+   explore.dfabdd44b3be44288eac.js.map     110 KiB       4  [emitted]         explore
+                   ../views/error.html    1.88 KiB          [emitted]         
+                   ../views/index.html    14.5 KiB          [emitted]         
+   [5] ./public/app/core/core_module.ts 486 bytes {1} [built]
+   [8] ./public/app/core/config.ts 835 bytes {1} [built]
+  [13] ./public/app/core/core.ts + 73 modules 225 KiB {1} [built]
+       | ./public/app/core/directives/rebuild_on_change.ts 2.21 KiB [built]
+       | ./public/app/core/core.ts 3.14 KiB [built]
+       | ./public/app/core/directives/metric_segment.ts 9.35 KiB [built]
+       | ./public/app/core/directives/misc.ts 6.57 KiB [built]
+       | ./public/app/core/directives/ng_model_on_blur.ts 1.69 KiB [built]
+       | ./public/app/core/directives/tags.ts 3.54 KiB [built]
+       | ./public/app/core/directives/value_select_dropdown.ts 9.61 KiB [built]
+       | ./public/app/core/directives/dash_class.ts 1.37 KiB [built]
+       | ./public/app/core/directives/give_focus.ts 699 bytes [built]
+       | ./public/app/core/directives/diff-view.ts 2.19 KiB [built]
+       | ./public/app/core/jquery_extended.ts 1.45 KiB [built]
+       | ./public/app/core/services/search_srv.ts 6.76 KiB [built]
+       | ./public/app/core/services/ng_react.ts 10.6 KiB [built]
+       | ./public/app/core/directives/array_join.ts 737 bytes [built]
+       | ./public/app/core/live/live_srv.ts 3.81 KiB [built]
+       |     + 59 hidden modules
+  [15] ./public/app/core/services/backend_srv.ts 12.6 KiB {1} [built]
+  [31] ./public/app/core/utils/colors.ts 1.9 KiB {1} [built]
+ [845] (webpack)/buildin/amd-options.js 80 bytes {0} [built]
+ [860] ./public/vendor/bootstrap/bootstrap.js 40 KiB {1} [built]
+ [861] ./public/vendor/angular-ui/ui-bootstrap-tpls.js 44.7 KiB {1} [built]
+ [862] ./public/vendor/angular-other/angular-strap.js 6.38 KiB {1} [built]
+ [863] ./node_modules/moment/locale sync ^\.\/.*$ 2.91 KiB {1} [optional] [built]
+[1359] ./public/app sync extensions\/index.ts 160 bytes {1} [built]
+[1360] ./public/sass/grafana.dark.scss 39 bytes {2} [built]
+[1362] ./public/sass/grafana.light.scss 39 bytes {3} [built]
+[1364] ./public/app/index.ts + 291 modules 1.39 MiB {1} [built]
+       | ./public/app/features/profile/all.ts 83 bytes [built]
+       | ./public/app/index.ts 37 bytes [built]
+       | ./public/app/routes/routes.ts 11.3 KiB [built]
+       | ./public/app/features/all.ts 363 bytes [built]
+       | ./public/app/routes/GrafanaCtrl.ts 9.55 KiB [built]
+       | ./public/app/routes/registry.ts 314 bytes [built]
+       | ./public/app/routes/dashboard_loaders.ts 2.96 KiB [built]
+       | ./public/app/app.ts 4.28 KiB [built]
+       | ./public/app/features/teams/CreateTeamCtrl.ts 838 bytes [built]
+       | ./public/app/features/manage-dashboards/index.ts 283 bytes [built]
+       | ./public/app/features/alerting/NotificationsListCtrl.ts 1.08 KiB [built]
+       | ./public/app/features/alerting/NotificationsEditCtrl.ts 4.43 KiB [built]
+       | ./public/app/features/admin/index.ts 1.3 KiB [built]
+       | ./public/app/features/org/all.ts 76 bytes [built]
+       | ./public/app/features/panel/all.ts 195 bytes [built]
+       |     + 277 hidden modules
+[1375] ./public/app/features/explore/Wrapper.tsx 2.79 KiB {4} [built]
+    + 1361 hidden modules
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  vendor.dfabdd44b3be44288eac.js (3.39 MiB)
+  app.dfabdd44b3be44288eac.js (1.47 MiB)
+  grafana.dark.dfabdd44b3be44288eac.css (291 KiB)
+  grafana.light.dfabdd44b3be44288eac.css (291 KiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  app (4.86 MiB)
+      vendor.dfabdd44b3be44288eac.js
+      app.dfabdd44b3be44288eac.js
+  dark (292 KiB)
+      grafana.dark.dfabdd44b3be44288eac.css
+      dark.dfabdd44b3be44288eac.js
+  light (292 KiB)
+      grafana.light.dfabdd44b3be44288eac.css
+      light.dfabdd44b3be44288eac.js
+
+Child html-webpack-plugin for "../views/error.html":
+     1 asset
+    [0] ./node_modules/html-webpack-plugin/lib/loader.js!./public/views/error-template.html 2.16 KiB {0} [built]
+    [2] (webpack)/buildin/global.js 489 bytes {0} [built]
+    [3] (webpack)/buildin/module.js 497 bytes {0} [built]
+        + 1 hidden module
+Child html-webpack-plugin for "../views/index.html":
+     1 asset
+    [0] ./node_modules/html-webpack-plugin/lib/loader.js!./public/views/index-template.html 15 KiB {0} [built]
+    [2] (webpack)/buildin/global.js 489 bytes {0} [built]
+    [3] (webpack)/buildin/module.js 497 bytes {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/index.js??ref--8-1!node_modules/postcss-loader/lib/index.js??ref--8-2!node_modules/sass-loader/lib/loader.js??ref--8-3!public/sass/grafana.dark.scss:
+    [1] ./node_modules/css-loader??ref--8-1!./node_modules/postcss-loader/lib??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./public/sass/grafana.dark.scss 356 KiB {0} [built]
+    [3] ./node_modules/css-loader??ref--8-1!./node_modules/postcss-loader/lib??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./public/vendor/css/timepicker.css 12.1 KiB {0} [built]
+    [4] ./node_modules/css-loader??ref--8-1!./node_modules/postcss-loader/lib??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./public/vendor/css/spectrum.css 12.4 KiB {0} [built]
+        + 4 hidden modules
+Child mini-css-extract-plugin node_modules/css-loader/index.js??ref--8-1!node_modules/postcss-loader/lib/index.js??ref--8-2!node_modules/sass-loader/lib/loader.js??ref--8-3!public/sass/grafana.light.scss:
+    [1] ./node_modules/css-loader??ref--8-1!./node_modules/postcss-loader/lib??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./public/sass/grafana.light.scss 356 KiB {0} [built]
+    [3] ./node_modules/css-loader??ref--8-1!./node_modules/postcss-loader/lib??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./public/vendor/css/timepicker.css 12.1 KiB {0} [built]
+    [4] ./node_modules/css-loader??ref--8-1!./node_modules/postcss-loader/lib??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./public/vendor/css/spectrum.css 12.4 KiB {0} [built]
+        + 4 hidden modules
+
+Done.
+ ---> 325fa398f96d
+Removing intermediate container 508dd9c482eb
+Step 8/9 : VOLUME output
+ ---> Running in 40471bcf7d46
+ ---> 8b61b2a4b73f
+Removing intermediate container 40471bcf7d46
+Step 9/9 : RUN echo ${GRAFANATAG} > VERSION && 	tar -czf /output/grafana-latest.tar.gz bin public scripts conf VERSION LICENSE.md README.md NOTICE.md
+ ---> Running in 8cc3382627c0
+
+[91m[0m[91mtar: bin: Cannot stat: No such file or directory
+tar (child): /output/grafana-latest.tar.gz: Cannot open: Read-only file system
+tar (child): Error is not recoverable: exiting now
+tar: public: Cannot stat: No such file or directory
+tar: scripts: Cannot stat: No such file or directory
+tar: conf: Cannot stat: No such file or directory
+[0m[91mtar: LICENSE.md: Cannot stat: No such file or directory
+[0m[91mtar: README.md: Cannot stat: No such file or directory
+[0m[91mtar: NOTICE.md: Cannot stat: No such file or directory
+[0mThe command '/bin/sh -c echo ${GRAFANATAG} > VERSION && 	tar -czf /output/grafana-latest.tar.gz bin public scripts conf VERSION LICENSE.md README.md NOTICE.md' returned a non-zero code: 141
+make: *** [grafana] Error 141

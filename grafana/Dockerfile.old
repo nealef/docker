@@ -1,0 +1,23 @@
+FROM docker.io/clefos/grafbuilder:latest AS builder
+
+FROM docker.io/clefos/origin-base
+
+ENV GOPATH="/go"
+ENV GOBIN="${GOPATH}/bin"
+ENV PATH="${GOBIN}:${PATH}"
+RUN mkdir -p $GOBIN
+
+COPY --from=builder $GOPATH/src/github.com/grafana/grafana/bin/linux-s390x/grafana-server /usr/bin/grafana-server
+COPY --from=builder $GOPATH/src/github.com/grafana/grafana/bin/linux-s390x/grafana-cli /usr/bin/grafana-cli
+COPY --from=builder $GOPATH/src/github.com/grafana/grafana $GOPATH/src/github.com/grafana/grafana
+
+LABEL io.k8s.display-name="Grafana" \
+      io.k8s.description="" \
+      io.openshift.tags="openshift" \
+      maintainer="Neale Ferguson <neale@sinenomine.net>"
+
+# doesn't require a root user.
+USER 1001
+
+WORKDIR $GOPATH/src/github.com/grafana/grafana
+ENTRYPOINT ["/usr/bin/grafana-server"]

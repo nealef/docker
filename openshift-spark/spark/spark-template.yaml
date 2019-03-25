@@ -1,0 +1,541 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: spark
+metadata:
+  annotations:
+    description: A template for creating a complete Spark cluster
+    tags: spark,instant-app
+  creationTimestamp: 2018-05-02T19:59:26Z
+  name: spark
+  namespace: ${APPLICATION_NAMESPACE}
+  resourceVersion: "9597"
+  selfLink: /apis/template.openshift.io/v1/namespaces/${APPLICATION_NAMESPACE}/templates/spark
+  uid: 51570b43-4e43-11e8-9970-020010000011
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      application: ${APPLICATION_NAME}
+      deploymentConfig: ${APPLICATION_NAME}-master
+    name: ${APPLICATION_NAME}-master
+  spec:
+    replicas: 1
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-master
+    template:
+      metadata:
+        annotations:
+          pod.beta.kubernetes.io/hostname: ${APPLICATION_NAME}-master
+        labels:
+          deploymentConfig: ${APPLICATION_NAME}-master
+          name: ${APPLICATION_NAME}-master
+      spec:
+        containers:
+        - command:
+          - /start-master
+          env:
+          - name: APPLICATION_NAME
+            value: ${APPLICATION_NAME}
+          - name: APPLICATION_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          image: docker.io/clefos/spark:2.1.0
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-master
+          ports:
+          - containerPort: 7077
+            protocol: TCP
+          - containerPort: 8080
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        nodeSelector:
+          beta.kubernetes.io/arch: s390x
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      application: ${APPLICATION_NAME}
+      component: ${APPLICATION_NAME}-ui-proxy
+    name: ${APPLICATION_NAME}-ui-proxy
+  spec:
+    replicas: 1
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-ui-proxy
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          deploymentConfig: ${APPLICATION_NAME}-ui-proxy
+      spec:
+        containers:
+        - args:
+          - ${APPLICATION_NAME}-master:8080
+          env:
+          - name: APPLICATION_NAME
+            value: ${APPLICATION_NAME}
+          - name: APPLICATION_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          image: docker.io/clefos/spark-ui-proxy:1.0.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: ${APPLICATION_NAME}-ui-proxy
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        nodeSelector:
+          beta.kubernetes.io/arch: s390x
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      application: ${APPLICATION_NAME}
+      deploymentConfig: ${APPLICATION_NAME}-worker
+    name: ${APPLICATION_NAME}-worker
+  spec:
+    replicas: 2
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-worker
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          deploymentConfig: ${APPLICATION_NAME}-worker
+      spec:
+        containers:
+        - command:
+          - /start-worker
+          env:
+          - name: APPLICATION_NAME
+            value: ${APPLICATION_NAME}
+          - name: APPLICATION_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          image: docker.io/clefos/spark:2.1.0
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-worker
+          ports:
+          - containerPort: 8081
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        serviceAccount: deployer
+        terminationGracePeriodSeconds: 30
+        nodeSelector:
+          beta.kubernetes.io/arch: s390x
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      application: ${APPLICATION_NAME}
+      deploymentConfig: ${APPLICATION_NAME}-zeppelin
+    name: ${APPLICATION_NAME}-zeppelin
+  spec:
+    replicas: 1
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-zeppelin
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          deploymentConfig: ${APPLICATION_NAME}-zeppelin
+      spec:
+        containers:
+        - env:
+          - name: APPLICATION_NAME
+            value: ${APPLICATION_NAME}
+          - name: APPLICATION_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          image: docker.io/clefos/zeppelin:0.8.0
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-zeppelin
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+          volumeMounts:
+          - mountPath: /opt/zeppelin/vol
+            name: webapps
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        serviceAccount: deployer
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: webapps
+          persistentVolumeClaim:
+            claimName: ${ZEPPELIN_CLAIM}
+        nodeSelector:
+          beta.kubernetes.io/arch: s390x
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      application: ${APPLICATION_NAME}
+      deploymentConfig: ${APPLICATION_NAME}-namenode
+    name: ${APPLICATION_NAME}-namenode
+  spec:
+    replicas: 1
+    selector:
+      name: ${APPLICATION_NAME}-namenode
+    strategy:
+      rollingParams:
+        intervalSeconds: 1
+        timeoutSeconds: 120
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          pod.beta.kubernetes.io/hostname: ${APPLICATION_NAME}-namenode
+        labels:
+          name: ${APPLICATION_NAME}-namenode
+      spec:
+        containers:
+        - args:
+          - start_namenode.sh
+          env:
+          - name: APPLICATION_NAME
+            value: ${APPLICATION_NAME}
+          - name: FRONTEND_SCHEME
+            value: ${FRONTEND_SCHEME}
+          - name: HADOOP_HOST_NAME
+            value: ${HADOOP_HOST_NAME}
+          image: docker.io/clefos/hadoop:3.1.0
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-namenode
+          ports:
+          - containerPort: 22
+            protocol: TCP
+          - containerPort: 7373
+            protocol: TCP
+          - containerPort: 7946
+            protocol: TCP
+          - containerPort: 9000
+            protocol: TCP
+          - containerPort: 50010
+            protocol: TCP
+          - containerPort: 50020
+            protocol: TCP
+          - containerPort: 50070
+            protocol: TCP
+          - containerPort: 50075
+            protocol: TCP
+          - containerPort: 50090
+            protocol: TCP
+          - containerPort: 50475
+            protocol: TCP
+          - containerPort: 8030
+            protocol: TCP
+          - containerPort: 8031
+            protocol: TCP
+          - containerPort: 8032
+            protocol: TCP
+          - containerPort: 8033
+            protocol: TCP
+          - containerPort: 8040
+            protocol: TCP
+          - containerPort: 8042
+            protocol: TCP
+          - containerPort: 8060
+            protocol: TCP
+          - containerPort: 8088
+            protocol: TCP
+          - containerPort: 9870
+            protocol: TCP
+          - containerPort: 50060
+            protocol: TCP
+          volumeMounts:
+          - mountPath: /var/hadoop
+            name: hadoop-name
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        volumes:
+        - emptyDir: {}
+          name: hadoop-name
+        nodeSelector:
+          beta.kubernetes.io/arch: s390x
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      application: ${APPLICATION_NAME}
+      deploymentConfig: ${APPLICATION_NAME}-datanode
+    name: ${APPLICATION_NAME}-datanode
+  spec:
+    replicas: 1
+    selector:
+      name: ${APPLICATION_NAME}-datanode
+    strategy:
+      rollingParams:
+        intervalSeconds: 1
+        timeoutSeconds: 120
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          pod.beta.kubernetes.io/hostname: ${APPLICATION_NAME}-datanode
+        labels:
+          name: ${APPLICATION_NAME}-datanode
+      spec:
+        nodeSelector:
+          beta.kubernetes.io/arch: s390x
+        containers:
+        - args:
+          - start_datanode.sh
+          env:
+          - name: APPLICATION_NAME
+            value: ${APPLICATION_NAME}
+          - name: FRONTEND_SCHEME
+            value: ${FRONTEND_SCHEME}
+          - name: HADOOP_HOST_NAME
+            value: ${HADOOP_HOST_NAME}
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          image: docker.io/clefos/hadoop:3.1.0
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-datanode
+          ports:
+          - containerPort: 22
+            protocol: TCP
+          - containerPort: 7373
+            protocol: TCP
+          - containerPort: 7946
+            protocol: TCP
+          - containerPort: 9000
+            protocol: TCP
+          - containerPort: 50010
+            protocol: TCP
+          - containerPort: 50020
+            protocol: TCP
+          - containerPort: 50070
+            protocol: TCP
+          - containerPort: 50075
+            protocol: TCP
+          - containerPort: 50090
+            protocol: TCP
+          - containerPort: 50475
+            protocol: TCP
+          - containerPort: 8030
+            protocol: TCP
+          - containerPort: 8031
+            protocol: TCP
+          - containerPort: 8032
+            protocol: TCP
+          - containerPort: 8033
+            protocol: TCP
+          - containerPort: 8040
+            protocol: TCP
+          - containerPort: 8042
+            protocol: TCP
+          - containerPort: 8060
+            protocol: TCP
+          - containerPort: 8088
+            protocol: TCP
+          - containerPort: 9870
+            protocol: TCP
+          - containerPort: 50060
+            protocol: TCP
+          volumeMounts:
+          - mountPath: /var/hadoop
+            name: hadoop-data
+        nodeSelector:
+          beta.kubernetes.io/arch: s390x
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        serviceAccount: deployer
+        volumes:
+        - emptyDir: {}
+          name: hadoop-data
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    name: ${APPLICATION_NAME}-ui-proxy
+  spec:
+    host: ${SPARK_UI_HOST}
+    to:
+      kind: Service
+      name: ${APPLICATION_NAME}-ui-proxy
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    name: ${APPLICATION_NAME}-zeppelin
+  spec:
+    host: ${ZEPPELIN_HOST}
+    to:
+      kind: Service
+      name: ${APPLICATION_NAME}-zeppelin
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${APPLICATION_NAME}-namenode-web
+  spec:
+    host: ${HADOOP_HOST_NAME}
+    to:
+      kind: Service
+      name: ${APPLICATION_NAME}-namenode-web
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${APPLICATION_NAME}-namenode
+  spec:
+    portalIP: ""
+    ports:
+    - name: namenode-web
+      nodePort: 0
+      port: 80
+      protocol: TCP
+      targetPort: 9870
+    - name: namenode-fs
+      nodePort: 0
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+    selector:
+      name: ${APPLICATION_NAME}-namenode
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${APPLICATION_NAME}-namenode-web
+  spec:
+    portalIP: ""
+    ports:
+    - name: namenode-web
+      nodePort: 0
+      port: 9870
+      protocol: TCP
+      targetPort: 9870
+    selector:
+      name: ${APPLICATION_NAME}-namenode
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: ${APPLICATION_NAME}-master
+  spec:
+    ports:
+    - name: spark
+      port: 7077
+      protocol: TCP
+      targetPort: 7077
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-master
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: ${APPLICATION_NAME}-ui-proxy
+  spec:
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-ui-proxy
+    sessionAffinity: None
+    type: LoadBalancer
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: ${APPLICATION_NAME}-zeppelin
+  spec:
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-zeppelin
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer: {}
+parameters:
+- description: The name space for the application.
+  name: APPLICATION_NAMESPACE
+  required: true
+  value: sinenomine
+- description: The name for the application.
+  name: APPLICATION_NAME
+  required: true
+  value: spark
+- description: The host name for the UI.
+  name: SPARK_UI_HOST
+  required: true
+  value: spark-ui-proxy
+- description: The host name for the Zeppelin.
+  name: ZEPPELIN_HOST
+  required: true
+  value: spark-zeppelin
+- description: The Persistent Volume Claim Name for Zeppelin.
+  name: ZEPPELIN_CLAIM
+  required: true
+  value: zeppelin-claim
+- description: The host exposed for the Hadoop Web Interface
+  name: HADOOP_HOST_NAME
+  value: spark-hadoop
+- description: Which hadoop scheme should be exposed in links to self
+  name: FRONTEND_SCHEME
+  value: https

@@ -10,3 +10,9 @@ clean:
 
 push:	
 	cd spark; make push
+
+push-spark:
+	cd spark; make push-spark
+
+push-zeppelin:
+	cd spark; make push-zeppelin

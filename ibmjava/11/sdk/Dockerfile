@@ -30,15 +30,14 @@ RUN yum -y update \
 
 ENV JAVA_VERSION 11.0.1_13
 
-RUN wget -q -U UA_IBM_JAVA_Docker -O /tmp/ibm-java.tar.gz https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.1%2B13/OpenJDK11U-jdk_s390x_linux_openj9_jdk-11.0.1_13_openj9-0.11.0_11.0.1_13.tar.gz \
-    && echo "fb3f4ddaf3e2a9490e34b385e00d76cf6142806d47bd619ef7c193c12acfbb01  /tmp/ibm-java.tar.gz" | sha256sum -c - \
+RUN wget -q -U UA_IBM_JAVA_Docker -O /tmp/ibm-java.tar.gz https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk11u-2019-01-17-08-03/OpenJDK11U-jdk_s390x_linux_openj9_2019-01-17-08-03.tar.gz \
+    && echo "3a18ad989a2f0e0717aba85b63de2e97430f5d2cebeace35cd70d2b742a944b3  /tmp/ibm-java.tar.gz" | sha256sum -c - \
     && mkdir -p /opt/ibm/java \
     && cd /opt/ibm/java \
     && tar -xzf /tmp/ibm-java.tar.gz --strip-components 1 \
     && rm -f /tmp/ibm-java.bin 
 
-RUN yum erase -y wget && yum clean all && rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
+ENV JAVA_HOME=/opt/ibm/java \
+    PATH=/opt/ibm/java/bin:$PATH
 
-ENV JAVA_HOME=/opt/ibm/java 
-ENV PATH=$PATH:$JAVA_HOME/bin
-
+RUN yum erase -y wget     && yum clean all     && rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log

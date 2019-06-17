@@ -1,0 +1,21 @@
+diff --git a/Dockerfile b/Dockerfile
+index 1d1c2a2..1a210ac 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -5,7 +5,15 @@ MAINTAINER Marek Goldmann <mgoldman@redhat.com>
+ USER root
+ 
+ # Install necessary packages
+-RUN yum -y install java-1.8.0-openjdk-devel && yum clean all
++RUN curl -s -L 'https://api.adoptopenjdk.net/v2/binary/releases/openjdk8?openjdk_impl=openj9&os=linux&arch=s390x&release=latest&type=jdk' -o /tmp/openjdk.tar.gz && \
++    mkdir -p /usr/lib/jvm/java-1.8.0 && \
++    tar -C /usr/lib/jvm/java-1.8.0 -xzf /tmp/openjdk.tar.gz --strip-components=1 && \
++    ln -sf /usr/lib/jvm/java-1.8.0 /usr/lib/jvm/java && \
++    rm -f /tmp/openjdk.tar.gz && \
++    yum clean all && \
++    rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
++
++ENV PATH=$PATH:/usr/lib/jvm/java/bin
+ 
+ # Switch back to jboss user
+ USER jboss

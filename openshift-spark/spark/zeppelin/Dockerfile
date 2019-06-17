@@ -25,7 +25,7 @@ RUN	yum install -y --setopt=tsflags=nodocs wget tar && \
 	
 RUN 	mkdir -p /opt && \
     	cd /opt && \
-    	curl http://www.us.apache.org/dist/zeppelin/zeppelin-${ZEPPELIN_VER}/zeppelin-${ZEPPELIN_VER}-bin-all.tgz | \
+    	curl http://archive.apache.org/dist/zeppelin/zeppelin-${ZEPPELIN_VER}/zeppelin-${ZEPPELIN_VER}-bin-all.tgz | \
     	    tar -zx && \
     	ln -s zeppelin-${ZEPPELIN_VER}-bin-all zeppelin && \
     	echo Zeppelin ${ZEPPELIN_VER} installed in /opt

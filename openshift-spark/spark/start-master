@@ -21,8 +21,3 @@ MASTER="${APPLICATION_NAME}-master.${APPLICATION_NAMESPACE}.svc.cluster.local"
 # Run spark-class directly so that when it exits (or crashes), the pod restarts.
 spark-class org.apache.spark.deploy.master.Master --host 0.0.0.0 --port 7077 --webui-port 8080
 exit
-
-MASTER=`ip -o -4 -r a | grep eth0 | sed -e 's/.*inet \([^/]*\).*/\1/'`
-
-# Run spark-class directly so that when it exits (or crashes), the pod restarts.
-spark-class org.apache.spark.deploy.master.Master --host ${MASTER} --port 7077 --webui-port 8080

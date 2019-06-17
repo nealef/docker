@@ -24,7 +24,8 @@ package="sdk"
 tools="maven"
 
 VERSION="11.0.1_13"
-SDKSUM=`wget -O - https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.1%2B13/OpenJDK11U-jdk_s390x_linux_openj9_jdk-${VERSION}_openj9-0.11.0_${VERSION}.tar.gz.sha256.txt 2>/dev/null | awk '{print $1}'`
+JDKDATE="2019-01-17-08-03"
+SDKSUM=`wget -O - https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk11u-${JDKDATE}/OpenJDK11U-jdk_s390x_linux_openj9_${JDKDATE}.tar.gz.sha256.txt 2>/dev/null | awk '{print $1}'`
 # sha256sum for the various versions, packages and arches
 declare -A sdk_11_sums=(
 	[version]="${VERSION}"
@@ -106,12 +107,12 @@ print_java_install() {
 	archsum=${shasums}[$arch]
 	eval ASUM=\${$archsum}
 	cat >> $1 <<-EOI
-RUN wget -q -U UA_IBM_JAVA_Docker -O /tmp/ibm-java.tar.gz https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.1%2B13/OpenJDK11U-jdk_s390x_linux_openj9_jdk-${VERSION}_openj9-0.11.0_${VERSION}.tar.gz \\
+RUN wget -q -U UA_IBM_JAVA_Docker -O /tmp/ibm-java.tar.gz https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk11u-${JDKDATE}/OpenJDK11U-jdk_s390x_linux_openj9_${JDKDATE}.tar.gz \\
     && echo "$ASUM  /tmp/ibm-java.tar.gz" | sha256sum -c - \\
     && mkdir -p /opt/ibm/java \\
     && cd /opt/ibm/java \\
     && tar -xzf /tmp/ibm-java.tar.gz --strip-components 1 \\
-    && rm -f /tmp/ibm-java.bin \\
+    && rm -f /tmp/ibm-java.bin 
 EOI
 }
 

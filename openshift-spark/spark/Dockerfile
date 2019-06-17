@@ -1,7 +1,7 @@
-FROM 	clefos:clefos7
+FROM 	docker.io/clefos/ibmjava:8-sdk
 
 ENV 	hadoop_ver 3.1.0
-ENV 	spark_ver 2.3.0
+ENV 	spark_ver 2.4.0
 
 RUN 	yum update --setopt=tsflags=nodocs -y && \
         yum install -y --setopt=tsflags=nodocs net-tools curl which tar \
@@ -14,7 +14,7 @@ RUN 	yum update --setopt=tsflags=nodocs -y && \
 	yum clean all && \
 	rm -rf /var/log/yum.log /tmp/* /var/cache/yum/*
 
-COPY	hadoop-${hadoop_ver}.tar.gz /
+COPY	hadoop-${hadoop_ver}.tar.gz / 
 
 # Add Hadoop
 RUN 	mkdir -p /opt && \
@@ -26,7 +26,8 @@ RUN 	mkdir -p /opt && \
 
 # Add the GCS connector.
 RUN 	cd /opt/spark/jars && \
-    	curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-latest-hadoop2.jar
+    	curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-latest-hadoop2.jar && \
+	rm -rf /tmp/*
 
 ADD 	log4j.properties /opt/spark/conf/log4j.properties
 ADD 	start-common.sh start-worker start-master /

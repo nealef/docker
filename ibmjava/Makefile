@@ -1,18 +1,18 @@
 all:	sdk jre sfj maven
 
 jre:	8/jre/Dockerfile
-	cd 8/jre; docker build --rm --tag clefos/ibmjava:8 .
+	cd 8/jre; docker build --rm --tag docker.io/clefos/ibmjava:8 .
 
 sdk:	8/sdk/Dockerfile 11/sdk/Dockerfile
-	cd 8/sdk; docker build --rm --tag clefos/ibmjava:8-sdk .
-	cd 11/sdk; docker build --rm --tag clefos/ibmjava:11-sdk .
+	cd 8/sdk; docker build --rm --tag docker.io/clefos/ibmjava:8-sdk .
+	cd 11/sdk; docker build --rm --tag docker.io/clefos/ibmjava:11-sdk .
 
 sfj:	8/sfj/Dockerfile
-	cd 8/sfj; docker build --rm --tag clefos/ibmjava:8-sfj .
+	cd 8/sfj; docker build --rm --tag docker.io/clefos/ibmjava:8-sfj .
 
 maven:	8/maven/Dockerfile 11/maven/Dockerfile
-	cd 8/maven; docker build --rm --tag clefos/maven:8 .
-	cd 11/maven; docker build --rm --tag clefos/maven:11 .
+	cd 8/maven; docker build --rm --tag docker.io/clefos/maven:8 .
+	cd 11/maven; docker build --rm --tag docker.io/clefos/maven:11 .
 
 8/jre/Dockerfile:	update.sh
 	@./update.sh
@@ -33,19 +33,30 @@ maven:	8/maven/Dockerfile 11/maven/Dockerfile
 	@./create.sh
 
 push:	
-	docker tag clefos/ibmjava:8 clefos/ibmjava:8-jre
-	docker tag clefos/ibmjava:8 clefos/ibmjava:jre
-	docker push clefos/ibmjava:8
-	docker push clefos/ibmjava:8-jre
-	docker push clefos/ibmjava:jre
-	docker tag clefos/ibmjava:8-sdk clefos/ibmjava:sdk
-	docker tag clefos/ibmjava:8-sdk clefos/ibmjava:latest
-	docker push clefos/ibmjava:8-sdk
-	docker push clefos/ibmjava:sdk
-	docker push clefos/ibmjava:latest
-	docker tag clefos/ibmjava:8-sfj clefos/ibmjava:sfj
-	docker push clefos/ibmjava:11-sdk
-	docker tag clefos/maven:8 clefos/maven:latest
-	docker push clefos/maven:8
-	docker push clefos/maven:latest
-	docker push clefos/maven:11
+	docker tag docker.io/clefos/ibmjava:8 docker.io/clefos/ibmjava:8-jre
+	docker tag docker.io/clefos/ibmjava:8 docker.io/clefos/ibmjava:jre
+	docker push docker.io/clefos/ibmjava:8
+	docker push docker.io/clefos/ibmjava:8-jre
+	docker push docker.io/clefos/ibmjava:jre
+	docker tag docker.io/clefos/ibmjava:8-sdk docker.io/clefos/ibmjava:sdk
+	docker tag docker.io/clefos/ibmjava:8-sdk docker.io/clefos/ibmjava:latest
+	docker push docker.io/clefos/ibmjava:8-sdk
+	docker push docker.io/clefos/ibmjava:sdk
+	docker push docker.io/clefos/ibmjava:latest
+	docker tag docker.io/clefos/ibmjava:8-sfj docker.io/clefos/ibmjava:sfj
+	docker push docker.io/clefos/ibmjava:11-sdk
+	docker tag docker.io/clefos/maven:8 docker.io/clefos/maven:latest
+	docker push docker.io/clefos/maven:8
+	docker push docker.io/clefos/maven:latest
+	docker push docker.io/clefos/maven:11
+
+clean:
+	docker rmi docker.io/clefos/ibmjava:8-jre
+	docker rmi docker.io/clefos/ibmjava:jre
+	docker rmi docker.io/clefos/ibmjava:8-sdk
+	docker rmi docker.io/clefos/ibmjava:sdk
+	docker rmi docker.io/clefos/ibmjava:latest
+	docker rmi docker.io/clefos/ibmjava:11-sdk
+	docker rmi docker.io/clefos/maven:8
+	docker rmi docker.io/clefos/maven:latest
+	docker rmi docker.io/clefos/maven:11

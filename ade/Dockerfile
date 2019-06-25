@@ -1,4 +1,4 @@
-FROM 		clefos/ibmjava
+FROM clefos/ibmjava
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
 LABEL 		Vendor="ClefOS" License="GPLv2" 

@@ -12,7 +12,6 @@ node {
         app = docker.build("clefos/ade")
         sh "mv cfg_files ade/"
         sh "mv Dockerfile ade/"
-        sh "mv cfg_files ade/"
         sh "mv VERSION ade/"
     }
 }

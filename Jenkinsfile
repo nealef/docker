@@ -8,7 +8,6 @@ node {
         DOCKER_HOME = tool "docker"
         sh "mv ade/cfg_files ."
         sh "mv ade/Dockerfile ."
-        sh "mv ade/cfg_files ."
         sh "mv ade/VERSION ."
         app = docker.build("clefos/ade")
         sh "mv cfg_files ade/"

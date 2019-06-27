@@ -23,7 +23,7 @@ COPY 		./server/supervisord.conf /etc/supervisord.conf
 COPY 		./server/node.conf /etc/supervisord.d/node.conf
 
 # copy project
-COPY 		. /AMHub
+COPY 		AMHub_Files /AMHub
 
 # install project dependencies
 RUN 		npm install && bower install --allow-root && \

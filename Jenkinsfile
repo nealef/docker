@@ -25,11 +25,11 @@ node {
 
         sh "mv bacula/bacula-db/Dockerfile ."
         app3 = docker.build("clefos/bacula-db")
-        sh "Dockerfile bacula/bacula-db/"
+        sh "mv Dockerfile bacula/bacula-db/"
 
         sh "mv bacula/bacula-db-data/Dockerfile ."
         app4 = docker.build("clefos/bacula-db-data")
-        sh "mv Dockerfile bacula/bacula-db-data/Dockerfile/"
+        sh "mv Dockerfile bacula/bacula-db-data/"
 
         sh "mv bacula/bacula-dir/Dockerfile ."
         sh "cp -r bacula/bacula-dir/configs ."

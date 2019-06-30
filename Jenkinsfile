@@ -56,7 +56,7 @@ node {
         sh "mv Dockerfile bacula/bacula-sd/"
         sh "rm -R configs"
         sh "rm -R scripts"
-        mv "docker-compose.yml bacula/"
+        sh "mv docker-compose.yml bacula/"
 
         sh "cp -r bind/container-image-root ."
         sh "mv bind/Dockerfile ."

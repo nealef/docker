@@ -60,10 +60,8 @@ node {
 
         sh "cp -r bind/container-image-root ."
         sh "mv bind/Dockerfile ."
-        sh "mv bind/LICENSE ."
         app8 = docker.build("clefos/bind")
         sh "rm -R container-image-root"
         sh "mv Dockerfile bind/"
-        sh "mv LICENSE bind/"
     }
 }

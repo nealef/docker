@@ -4,7 +4,7 @@ MAINTAINER "The ClefOS Project" <neale@sinenomine.net>
 
 RUN	yum update -y && \
 	yum install htop git wget tar python36u python36u-pip -y && \
-	pip install -U Sphinx && \
+	pip3 install -U Sphinx && \
 	cd /opt && \
 	wget https://github.com/sbt/sbt/releases/download/v1.1.1/sbt-1.1.1.tgz && \
 	tar -xzf sbt-1.1.1.tgz && \

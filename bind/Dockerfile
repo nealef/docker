@@ -1,7 +1,7 @@
 # This is ISC Bind9 container image dockerfile
 # it is IPv4 only - Derived in its entirety from the CentOS instance
 
-FROM 		clefos:clefos7
+FROM clefos/clefos:clefos7
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 
 # Labels consumed by OpenShift

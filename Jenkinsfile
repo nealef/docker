@@ -23,6 +23,7 @@ node {
         app2 = docker.build("clefos/ansible")
         sh "mv Dockerfile ansible/"
 
+        sh "mv bacula/docker-compose.yml ."
         sh "mv bacula/bacula-db/Dockerfile ."
         app3 = docker.build("clefos/bacula-db")
         sh "mv Dockerfile bacula/bacula-db/"
@@ -54,6 +55,15 @@ node {
         sh "mv Dockerfile bacula/bacula-sd/"
         sh "rm -R configs"
         sh "rm -R scripts"
+        mv "docker-compose.yml bacula/"
+
+        sh "cp -r bind/container-image-root ."
+        sh "mv bind/Dockerfile ."
+        sh "mv bind/LICENSE"
+        app8 = docker.build("clefos/bind")
+        sh "rm -R container-image-root"
+        sh "mv Dockerfile bind/"
+        sh "mv LICENSE bind/"
 
     }
 }

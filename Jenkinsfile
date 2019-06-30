@@ -17,7 +17,7 @@ node {
         sh "mv VERSION ade/"
 
         sh "mv ansible/Dockerfile ."
-        app3 = docker.build("clefos/ansible")
+        app2 = docker.build("clefos/ansible")
         sh "mv Dockerfile ansible/"
     }
 }

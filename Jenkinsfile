@@ -10,6 +10,7 @@ node {
     def app10
     def app11
     def app12
+    def app13
     stage('Clone Repository') {
         checkout scm
     }
@@ -90,5 +91,9 @@ node {
         app12 = docker.build("clefos/couchdb")
         sh "mv install.sh couchdb/"
         sh "mv Dockerfile couchdb/"
+
+        sh "mv django/Dockerfile ."
+        app13 = docker.build("clefos/django")
+        sh "mv Dockerfile django/"
     }
 }

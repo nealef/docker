@@ -3,7 +3,7 @@ FROM 	clefos/ibmjava:8-sdk
 MAINTAINER "The ClefOS Project" <neale@sinenomine.net>
 
 RUN	yum update -y && \
-	yum install htop git wget tar python-pip -y && \
+	yum install htop git wget tar python36u python36u-pip -y && \
 	pip install -U Sphinx && \
 	cd /opt && \
 	wget https://github.com/sbt/sbt/releases/download/v1.1.1/sbt-1.1.1.tgz && \

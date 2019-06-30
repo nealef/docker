@@ -8,6 +8,8 @@ node {
     def app8
     def app9
     def app10
+    def app11
+    def app12
     stage('Clone Repository') {
         checkout scm
     }
@@ -82,5 +84,11 @@ node {
         app11 = docker.build("clefos/compose-ui")
         sh "rm -R files"
         sh "mv Dockerfile compose-ui/"
+
+        sh "mv couchdb/install.sh ."
+        sh "mv couchdb/Dockerfile ."
+        app12 = docker.build("clefos/couchdb")
+        sh "mv install.sh couchdb/"
+        sh "mv Dockerfile couchdb/"
     }
 }

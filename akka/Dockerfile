@@ -3,7 +3,7 @@ FROM 	clefos/ibmjava:8-sdk
 MAINTAINER "The ClefOS Project" <neale@sinenomine.net>
 
 RUN	yum update -y && \
-	yum install htop git wget tar https://centos7.iuscommunity.org/ius-release.rpm && \
+	yum install htop git wget tar https://centos7.iuscommunity.org/ius-release.rpm -y && \
 	yum install python36u python36u-pip -y && \
 	pip3.6 install -U Sphinx && \
 	cd /opt && \

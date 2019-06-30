@@ -1,6 +1,7 @@
 node {
     def app1
     def app2
+    def app3
     stage('Clone Repository') {
         checkout scm
     }
@@ -18,5 +19,8 @@ node {
         sh "mv akka/Dockerfile ."
         app2 = docker.build("clefos/akka")
         sh "mv Dockerfile akka/"
+
+        sh "mv ansible/Dockerfile ."
+        app3 = docker.build("clefos/ansible")
     }
 }

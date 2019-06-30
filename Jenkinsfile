@@ -15,10 +15,8 @@ node {
         sh "mv Dockerfile ade/"
         sh "mv VERSION ade/"
         
-        sh "cp -r AMHub/AMHub_Files ."
-        sh "mv AMHub/Dockerfile ."
-        app2 = docker.build("clefos/amhub")
-        sh "mv Dockerfile AMHub/"
-        sh "rm -R AMHub_Files/"
+        sh "mv akka/Dockerfile ."
+        app2 = docker.build("clefos/akka")
+        sh "mv Dockerfile akka/"
     }
 }

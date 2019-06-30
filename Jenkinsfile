@@ -6,6 +6,7 @@ node {
     def app6
     def app7
     def app8
+    def app9
     stage('Clone Repository') {
         checkout scm
     }
@@ -63,5 +64,12 @@ node {
         app8 = docker.build("clefos/bind")
         sh "rm -R container-image-root"
         sh "mv Dockerfile bind/"
+
+        sh "./busybox/build.sh"
+        sh "mv busybox/glibc/Dockerfile ."
+        sh "mv busybox/glibc/busybox.tar.xz ."
+        app9 = docker.build("clefos/glibc-test")
+        sh "mv Dockerfile busybox/glibc/"
+        sh "mv busybox.tar.xz busybox/glibc/"
     }
 }

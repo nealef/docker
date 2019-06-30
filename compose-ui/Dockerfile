@@ -11,7 +11,7 @@ WORKDIR         /app
 
 RUN             virtualenv /env
 
-ADD             requirements.txt /app/requirements.txt
+ADD             files/requirements.txt /app/requirements.txt
 
 RUN             /env/bin/pip install -r requirements.txt && \
                 /env/bin/pip install functools32 && \
@@ -23,7 +23,7 @@ ADD             files/ /app
 
 VOLUME 		["/opt/docker-compose-projects"]
 
-COPY 		demo-projects /opt/docker-compose-projects
+COPY 		files/demo-projects /opt/docker-compose-projects
 
 EXPOSE 		5000
 

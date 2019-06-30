@@ -7,6 +7,7 @@ node {
     def app7
     def app8
     def app9
+    def app10
     stage('Clone Repository') {
         checkout scm
     }
@@ -75,5 +76,11 @@ node {
         sh "mv cobol/Dockerfile ."
         app10 = docker.build("clefos/cobol")
         sh "mv Dockerfile cobol/"
+
+        sh "cp -r compose-ui/files ."
+        sh "mv compose-ui/Dockerfile ."
+        app11 = docker.build("clefos/compose-ui")
+        sh "rm -R files"
+        sh "mv Dockerfile compose-ui/"
     }
 }

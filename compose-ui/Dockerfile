@@ -2,7 +2,7 @@
 # DOCKER-VERSION 1.9.1
 # Adapted from the Dockerfile by Francesco Uliana <francesco@uliana.it> 
 # https://github.com/francescou/docker-compose-ui
-FROM 		clefos/swarm
+FROM clefos/swarm
 MAINTAINER 	"The ClefOS Project" <neale@sinenomine.net>
 
 RUN             yum install python34 python-virtualenv gcc -y
@@ -19,7 +19,7 @@ RUN             /env/bin/pip install -r requirements.txt && \
                 yum clean all && \
                 rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
-ADD             . /app
+ADD             files/ /app
 
 VOLUME 		["/opt/docker-compose-projects"]
 

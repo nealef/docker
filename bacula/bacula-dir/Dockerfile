@@ -1,4 +1,4 @@
-FROM clefos:clefos7
+FROM clefos/clefos:clefos7
 
 MAINTAINER 	"The ClefOS Project" <neale@sinenomine.net>
 

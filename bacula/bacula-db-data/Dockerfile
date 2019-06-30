@@ -1,7 +1,7 @@
 #
 # Derived from the Dockerfiles for RedCoolBeans Project
 #
-FROM clefos:clefos7
+FROM clefos/clefos:clefos7
 
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 

@@ -71,5 +71,9 @@ node {
         app9 = docker.build("clefos/glibc-test")
         sh "mv Dockerfile busybox/glibc/"
         sh "mv busybox.tar.xz busybox/glibc/"
+
+        sh "mv cobol/Dockerfile ."
+        app10 = docker.build("clefos/cobol")
+        sh "mv Dockerfile cobol/"
     }
 }

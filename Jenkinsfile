@@ -15,12 +15,9 @@ node {
         sh "rm -R cfg_files/"
         sh "mv Dockerfile ade/"
         sh "mv VERSION ade/"
-        
-        sh "mv akka/Dockerfile ."
-        app2 = docker.build("clefos/akka")
-        sh "mv Dockerfile akka/"
 
         sh "mv ansible/Dockerfile ."
         app3 = docker.build("clefos/ansible")
+        sh "mv Dockerfile ansible/"
     }
 }

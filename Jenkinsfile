@@ -5,6 +5,7 @@ node {
     def app5
     def app6
     def app7
+    def app8
     stage('Clone Repository') {
         checkout scm
     }
@@ -64,6 +65,5 @@ node {
         sh "rm -R container-image-root"
         sh "mv Dockerfile bind/"
         sh "mv LICENSE bind/"
-
     }
 }

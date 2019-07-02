@@ -1,5 +1,5 @@
 #Latest version of node tested on.
-FROM 	clefos/nodejs
+FROM clefos/nodejs
 
 WORKDIR /app
 

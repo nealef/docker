@@ -12,6 +12,8 @@ node {
     def app12
     def app13
     def app14
+    def app15
+    def app16
     stage('Clone Repository') {
         checkout scm
     }
@@ -105,6 +107,12 @@ node {
         sh "mv package.json docker-swarm-visualizer/"
         sh "mv Dockerfile docker-swarm-visualizer/"
 
-        
+        sh "mv earthquake/Dockerfile ."
+        app15 = docker.build("clefos/earthquake")
+        sh "mv Dockerfile earthquake/"
+
+        sh "mv earthquake/erlang ."
+        app15 = docker.build("clefos/erlang")
+        sh "mv Dockerfile erlang/"
     }
 }

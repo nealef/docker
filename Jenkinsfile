@@ -16,6 +16,7 @@ node {
     def app16
     def app17
     def app18
+    def app19
     stage('Clone Repository') {
         checkout scm
     }
@@ -124,7 +125,15 @@ node {
         sh "mv etcd-s390x.patch etcd/"
 
         sh "mv fluentd/Dockerfile ."
-        app16 = docker.build("clefos/fluentd")
+        app18 = docker.build("clefos/fluentd")
         sh "mv Dockerfile fluentd/"
+
+        sh "mv golang/Dockerfile ."
+        sh "mv golang/go-wrapper ."
+        app19 = docker.build("clefos/golang")
+        sh "mv Dockerfile golang/"
+        sh "mv go-wrapper golang/"
+
+        
     }
 }

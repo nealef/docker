@@ -11,6 +11,7 @@ node {
     def app11
     def app12
     def app13
+    def app14
     stage('Clone Repository') {
         checkout scm
     }
@@ -95,5 +96,15 @@ node {
         sh "mv django/Dockerfile ."
         app13 = docker.build("clefos/django")
         sh "mv Dockerfile django/"
+
+        sh "cp -r docker-swarm-visualizer/files ."
+        sh "mv docker-swarm-visualizer/package.json ."
+        sh "mv docker-swarm-visualizer/Dockerfile ."
+        app14 = docker.build("clefos/visualizer")
+        sh "rm -R files"
+        sh "mv package.json docker-swarm-visualizer/"
+        sh "mv Dockerfile docker-swarm-visualizer/"
+
+        
     }
 }

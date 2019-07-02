@@ -12,7 +12,7 @@ ADD 	./package.json /app/package.json
 RUN 	npm install --unsafe-perm=true
 
 # Add the rest of the sources
-ADD 	. /app
+ADD 	files/ /app
 
 
 # Build the app

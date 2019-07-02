@@ -123,7 +123,7 @@ node {
         sh "mv Dockerfile etcd/"
         sh "mv etcd-s390x.patch etcd/"
 
-        sh "mv earthquake/fluentd ."
+        sh "mv fluentd/Dockerfile ."
         app16 = docker.build("clefos/fluentd")
         sh "mv Dockerfile fluentd/"
     }

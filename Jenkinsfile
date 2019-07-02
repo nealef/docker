@@ -137,7 +137,7 @@ node {
 
     }
     stage('Cleanup'){
-        sh "docker ps -a | grep -E “Exit|Creat” | awk ‘{print $1}’ | xargs docker rm"
-        sh "docker images | grep none | awk ‘{print $3}’ | sort -u | xargs docker rmi"
+        sh "docker ps -a | grep -E “Exit|Creat” | awk ‘{print ${1}}’ | xargs docker rm"
+        sh "docker images | grep none | awk ‘{print ${3}}’ | sort -u | xargs docker rmi"
     }
 }

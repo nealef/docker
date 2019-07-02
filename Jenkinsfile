@@ -14,6 +14,7 @@ node {
     def app14
     def app15
     def app16
+    def app17
     stage('Clone Repository') {
         checkout scm
     }
@@ -112,7 +113,13 @@ node {
         sh "mv Dockerfile earthquake/"
 
         sh "mv earthquake/erlang ."
-        app15 = docker.build("clefos/erlang")
+        app16 = docker.build("clefos/erlang")
         sh "mv Dockerfile erlang/"
+
+        sh "mv etcd/Dockerfile ."
+        sh "mv etcd/etcd-s390x.patch ."
+        app17 = docker.build("clefos/etcd")
+        sh "mv Dockerfile etcd/"
+        sh "mv etcd-s390x.patch etcd/"
     }
 }

@@ -110,9 +110,9 @@ node {
         sh "mv package.json docker-swarm-visualizer/"
         sh "mv Dockerfile docker-swarm-visualizer/"
 
-        // sh "mv earthquake/Dockerfile ."
-        // app15 = docker.build("clefos/earthquake")
-        // sh "mv Dockerfile earthquake/"
+        sh "mv earthquake/Dockerfile ."
+        app15 = docker.build("clefos/earthquake")
+        sh "mv Dockerfile earthquake/"
 
         sh "mv erlang/Dockerfile ."
         app16 = docker.build("clefos/erlang")
@@ -134,6 +134,10 @@ node {
         sh "mv Dockerfile golang/"
         sh "mv go-wrapper golang/"
 
-        
+
+    }
+    stage('Cleanup'){
+        sh "docker ps -a | grep -E “Exit|Creat” | awk ‘{print $1}’ | xargs docker rm"
+        sh "docker images | grep none | awk ‘{print $3}’ | sort -u | xargs docker rmi"
     }
 }

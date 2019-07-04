@@ -9,6 +9,7 @@ MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 LABEL 		Vendor="ClefOS" License="GPLv2"
 
 # install main packages:
+RUN yum install centos-release-scl-rh
 RUN		yum -y update --setopt=tsflags=nodocs && \
 		yum -y install --setopt=tsflags=nodocs openssl-devel openssl readline readline-devel gcc \
 			gcc-c++ rubygems rubygems-devel ruby ruby-devel

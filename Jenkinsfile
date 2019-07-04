@@ -17,6 +17,7 @@ node {
     def app17
     def app18
     def app19
+    def app20
     stage('Clone Repository') {
         checkout scm
     }
@@ -110,9 +111,9 @@ node {
         sh "mv package.json docker-swarm-visualizer/"
         sh "mv Dockerfile docker-swarm-visualizer/"
 
-        sh "mv earthquake/Dockerfile ."
-        app15 = docker.build("clefos/earthquake")
-        sh "mv Dockerfile earthquake/"
+        // sh "mv earthquake/Dockerfile ."
+        // app15 = docker.build("clefos/earthquake")
+        // sh "mv Dockerfile earthquake/"
 
         sh "mv erlang/Dockerfile ."
         app16 = docker.build("clefos/erlang")
@@ -134,7 +135,13 @@ node {
         sh "mv Dockerfile golang/"
         sh "mv go-wrapper golang/"
 
-
+        sh "cd grafana && make grafana-latest.tar.gz && cd .."
+        sh "mv grafana/grafana-latest.tar.gz ."
+        sh "mv grafana/Dockerfile ."
+        app20 = docker.build("clefos/grafana")
+        sh "mv grafana-latest.tar.gz grafana/"
+        sh "mv Dockerfile grafana/"
+        
     }
     stage('Cleanup'){
         sh "docker ps -a | grep -E “Exit|Creat” | awk ‘{print ${1}}’ | xargs docker rm"

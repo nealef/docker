@@ -135,13 +135,23 @@ node {
         sh "mv Dockerfile golang/"
         sh "mv go-wrapper golang/"
 
-        sh "cd grafana && make grafana-latest.tar.gz && cd .."
-        sh "mv grafana/grafana-latest.tar.gz ."
-        sh "mv grafana/Dockerfile ."
-        app20 = docker.build("clefos/grafana")
-        sh "mv grafana-latest.tar.gz grafana/"
-        sh "mv Dockerfile grafana/"
-        
+        // sh "cd grafana && make grafana-latest.tar.gz && cd .."
+        // sh "mv grafana/grafana-latest.tar.gz ."
+        // sh "mv grafana/Dockerfile ."
+        // app20 = docker.build("clefos/grafana")
+        // sh "mv grafana-latest.tar.gz grafana/"
+        // sh "mv Dockerfile grafana/"
+
+        sh "cp -r hadoop-openshift/bin ."
+        sh "cp -r hadoop-openshift/etc ."
+        sh "mv hadoop-openshift/Dockerfile ."
+        sh "mv hadoop-openshift/hadoop-cluster-template.json ."
+        app21 = docker.build("clefos/hadoop");
+        sh "rm -R bin"
+        sh "rm -R etc"
+        sh "mv Dockerfile hadoop-openshift/"
+        sh "mv hadoop-cluster-template.json hadoop-openshift/"
+
     }
     stage('Cleanup'){
         sh "docker ps -a | grep -E “Exit|Creat” | awk ‘{print ${1}}’ | xargs docker rm"

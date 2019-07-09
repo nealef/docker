@@ -58,7 +58,6 @@ do
 		cd ${DIR}
 	fi
 	echo "${IMAGE} ---------------------------------------------------- Rc:" $RC
-	echo
-done
+	echo "done"
 cd ${DIR}
-exit	
+exit

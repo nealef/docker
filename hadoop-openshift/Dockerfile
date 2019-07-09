@@ -3,7 +3,7 @@ FROM		clefos/ibmjava
 MAINTAINER	"Neale Ferguson" <neale@sinenomine.net>
 
 RUN		yum upgrade --setopt=tsflags=nodocs -y && \
-		yum install --setopt=tsflags=nodocs -y iproute which \
+		yum install --setopt=tsflags=nodocs -y iproute wget which \
 			coreutils openssh-server openssh-clients && \
 		yum clean all && \
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log

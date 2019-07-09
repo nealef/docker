@@ -171,7 +171,11 @@ node {
         sh "mv index.js hello-nodejs/"
         sh "mv package.json hello-nodejs/"
 
-        sh ""
+        sh "mv httpd/Dockerfile ."
+        sh "mv httpd/run-httpd.sh ."
+        app23 = docker.build("clefos/httpd");
+        sh "mv Dockerfile httpd/"
+        sh "mv run-httpd.sh httpd/"
     }
     stage('Cleanup'){
         sh "docker ps -a | grep -E “Exit|Creat” | awk ‘{print ${1}}’ | xargs docker rm"

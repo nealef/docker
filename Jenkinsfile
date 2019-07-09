@@ -18,6 +18,9 @@ node {
     def app18
     def app19
     def app20
+    def app21
+    def app22
+    def app23
     stage('Clone Repository') {
         checkout scm
     }
@@ -153,6 +156,14 @@ node {
         sh "rm hadoop-2.8.1.tar.gz"
         sh "mv Dockerfile hadoop-openshift/"
         sh "mv hadoop-cluster-template.json hadoop-openshift/"
+
+        sh "mv hello-nodejs/Dockerfile ."
+        sh "mv hello-nodejs/index.js ."
+        sh "mv hello-nodejs/package.json ."
+        app22 = docker.build("clefos/hello-nodejs")
+        sh "mv Dockerfile hello-nodejs/"
+        sh "mv index.js hello-nodejs/"
+        sh "mv package.json hello-nodejs/"
 
     }
     stage('Cleanup'){

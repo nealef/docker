@@ -3,7 +3,7 @@ FROM		clefos/ibmjava
 MAINTAINER	"Neale Ferguson" <neale@sinenomine.net>
 
 RUN		yum upgrade --setopt=tsflags=nodocs -y && \
-		yum install --setopt=tsflags=nodocs -y iproute wget which \
+		yum install --setopt=tsflags=nodocs -y iproute which \
 			coreutils openssh-server openssh-clients && \
 		yum clean all && \
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
@@ -16,7 +16,7 @@ ENV		PATH=$JAVA_HOME/bin:$PATH:${HADOOP_INSTALL}/bin:${HADOOP_INSTALL}/sbin \
 		HADOOP_CONF_DIR=$HADOOP_INSTALL/etc/hadoop \
 		YARN_HOME=$HADOOP_INSTALL YARN_CONF_DIR=$HADOOP_INSTALL/etc/hadoop \
 		DATA_DIR=/var/hadoop
-RUN 	wget https://archive.apache.org/dist/hadoop/core/hadoop-2.8.1/hadoop-2.8.1.tar.gz
+		
 RUN 	mv hadoop-${HADOOP_VERSION}.tar.gz /opt
 
 RUN		ln -s /opt/hadoop-${HADOOP_VERSION} ${HADOOP_INSTALL} && \

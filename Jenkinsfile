@@ -150,6 +150,7 @@ node {
         app21 = docker.build("clefos/hadoop");
         sh "rm -R bin"
         sh "rm -R etc"
+        sh "rm hadoop-2.8.1.tar.gz"
         sh "mv Dockerfile hadoop-openshift/"
         sh "mv hadoop-cluster-template.json hadoop-openshift/"
 

@@ -16,8 +16,8 @@ ENV		PATH=$JAVA_HOME/bin:$PATH:${HADOOP_INSTALL}/bin:${HADOOP_INSTALL}/sbin \
 		HADOOP_CONF_DIR=$HADOOP_INSTALL/etc/hadoop \
 		YARN_HOME=$HADOOP_INSTALL YARN_CONF_DIR=$HADOOP_INSTALL/etc/hadoop \
 		DATA_DIR=/var/hadoop
-
-ADD 		hadoop-${HADOOP_VERSION}.tar.gz /opt
+RUN 	wget https://archive.apache.org/dist/hadoop/core/hadoop-2.8.1/hadoop-2.8.1.tar.gz
+RUN 	mv hadoop-${HADOOP_VERSION}.tar.gz /opt
 
 RUN		ln -s /opt/hadoop-${HADOOP_VERSION} ${HADOOP_INSTALL} && \
 		mkdir -p ${DATA_DIR}/conf && \

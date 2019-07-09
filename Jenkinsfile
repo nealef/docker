@@ -21,6 +21,12 @@ node {
     def app21
     def app22
     def app23
+    def app24
+    def app25
+    def app26
+    def app27
+    def app28
+
     stage('Clone Repository') {
         checkout scm
     }
@@ -165,6 +171,7 @@ node {
         sh "mv index.js hello-nodejs/"
         sh "mv package.json hello-nodejs/"
 
+        sh ""
     }
     stage('Cleanup'){
         sh "docker ps -a | grep -E “Exit|Creat” | awk ‘{print ${1}}’ | xargs docker rm"

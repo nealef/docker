@@ -1,4 +1,4 @@
-FROM		clefos/ibmjava
+FROM clefos/ibmjava
 
 MAINTAINER	"Neale Ferguson" <neale@sinenomine.net>
 

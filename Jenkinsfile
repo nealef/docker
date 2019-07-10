@@ -213,25 +213,25 @@ node {
         // app24 = docker.build("clefos/ibmjava:8-jre")
         // sh "mv Dockerfile ibmjava/8/jre/"
 
-        sh "mv ibmjava/8/sdk/Dockerfile ."
-        app25 = docker.build("clefos/ibmjava:8-sdk ")
-        sh "mv Dockerfile ibmjava/8/sdk/"
+        // sh "mv ibmjava/8/sdk/Dockerfile ."
+        // app25 = docker.build("clefos/ibmjava:8-sdk ")
+        // sh "mv Dockerfile ibmjava/8/sdk/"
 
-        sh "mv ibmjava/8/sfj/Dockerfile ."
-        app26 = docker.build("clefos/ibmjava:8-sfj")
-        sh "mv Dockerfile ibmjava/8/sfj/"
+        // sh "mv ibmjava/8/sfj/Dockerfile ."
+        // app26 = docker.build("clefos/ibmjava:8-sfj")
+        // sh "mv Dockerfile ibmjava/8/sfj/"
 
-        sh "mv ibmjava/11/sdk/Dockerfile ."
-        app27 = docker.build("clefos/ibmjava:11-sdk ")
-        sh "mv Dockerfile ibmjava/11/sdk/"
+        // sh "mv ibmjava/11/sdk/Dockerfile ."
+        // app27 = docker.build("clefos/ibmjava:11-sdk ")
+        // sh "mv Dockerfile ibmjava/11/sdk/"
         
-        sh "mv ibmjava/8/maven/Dockerfile ."
-        app28 = docker.build("clefos/maven:8")
-        sh "mv Dockerfile ibmjava/8/maven/"
+        // sh "mv ibmjava/8/maven/Dockerfile ."
+        // app28 = docker.build("clefos/maven:8")
+        // sh "mv Dockerfile ibmjava/8/maven/"
 
-        sh "mv ibmjava/11/maven/Dockerfile ."
-        app29 = docker.build("clefos/maven:11")
-        sh "mv Dockerfile ibmjava/11/maven/"
+        // sh "mv ibmjava/11/maven/Dockerfile ."
+        // app29 = docker.build("clefos/maven:11")
+        // sh "mv Dockerfile ibmjava/11/maven/"
 
         sh "git clone https://github.com/jboss-dockerfiles/wildfly.git"
         sh "cd jboss/wildfly ; git checkout 11.0.0.Final -b s390x ; cd .."
@@ -299,7 +299,7 @@ node {
         app38 = docker.build("clefos/memcached")
         sh "Dockerfile memcached/"
 
-        
+
     }
     stage('Cleanup'){
         sh "docker system prune -f"

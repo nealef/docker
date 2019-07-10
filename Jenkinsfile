@@ -27,6 +27,37 @@ node {
     def app27
     def app28
     def app29
+    def app30
+    def app31
+    def app32
+    def app33
+    def app34
+    def app35
+    def app36
+    def app37
+    def app38
+    def app39
+    def app40
+    def app41
+    def app42
+    def app43
+    def app44
+    def app45
+    def app46
+    def app47
+    def app48
+    def app49
+    def app50
+    def app51
+    def app52
+    def app53
+    def app54
+    def app55
+    def app56
+    def app57
+    def app58
+    def app59
+    def app60
 
     stage('Clone Repository') {
         checkout scm
@@ -178,9 +209,9 @@ node {
         sh "mv Dockerfile httpd/"
         sh "mv run-httpd.sh httpd/"
 
-        sh "mv ibmjava/8/jre/Dockerfile ."
-        app24 = docker.build("clefos/ibmjava:8-jre")
-        sh "mv Dockerfile ibmjava/8/jre/"
+        // sh "mv ibmjava/8/jre/Dockerfile ."
+        // app24 = docker.build("clefos/ibmjava:8-jre")
+        // sh "mv Dockerfile ibmjava/8/jre/"
 
         sh "mv ibmjava/8/sdk/Dockerfile ."
         app25 = docker.build("clefos/ibmjava:8-sdk ")
@@ -208,6 +239,65 @@ node {
         app30 = docker.build("clefos/jboss-wildfly")
         sh "mv Dockerfile jboss/wildfly/"
 
+        sh "mv jupyter/Dockerfile ."
+        app31 = docker.build("clefos/jupyter")
+        sh "mv Dockerfile jupyter/"
+
+        sh "mv kubernetes/Dockerfile ."
+        sh "mv kubernetes/kubernetes.sh ."
+        app32 = docker.build("clefos/kubernetes")
+        sh "mv kubernetes.sh kubernetes/"
+        sh "mv Dockerfile kubernetes/"
+
+        sh "mv lighttpd/Dockerfile ."
+        sh "cp -r lighttpd/cfg_files ."
+        app33 = docker.build("clefos/lighttpd")
+        sh "rm -R cfg_files"
+        sh "mv Dockerfile lighttpd/"
+
+        sh "mv mariadb/Dockerfile ."
+        sh "mv mariadb/allow-skip-name.cnf ."
+        sh "mv mariadb/docker-entrypoint.sh ."
+        sh "mv mariadb/fix-permissions.sh ."
+        app34 = docker.build("clefos/mariadb")
+        sh "mv Dockerfile mariadb/"
+        sh "mv allow-skip-name.cnf mariadb/"
+        sh "mv docker-entrypoint.sh mariadb/"
+        sh "mv fix-permissions.sh mariadb/"
+
+        sh "mv MEAN/Dockerfile ."
+        sh "mv MEAN/mongo.repo ."
+        app35 = docker.build("clefos/mean")
+        sh "mv Dockerfile MEAN/"
+        sh "mv mongo.repo MEAN/"
+
+        sh "cp -r meanjs/files ."
+        sh "mv meanjs/.bowerc ."
+        sh "mv meanjs/bower.json ."
+        sh "mv meanjs/package.json ."
+        app36 = docker.build("clefos/meanjs")
+        sh "rm -R files"
+        sh "mv .bowerc meanjs/"
+        sh "mv bower.json meanjs/"
+        sh "mv package.json meanjs/"
+
+        sh "mv mediawiki/Dockerfile ."
+        sh "mv mediawiki/fpm-pool-www.conf ."
+        sh "mv mediawiki/fpm.conf ."
+        sh "mv mediawiki/mediawiki-start ."
+        sh "mv mediawiki/nginx.conf ."
+        sh "mv mediawiki/supervisord.conf ."
+        app37 = docker.build("clefos/mediawiki")
+        sh "mv Dockerfile mediawiki/"
+        sh "mv fpm-pool-www.conf mediawiki/"
+        sh "mv fpm.conf mediawiki/"
+        sh "mv mediawiki-start mediawiki/"
+        sh "mv nginx.conf mediawiki/"
+        sh "mv supervisord.conf mediawiki/"
+
+        sh "mv memcached/Dockerfile ."
+        app38 = docker.build("clefos/memcached")
+        sh "Dockerfile memcached/"
     }
     stage('Cleanup'){
         sh "docker system prune -f"

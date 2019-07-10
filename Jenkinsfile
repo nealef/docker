@@ -26,6 +26,7 @@ node {
     def app26
     def app27
     def app28
+    def app29
 
     stage('Clone Repository') {
         checkout scm
@@ -176,6 +177,32 @@ node {
         app23 = docker.build("clefos/httpd");
         sh "mv Dockerfile httpd/"
         sh "mv run-httpd.sh httpd/"
+
+        sh "mv ibmjava/8/jre/Dockerfile ."
+        app24 = docker.build("clefos/ibmjava:8-jre")
+        sh "mv Dockerfile ibmjava/8/jre/"
+
+        sh "mv ibmjava/8/sdk/Dockerfile ."
+        app25 = docker.build("clefos/ibmjava:8-sdk ")
+        sh "mv Dockerfile ibmjava/8/sdk/"
+
+        sh "mv ibmjava/8/sfj/Dockerfile ."
+        app26 = docker.build("clefos/ibmjava:8-sfj")
+        sh "mv Dockerfile ibmjava/8/sfj/"
+
+        sh "mv ibmjava/11/sdk/Dockerfile ."
+        app27 = docker.build("clefos/ibmjava:11-sdk ")
+        sh "mv Dockerfile ibmjava/11/sdk/"
+        
+        sh "mv ibmjava/8/maven/Dockerfile ."
+        app28 = docker.build("clefos/maven:8")
+        sh "mv Dockerfile ibmjava/8/maven/"
+
+        sh "mv ibmjava/11/maven/Dockerfile ."
+        app29 = docker.build("clefos/maven:11")
+        sh "mv Dockerfile ibmjava/11/maven/"
+
+
     }
     stage('Cleanup'){
         sh "docker system prune -f"

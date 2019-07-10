@@ -65,149 +65,149 @@ node {
 
     stage('Build image') {
         DOCKER_HOME = tool "docker"
-        sh "cp -r ade/cfg_files ."
-        sh "mv ade/Dockerfile ."
-        sh "mv ade/VERSION ."
-        app1 = docker.build("clefos/ade")
-        sh "rm -R cfg_files/"
-        sh "mv Dockerfile ade/"
-        sh "mv VERSION ade/"
+        // sh "cp -r ade/cfg_files ."
+        // sh "mv ade/Dockerfile ."
+        // sh "mv ade/VERSION ."
+        // app1 = docker.build("clefos/ade")
+        // sh "rm -R cfg_files/"
+        // sh "mv Dockerfile ade/"
+        // sh "mv VERSION ade/"
 
-        sh "mv ansible/Dockerfile ."
-        app2 = docker.build("clefos/ansible")
-        sh "mv Dockerfile ansible/"
+        // sh "mv ansible/Dockerfile ."
+        // app2 = docker.build("clefos/ansible")
+        // sh "mv Dockerfile ansible/"
 
-        sh "mv bacula/docker-compose.yml ."
-        sh "mv bacula/bacula-db/Dockerfile ."
-        app3 = docker.build("clefos/bacula-db")
-        sh "mv Dockerfile bacula/bacula-db/"
+        // sh "mv bacula/docker-compose.yml ."
+        // sh "mv bacula/bacula-db/Dockerfile ."
+        // app3 = docker.build("clefos/bacula-db")
+        // sh "mv Dockerfile bacula/bacula-db/"
 
-        sh "mv bacula/bacula-db-data/Dockerfile ."
-        app4 = docker.build("clefos/bacula-db-data")
-        sh "mv Dockerfile bacula/bacula-db-data/"
+        // sh "mv bacula/bacula-db-data/Dockerfile ."
+        // app4 = docker.build("clefos/bacula-db-data")
+        // sh "mv Dockerfile bacula/bacula-db-data/"
 
-        sh "mv bacula/bacula-dir/Dockerfile ."
-        sh "cp -r bacula/bacula-dir/configs ."
-        sh "cp -r bacula/bacula-dir/scripts ."
-        app5 = docker.build("clefos/bacula-dir")
-        sh "mv Dockerfile bacula/bacula-dir/"
-        sh "rm -R configs"
-        sh "rm -R scripts"
+        // sh "mv bacula/bacula-dir/Dockerfile ."
+        // sh "cp -r bacula/bacula-dir/configs ."
+        // sh "cp -r bacula/bacula-dir/scripts ."
+        // app5 = docker.build("clefos/bacula-dir")
+        // sh "mv Dockerfile bacula/bacula-dir/"
+        // sh "rm -R configs"
+        // sh "rm -R scripts"
 
-        sh "mv bacula/bacula-fd/Dockerfile ."
-        sh "cp -r bacula/bacula-fd/configs ."
-        sh "cp -r bacula/bacula-fd/scripts ."
-        app6 = docker.build("clefos/bacula-fd")
-        sh "mv Dockerfile bacula/bacula-fd/"
-        sh "rm -R configs"
-        sh "rm -R scripts"
+        // sh "mv bacula/bacula-fd/Dockerfile ."
+        // sh "cp -r bacula/bacula-fd/configs ."
+        // sh "cp -r bacula/bacula-fd/scripts ."
+        // app6 = docker.build("clefos/bacula-fd")
+        // sh "mv Dockerfile bacula/bacula-fd/"
+        // sh "rm -R configs"
+        // sh "rm -R scripts"
 
-        sh "mv bacula/bacula-sd/Dockerfile ."
-        sh "cp -r bacula/bacula-sd/configs ."
-        sh "cp -r bacula/bacula-sd/scripts ."
-        app7 = docker.build("clefos/bacula-sd")
-        sh "mv Dockerfile bacula/bacula-sd/"
-        sh "rm -R configs"
-        sh "rm -R scripts"
-        sh "mv docker-compose.yml bacula/"
+        // sh "mv bacula/bacula-sd/Dockerfile ."
+        // sh "cp -r bacula/bacula-sd/configs ."
+        // sh "cp -r bacula/bacula-sd/scripts ."
+        // app7 = docker.build("clefos/bacula-sd")
+        // sh "mv Dockerfile bacula/bacula-sd/"
+        // sh "rm -R configs"
+        // sh "rm -R scripts"
+        // sh "mv docker-compose.yml bacula/"
 
-        sh "cp -r bind/container-image-root ."
-        sh "mv bind/Dockerfile ."
-        app8 = docker.build("clefos/bind")
-        sh "rm -R container-image-root"
-        sh "mv Dockerfile bind/"
+        // sh "cp -r bind/container-image-root ."
+        // sh "mv bind/Dockerfile ."
+        // app8 = docker.build("clefos/bind")
+        // sh "rm -R container-image-root"
+        // sh "mv Dockerfile bind/"
 
-        sh "./busybox/build.sh"
-        sh "mv busybox/glibc/Dockerfile ."
-        sh "mv busybox/glibc/busybox.tar.xz ."
-        app9 = docker.build("clefos/glibc-test")
-        sh "mv Dockerfile busybox/glibc/"
-        sh "mv busybox.tar.xz busybox/glibc/"
+        // sh "./busybox/build.sh"
+        // sh "mv busybox/glibc/Dockerfile ."
+        // sh "mv busybox/glibc/busybox.tar.xz ."
+        // app9 = docker.build("clefos/glibc-test")
+        // sh "mv Dockerfile busybox/glibc/"
+        // sh "mv busybox.tar.xz busybox/glibc/"
 
-        sh "mv cobol/Dockerfile ."
-        app10 = docker.build("clefos/cobol")
-        sh "mv Dockerfile cobol/"
+        // sh "mv cobol/Dockerfile ."
+        // app10 = docker.build("clefos/cobol")
+        // sh "mv Dockerfile cobol/"
 
-        sh "cp -r compose-ui/files ."
-        sh "mv compose-ui/Dockerfile ."
-        app11 = docker.build("clefos/compose-ui")
-        sh "rm -R files"
-        sh "mv Dockerfile compose-ui/"
+        // sh "cp -r compose-ui/files ."
+        // sh "mv compose-ui/Dockerfile ."
+        // app11 = docker.build("clefos/compose-ui")
+        // sh "rm -R files"
+        // sh "mv Dockerfile compose-ui/"
 
-        sh "mv couchdb/install.sh ."
-        sh "mv couchdb/Dockerfile ."
-        app12 = docker.build("clefos/couchdb")
-        sh "mv install.sh couchdb/"
-        sh "mv Dockerfile couchdb/"
+        // sh "mv couchdb/install.sh ."
+        // sh "mv couchdb/Dockerfile ."
+        // app12 = docker.build("clefos/couchdb")
+        // sh "mv install.sh couchdb/"
+        // sh "mv Dockerfile couchdb/"
 
-        sh "mv django/Dockerfile ."
-        app13 = docker.build("clefos/django")
-        sh "mv Dockerfile django/"
+        // sh "mv django/Dockerfile ."
+        // app13 = docker.build("clefos/django")
+        // sh "mv Dockerfile django/"
 
-        sh "cp -r docker-swarm-visualizer/files ."
-        sh "mv docker-swarm-visualizer/package.json ."
-        sh "mv docker-swarm-visualizer/Dockerfile ."
-        app14 = docker.build("clefos/visualizer")
-        sh "rm -R files"
-        sh "mv package.json docker-swarm-visualizer/"
-        sh "mv Dockerfile docker-swarm-visualizer/"
+        // sh "cp -r docker-swarm-visualizer/files ."
+        // sh "mv docker-swarm-visualizer/package.json ."
+        // sh "mv docker-swarm-visualizer/Dockerfile ."
+        // app14 = docker.build("clefos/visualizer")
+        // sh "rm -R files"
+        // sh "mv package.json docker-swarm-visualizer/"
+        // sh "mv Dockerfile docker-swarm-visualizer/"
 
-        // sh "mv earthquake/Dockerfile ."
-        // app15 = docker.build("clefos/earthquake")
-        // sh "mv Dockerfile earthquake/"
+        // // sh "mv earthquake/Dockerfile ."
+        // // app15 = docker.build("clefos/earthquake")
+        // // sh "mv Dockerfile earthquake/"
 
-        sh "mv erlang/Dockerfile ."
-        app16 = docker.build("clefos/erlang")
-        sh "mv Dockerfile erlang/"
+        // sh "mv erlang/Dockerfile ."
+        // app16 = docker.build("clefos/erlang")
+        // sh "mv Dockerfile erlang/"
 
-        sh "mv etcd/Dockerfile ."
-        sh "mv etcd/etcd-s390x.patch ."
-        app17 = docker.build("clefos/etcd")
-        sh "mv Dockerfile etcd/"
-        sh "mv etcd-s390x.patch etcd/"
+        // sh "mv etcd/Dockerfile ."
+        // sh "mv etcd/etcd-s390x.patch ."
+        // app17 = docker.build("clefos/etcd")
+        // sh "mv Dockerfile etcd/"
+        // sh "mv etcd-s390x.patch etcd/"
 
-        sh "mv fluentd/Dockerfile ."
-        app18 = docker.build("clefos/fluentd")
-        sh "mv Dockerfile fluentd/"
+        // sh "mv fluentd/Dockerfile ."
+        // app18 = docker.build("clefos/fluentd")
+        // sh "mv Dockerfile fluentd/"
 
-        sh "mv golang/Dockerfile ."
-        sh "mv golang/go-wrapper ."
-        app19 = docker.build("clefos/golang")
-        sh "mv Dockerfile golang/"
-        sh "mv go-wrapper golang/"
+        // sh "mv golang/Dockerfile ."
+        // sh "mv golang/go-wrapper ."
+        // app19 = docker.build("clefos/golang")
+        // sh "mv Dockerfile golang/"
+        // sh "mv go-wrapper golang/"
 
-        // sh "cd grafana && make grafana-latest.tar.gz && cd .."
-        // sh "mv grafana/grafana-latest.tar.gz ."
-        // sh "mv grafana/Dockerfile ."
-        // app20 = docker.build("clefos/grafana")
-        // sh "mv grafana-latest.tar.gz grafana/"
-        // sh "mv Dockerfile grafana/"
+        // // sh "cd grafana && make grafana-latest.tar.gz && cd .."
+        // // sh "mv grafana/grafana-latest.tar.gz ."
+        // // sh "mv grafana/Dockerfile ."
+        // // app20 = docker.build("clefos/grafana")
+        // // sh "mv grafana-latest.tar.gz grafana/"
+        // // sh "mv Dockerfile grafana/"
 
-        sh "cp -r hadoop-openshift/bin ."
-        sh "cp -r hadoop-openshift/etc ."
-        sh "mv hadoop-openshift/Dockerfile ."
-        sh "mv hadoop-openshift/hadoop-cluster-template.json ."
-        sh "wget https://archive.apache.org/dist/hadoop/core/hadoop-2.8.1/hadoop-2.8.1.tar.gz"
-        app21 = docker.build("clefos/hadoop");
-        sh "rm -R bin"
-        sh "rm -R etc"
-        sh "rm hadoop-2.8.1.tar.gz"
-        sh "mv Dockerfile hadoop-openshift/"
-        sh "mv hadoop-cluster-template.json hadoop-openshift/"
+        // sh "cp -r hadoop-openshift/bin ."
+        // sh "cp -r hadoop-openshift/etc ."
+        // sh "mv hadoop-openshift/Dockerfile ."
+        // sh "mv hadoop-openshift/hadoop-cluster-template.json ."
+        // sh "wget https://archive.apache.org/dist/hadoop/core/hadoop-2.8.1/hadoop-2.8.1.tar.gz"
+        // app21 = docker.build("clefos/hadoop");
+        // sh "rm -R bin"
+        // sh "rm -R etc"
+        // sh "rm hadoop-2.8.1.tar.gz"
+        // sh "mv Dockerfile hadoop-openshift/"
+        // sh "mv hadoop-cluster-template.json hadoop-openshift/"
 
-        sh "mv hello-nodejs/Dockerfile ."
-        sh "mv hello-nodejs/index.js ."
-        sh "mv hello-nodejs/package.json ."
-        app22 = docker.build("clefos/hello-nodejs")
-        sh "mv Dockerfile hello-nodejs/"
-        sh "mv index.js hello-nodejs/"
-        sh "mv package.json hello-nodejs/"
+        // sh "mv hello-nodejs/Dockerfile ."
+        // sh "mv hello-nodejs/index.js ."
+        // sh "mv hello-nodejs/package.json ."
+        // app22 = docker.build("clefos/hello-nodejs")
+        // sh "mv Dockerfile hello-nodejs/"
+        // sh "mv index.js hello-nodejs/"
+        // sh "mv package.json hello-nodejs/"
 
-        sh "mv httpd/Dockerfile ."
-        sh "mv httpd/run-httpd.sh ."
-        app23 = docker.build("clefos/httpd");
-        sh "mv Dockerfile httpd/"
-        sh "mv run-httpd.sh httpd/"
+        // sh "mv httpd/Dockerfile ."
+        // sh "mv httpd/run-httpd.sh ."
+        // app23 = docker.build("clefos/httpd");
+        // sh "mv Dockerfile httpd/"
+        // sh "mv run-httpd.sh httpd/"
 
         // sh "mv ibmjava/8/jre/Dockerfile ."
         // app24 = docker.build("clefos/ibmjava:8-jre")

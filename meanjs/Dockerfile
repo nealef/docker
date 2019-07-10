@@ -32,7 +32,7 @@ RUN		yum erase -y make gcc gcc-c++ git && \
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
 # Make everything available for start
-ADD		. /home/mean
+ADD		files /home/mean
 
 # Set development environment as default
 ENV 		NODE_ENV development

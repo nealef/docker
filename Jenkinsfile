@@ -298,6 +298,8 @@ node {
         sh "mv memcached/Dockerfile ."
         app38 = docker.build("clefos/memcached")
         sh "Dockerfile memcached/"
+
+        
     }
     stage('Cleanup'){
         sh "docker system prune -f"

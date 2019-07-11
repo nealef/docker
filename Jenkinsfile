@@ -239,40 +239,40 @@ node {
         // app30 = docker.build("clefos/jboss-wildfly")
         // sh "mv Dockerfile jboss/wildfly/"
 
-        sh "mv jupyter/Dockerfile ."
-        app31 = docker.build("clefos/jupyter")
-        sh "mv Dockerfile jupyter/"
+        // sh "mv jupyter/Dockerfile ."
+        // app31 = docker.build("clefos/jupyter")
+        // sh "mv Dockerfile jupyter/"
 
-        sh "mv kubernetes/Dockerfile ."
-        sh "mv kubernetes/kubernetes.sh ."
-        app32 = docker.build("clefos/kubernetes")
-        sh "mv kubernetes.sh kubernetes/"
-        sh "mv Dockerfile kubernetes/"
+        // sh "mv kubernetes/Dockerfile ."
+        // sh "mv kubernetes/kubernetes.sh ."
+        // app32 = docker.build("clefos/kubernetes")
+        // sh "mv kubernetes.sh kubernetes/"
+        // sh "mv Dockerfile kubernetes/"
 
-        sh "mv lighttpd/Dockerfile ."
-        sh "cp -r lighttpd/cfg_files ."
-        app33 = docker.build("clefos/lighttpd")
-        sh "rm -R cfg_files"
-        sh "mv Dockerfile lighttpd/"
+        // sh "mv lighttpd/Dockerfile ."
+        // sh "cp -r lighttpd/cfg_files ."
+        // app33 = docker.build("clefos/lighttpd")
+        // sh "rm -R cfg_files"
+        // sh "mv Dockerfile lighttpd/"
 
-        sh "mv mariadb/Dockerfile ."
-        sh "mv mariadb/allow-skip-name.cnf ."
-        sh "mv mariadb/docker-entrypoint.sh ."
-        sh "mv mariadb/fix-permissions.sh ."
-        app34 = docker.build("clefos/mariadb")
-        sh "mv Dockerfile mariadb/"
-        sh "mv allow-skip-name.cnf mariadb/"
-        sh "mv docker-entrypoint.sh mariadb/"
-        sh "mv fix-permissions.sh mariadb/"
+        // sh "mv mariadb/Dockerfile ."
+        // sh "mv mariadb/allow-skip-name.cnf ."
+        // sh "mv mariadb/docker-entrypoint.sh ."
+        // sh "mv mariadb/fix-permissions.sh ."
+        // app34 = docker.build("clefos/mariadb")
+        // sh "mv Dockerfile mariadb/"
+        // sh "mv allow-skip-name.cnf mariadb/"
+        // sh "mv docker-entrypoint.sh mariadb/"
+        // sh "mv fix-permissions.sh mariadb/"
 
-        sh "mv MEAN/Dockerfile ."
-        sh "mv MEAN/mongo.repo ."
-        app35 = docker.build("clefos/mean")
-        sh "mv Dockerfile MEAN/"
-        sh "mv mongo.repo MEAN/"
+        // sh "mv MEAN/Dockerfile ."
+        // sh "mv MEAN/mongo.repo ."
+        // app35 = docker.build("clefos/mean")
+        // sh "mv Dockerfile MEAN/"
+        // sh "mv mongo.repo MEAN/"
 
         sh "cp -r meanjs/files ."
-        sh "mv meanjs/.bowerc ."
+        sh "mv meanjs/.bowerrc ."
         sh "mv meanjs/bower.json ."
         sh "mv meanjs/package.json ."
         app36 = docker.build("clefos/meanjs")

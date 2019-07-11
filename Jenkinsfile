@@ -275,6 +275,7 @@ node {
         sh "mv meanjs/.bowerrc ."
         sh "mv meanjs/bower.json ."
         sh "mv meanjs/package.json ."
+        sh "mv meanjs/Dockerfile ."
         app36 = docker.build("clefos/meanjs")
         sh "rm -R files"
         sh "mv .bowerc meanjs/"

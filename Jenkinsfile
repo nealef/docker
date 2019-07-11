@@ -233,11 +233,11 @@ node {
         // app29 = docker.build("clefos/maven:11")
         // sh "mv Dockerfile ibmjava/11/maven/"
 
-        sh "cd jboss ; git clone https://github.com/jboss-dockerfiles/wildfly.git ; cd .."
-        sh "cd jboss/wildfly ; git checkout 11.0.0.Final -b s390x ; cd .."
-        sh "mv jboss/wildfly/Dockerfile ."
-        app30 = docker.build("clefos/jboss-wildfly")
-        sh "mv Dockerfile jboss/wildfly/"
+        // sh "cd jboss ; git clone https://github.com/jboss-dockerfiles/wildfly.git ; cd .."
+        // sh "cd jboss/wildfly ; git checkout 11.0.0.Final -b s390x ; cd .."
+        // sh "mv jboss/wildfly/Dockerfile ."
+        // app30 = docker.build("clefos/jboss-wildfly")
+        // sh "mv Dockerfile jboss/wildfly/"
 
         sh "mv jupyter/Dockerfile ."
         app31 = docker.build("clefos/jupyter")

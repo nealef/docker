@@ -303,6 +303,9 @@ node {
 
         sh "cd mongodb ; make all"
         app46 = docker.image("clefos/mongodb")
+
+        sh "cd mono ; make all"
+        app47 = docker.image("clefos/mono")
     }
 
     // stage('Push'){

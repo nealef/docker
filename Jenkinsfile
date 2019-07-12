@@ -298,11 +298,18 @@ node {
         // sh "mv nginx.conf mediawiki/"
         // sh "mv supervisord.conf mediawiki/"
 
-        sh "mv memcached/Dockerfile ."
-        app38 = docker.build("clefos/memcached")
-        sh "mv Dockerfile memcached/"
+        // sh "mv memcached/Dockerfile ."
+        // app38 = docker.build("clefos/memcached")
+        // sh "mv Dockerfile memcached/"
 
-
+        sh "cd microclimate ; make all"
+        app39 = docker.image("clefos/bats")
+        app40 = docker.image("clefos/curl")
+        app41 = docker.image("clefos/helm")
+        app42 = docker.image("clefos/jenkins")
+        app43 = docker.image("clefos/jnlp-slave")
+        app44 = docker.image("clefos/kubectl")
+        app45 = docker.image("clefos/minikube")
     }
     stage('Cleanup'){
         sh "docker system prune -f"

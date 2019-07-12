@@ -272,7 +272,7 @@ node {
         // sh "mv mongo.repo MEAN/"
 
         sh "cd meanjs ; make all"
-        app36 = docker.image("clefos/meanjs") 
+        app36 = docker.image("vedarth/clefos:meanjs") 
 
         // sh "mv mediawiki/Dockerfile ."
         // sh "mv mediawiki/fpm-pool-www.conf ."
@@ -301,6 +301,14 @@ node {
         // app44 = docker.image("clefos/kubectl")
         // app45 = docker.image("clefos/minikube")
     }
+
+    stage('Push'){
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+            app36.push("meanjs")
+        }
+        
+    }
+
     stage('Cleanup'){
         sh "docker system prune -f"
     }

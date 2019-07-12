@@ -301,11 +301,14 @@ node {
         // app44 = docker.image("clefos/kubectl")
         // app45 = docker.image("clefos/minikube")
 
-        sh "cd mongodb ; make all"
-        app46 = docker.image("clefos/mongodb")
+        // sh "cd mongodb ; make all"
+        // app46 = docker.image("clefos/mongodb")
+        // sh "cd mono ; make all"
+        // app47 = docker.image("clefos/mono")
 
-        sh "cd mono ; make all"
-        app47 = docker.image("clefos/mono")
+        sh "cd nginx ; make all"
+        app48 = docker.image("clefos/nginx")
+        sh "docker rmi clefos/nginx"
     }
 
     // stage('Push'){

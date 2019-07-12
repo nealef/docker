@@ -272,17 +272,17 @@ node {
         // sh "mv mongo.repo MEAN/"
 
         // sh "cp -r meanjs/files ."
-        // sh "mv meanjs/.bowerrc ."
-        // sh "mv meanjs/bower.json ."
-        // sh "mv meanjs/package.json ."
-        // sh "mv meanjs/mongo.repo ."
-        // sh "mv meanjs/Dockerfile ."
-        // app36 = docker.build("clefos/meanjs")
-        // sh "rm -R files"
-        // sh "mv mongo.repo meanjs/"
-        // sh "mv .bowerc meanjs/"
-        // sh "mv bower.json meanjs/"
-        // sh "mv package.json meanjs/"
+        sh "mv meanjs/.bowerrc ."
+        sh "mv meanjs/bower.json ."
+        sh "mv meanjs/package.json ."
+        sh "mv meanjs/mongo.repo ."
+        sh "mv meanjs/Dockerfile ."
+        app36 = docker.build("clefos/meanjs")
+        sh "rm -R files"
+        sh "mv mongo.repo meanjs/"
+        sh "mv .bowerc meanjs/"
+        sh "mv bower.json meanjs/"
+        sh "mv package.json meanjs/"
 
         // sh "mv mediawiki/Dockerfile ."
         // sh "mv mediawiki/fpm-pool-www.conf ."
@@ -302,14 +302,14 @@ node {
         // app38 = docker.build("clefos/memcached")
         // sh "mv Dockerfile memcached/"
 
-        sh "cd microclimate ; make all"
-        app39 = docker.image("clefos/bats")
-        app40 = docker.image("clefos/curl")
-        app41 = docker.image("clefos/helm")
-        app42 = docker.image("clefos/jenkins")
-        app43 = docker.image("clefos/jnlp-slave")
-        app44 = docker.image("clefos/kubectl")
-        app45 = docker.image("clefos/minikube")
+        // sh "cd microclimate ; make all"
+        // app39 = docker.image("clefos/bats")
+        // app40 = docker.image("clefos/curl")
+        // app41 = docker.image("clefos/helm")
+        // app42 = docker.image("clefos/jenkins")
+        // app43 = docker.image("clefos/jnlp-slave")
+        // app44 = docker.image("clefos/kubectl")
+        // app45 = docker.image("clefos/minikube")
     }
     stage('Cleanup'){
         sh "docker system prune -f"

@@ -300,7 +300,7 @@ node {
 
         sh "mv memcached/Dockerfile ."
         app38 = docker.build("clefos/memcached")
-        sh "Dockerfile memcached/"
+        sh "mv Dockerfile memcached/"
 
 
     }

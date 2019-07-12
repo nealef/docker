@@ -310,13 +310,21 @@ node {
         // app48 = docker.image("clefos/nginx")
         // sh "docker rmi clefos/nginx"
 
-        sh "cd nodejs ; make all"
-        app49 = docker.image("clefos/node:8")
-        app50 = docker.image("clefos/node:10")
-        app51 = docker.image("clefos/node:12")
-        sh "docker rmi clefos/node:8"
-        sh "docker rmi clefos/node:10"
-        sh "docker rmi clefos/node:12"
+        // sh "cd nodejs ; make all"
+        // app49 = docker.image("clefos/node:8")
+        // app50 = docker.image("clefos/node:10")
+        // app51 = docker.image("clefos/node:12")
+        // sh "docker rmi clefos/node:8"
+        // sh "docker rmi clefos/node:10"
+        // sh "docker rmi clefos/node:12"
+
+        sh "cd openjdk ; make all"
+        app52 = docker.image("clefos/openjdk:8")
+        app53 = docker.image("clefos/openjdk:11")
+        app54 = docker.image("clefos/openjdk:12")
+        sh "docker rmi clefos/openjdk:8"
+        sh "docker rmi clefos/openjdk:11"
+        sh "docker rmi clefos/openjdk:12"
     }
 
     // stage('Push'){

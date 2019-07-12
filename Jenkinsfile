@@ -326,12 +326,20 @@ node {
         // sh "docker rmi clefos/openjdk:11"
         // sh "docker rmi clefos/openjdk:12"
 
-        sh "cd hadoop-openshift ; wget https://archive.apache.org/dist/hadoop/core/hadoop-3.1.0/hadoop-3.1.0.tar.gz"
-        sh "cd openshift-spark ; make all"
-        app55 = docker.image("docker.io/clefos/spark")
-        app56 = docker.image("docker.io/clefos/zeppelin")
-        sh "docker rmi docker.io/clefos/spark"
-        sh "docker rmi docker.io/clefos/zeppelin"
+        // sh "cd hadoop-openshift ; wget https://archive.apache.org/dist/hadoop/core/hadoop-3.1.0/hadoop-3.1.0.tar.gz"
+        // sh "cd openshift-spark ; make all"
+        // app55 = docker.image("docker.io/clefos/spark")
+        // app56 = docker.image("docker.io/clefos/zeppelin")
+        // sh "docker rmi docker.io/clefos/spark"
+        // sh "docker rmi docker.io/clefos/zeppelin"
+
+        
+        // sh "cd origin"
+
+        sh "cd owncloud ; make all"
+        app57 = docker.image("clefos/owncloud")
+        sh "docker rmi clefos/owncloud"
+
     }
 
     // stage('Push'){

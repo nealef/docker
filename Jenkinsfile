@@ -318,13 +318,19 @@ node {
         // sh "docker rmi clefos/node:10"
         // sh "docker rmi clefos/node:12"
 
-        sh "cd openJDK ; make all"
-        app52 = docker.image("clefos/openjdk:8")
-        app53 = docker.image("clefos/openjdk:11")
-        app54 = docker.image("clefos/openjdk:12")
-        sh "docker rmi clefos/openjdk:8"
-        sh "docker rmi clefos/openjdk:11"
-        sh "docker rmi clefos/openjdk:12"
+        // sh "cd openJDK ; make all"
+        // app52 = docker.image("clefos/openjdk:8")
+        // app53 = docker.image("clefos/openjdk:11")
+        // app54 = docker.image("clefos/openjdk:12")
+        // sh "docker rmi clefos/openjdk:8"
+        // sh "docker rmi clefos/openjdk:11"
+        // sh "docker rmi clefos/openjdk:12"
+
+        sh "cd openshift-spark ; make all"
+        app55 = docker.image("docker.io/clefos/spark")
+        app56 = docker.image("docker.io/clefos/zeppelin")
+        sh "docker rmi docker.io/clefos/spark"
+        sh "docker rmi docker.io/clefos/zeppelin"
     }
 
     // stage('Push'){

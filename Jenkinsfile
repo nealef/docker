@@ -284,23 +284,23 @@ node {
         sh "mv bower.json meanjs/"
         sh "mv package.json meanjs/"
 
-        sh "mv mediawiki/Dockerfile ."
-        sh "mv mediawiki/fpm-pool-www.conf ."
-        sh "mv mediawiki/fpm.conf ."
-        sh "mv mediawiki/mediawiki-start ."
-        sh "mv mediawiki/nginx.conf ."
-        sh "mv mediawiki/supervisord.conf ."
-        app37 = docker.build("clefos/mediawiki")
-        sh "mv Dockerfile mediawiki/"
-        sh "mv fpm-pool-www.conf mediawiki/"
-        sh "mv fpm.conf mediawiki/"
-        sh "mv mediawiki-start mediawiki/"
-        sh "mv nginx.conf mediawiki/"
-        sh "mv supervisord.conf mediawiki/"
+        // sh "mv mediawiki/Dockerfile ."
+        // sh "mv mediawiki/fpm-pool-www.conf ."
+        // sh "mv mediawiki/fpm.conf ."
+        // sh "mv mediawiki/mediawiki-start ."
+        // sh "mv mediawiki/nginx.conf ."
+        // sh "mv mediawiki/supervisord.conf ."
+        // app37 = docker.build("clefos/mediawiki")
+        // sh "mv Dockerfile mediawiki/"
+        // sh "mv fpm-pool-www.conf mediawiki/"
+        // sh "mv fpm.conf mediawiki/"
+        // sh "mv mediawiki-start mediawiki/"
+        // sh "mv nginx.conf mediawiki/"
+        // sh "mv supervisord.conf mediawiki/"
 
-        sh "mv memcached/Dockerfile ."
-        app38 = docker.build("clefos/memcached")
-        sh "Dockerfile memcached/"
+        // sh "mv memcached/Dockerfile ."
+        // app38 = docker.build("clefos/memcached")
+        // sh "Dockerfile memcached/"
 
 
     }

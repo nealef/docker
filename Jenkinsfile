@@ -272,7 +272,7 @@ node {
         // sh "mv mongo.repo MEAN/"
 
         sh "cd meanjs ; make all"
-        app36 = docker.build("clefos/meanjs") 
+        app36 = docker.image("clefos/meanjs") 
 
         // sh "mv mediawiki/Dockerfile ."
         // sh "mv mediawiki/fpm-pool-www.conf ."

@@ -318,7 +318,7 @@ node {
         // sh "docker rmi clefos/node:10"
         // sh "docker rmi clefos/node:12"
 
-        sh "cd openjdk ; make all"
+        sh "cd openJDK ; make all"
         app52 = docker.image("clefos/openjdk:8")
         app53 = docker.image("clefos/openjdk:11")
         app54 = docker.image("clefos/openjdk:12")

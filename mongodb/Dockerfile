@@ -1,5 +1,5 @@
 # Base image
-FROM 		clefos:clefos7
+FROM 		clefos/clefos:clefos7
 
 # The author
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>

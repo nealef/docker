@@ -271,18 +271,8 @@ node {
         // sh "mv Dockerfile MEAN/"
         // sh "mv mongo.repo MEAN/"
 
-        sh "cp -r meanjs/files ."
-        sh "mv meanjs/.bowerrc ."
-        sh "mv meanjs/bower.json ."
-        sh "mv meanjs/package.json ."
-        sh "mv meanjs/mongo.repo ."
-        sh "mv meanjs/Dockerfile ."
-        app36 = docker.build("clefos/meanjs")
-        sh "rm -R files"
-        sh "mv mongo.repo meanjs/"
-        sh "mv .bowerc meanjs/"
-        sh "mv bower.json meanjs/"
-        sh "mv package.json meanjs/"
+        sh "cd meanjs ; make all"
+        app36 = docker.build("clefos/meanjs") 
 
         // sh "mv mediawiki/Dockerfile ."
         // sh "mv mediawiki/fpm-pool-www.conf ."

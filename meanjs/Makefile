@@ -3,7 +3,7 @@ VERSION=$(shell cat VERSION)
 all:		meanjs
 
 meanjs:		Dockerfile
-		docker build --rm --tag vedarth/clefos:meanjs --label VERSION=$(VERSION) . 
+		docker build --rm --tag clefos/meanjs --label VERSION=$(VERSION) . 
 
 push:
 		docker tag clefos/meanjs:latest clefos/meanjs:clefos7

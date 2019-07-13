@@ -344,10 +344,18 @@ node {
         // app58 = docker.image("clefos/postgresql")
         // sh "docker rmi clefos/postgresql"
 
-        sh "cd puppet ; make all"
-        app59 = docker.image("clefos/puppet")
-        sh "docker rmi clefos/puppet"
+        // sh "cd puppet ; make all"
+        // app59 = docker.image("clefos/puppet")
+        // sh "docker rmi clefos/puppet"
 
+        // sh "cd qpid ; make clefos/qpid"
+        // app60 = docker.image("clefos/qpid")
+        // sh "docker rmi clefos/qpid"
+
+        sh "cd R-base ; make all"
+        app61 = docker.image("clefos/r-base")
+        sh "docker rmi clefos/r-base"
+        
     }
 
     // stage('Push'){

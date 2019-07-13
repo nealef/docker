@@ -418,10 +418,11 @@ node {
         app77 = docker.image("clefos/watchtower")
         sh "docker rmi clefos/watchtower"
 
-        sh "cd websphere ; make all"
-        app77 = docker.image("clefos/watchtower")
-        sh "docker rmi clefos/watchtower"
+        // sh "cd websphere ; make all"
 
+        sh "cd wildfly ; make all"
+        app77 = docker.image("clefos/wildfly")
+        sh "docker rmi clefos/wildfly"
     }
 
     // stage('Push'){

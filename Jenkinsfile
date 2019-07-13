@@ -406,9 +406,22 @@ node {
         // app74 = docker.image("clefos/tomcat")
         // sh "docker rmi clefos/tomcat"
 
-        sh "cd tools ; make all"
-        app75 = docker.image("clefos/tools")
-        sh "docker rmi clefos/tools"
+        // sh "cd tools ; make all"
+        // app75 = docker.image("clefos/tools")
+        // sh "docker rmi clefos/tools"
+
+        sh "cd ulboracms ; make all"
+        app76 = docker.image("clefos/ulboracms")
+        sh "docker rmi clefos/ulboracms"
+
+        sh "cd watchtower ; make all"
+        app77 = docker.image("clefos/watchtower")
+        sh "docker rmi clefos/watchtower"
+
+        sh "cd websphere ; make all"
+        app77 = docker.image("clefos/watchtower")
+        sh "docker rmi clefos/watchtower"
+
     }
 
     // stage('Push'){

@@ -402,9 +402,9 @@ node {
         // app73 = docker.image("clefos/systemd")
         // sh "docker rmi clefos/systemd"
 
-        sh "cd tomcat ; make all"
-        app74 = docker.image("clefos/tomcat")
-        sh "docker rmi clefos/tomcat"
+        // sh "cd tomcat ; make all"
+        // app74 = docker.image("clefos/tomcat")
+        // sh "docker rmi clefos/tomcat"
 
         sh "cd tools ; make all"
         app75 = docker.image("clefos/tools")

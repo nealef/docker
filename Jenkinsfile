@@ -394,13 +394,13 @@ node {
         // app71 = docker.image("clefos/ssh")
         // sh "docker rmi clefos/ssh"
 
-        sh "cd swarm ; make all"
-        app72 = docker.image("clefos/swarm")
-        sh "docker rmi clefos/swarm"
+        // sh "cd swarm ; make all"
+        // app72 = docker.image("clefos/swarm")
+        // sh "docker rmi clefos/swarm"
 
-        sh "cd systemd ; make all"
-        app73 = docker.image("clefos/systemd")
-        sh "docker rmi clefos/systemd"
+        // sh "cd systemd ; make all"
+        // app73 = docker.image("clefos/systemd")
+        // sh "docker rmi clefos/systemd"
 
         sh "cd tomcat ; make all"
         app74 = docker.image("clefos/tomcat")

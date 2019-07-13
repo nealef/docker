@@ -382,9 +382,13 @@ node {
         // app68 = docker.image("clefos/solr")
         // sh "docker rmi clefos/solr"
 
-        sh "cd spark ; make all"
-        app69 = docker.image("clefos/spark-sa")
-        sh "docker rmi clefos/spark-sa"
+        // sh "cd spark ; make all"
+        // app69 = docker.image("clefos/spark-sa")
+        // sh "docker rmi clefos/spark-sa"
+
+        sh "cd spark-ui-proxy ; make all"
+        app70 = docker.image("clefos/spark-ui-proxy")
+        sh "docker rmi clefos/spark-ui-proxy"
 
     }
 

@@ -59,8 +59,8 @@ EXPOSE 		8983
 
 # Command to execute
 RUN 		chmod a+x solr && \
-		yum erase -y wget tar bzip2 git && \
+		yum erase -y git && \
 		yum clean all && \
-		rm -rf /var/cache/yum/* /var/log/yum.log
+		rm -rf /var/cache/yum/* /var/log/yum.log /tmp/*
 
 CMD 		./solr start && tail -F /Apache_Solr/solr-6.6.1/solr/server/logs/solr.log

@@ -336,9 +336,14 @@ node {
         
         // sh "cd origin"
 
-        sh "cd owncloud ; make all"
-        app57 = docker.image("clefos/owncloud")
-        sh "docker rmi clefos/owncloud"
+        // sh "cd owncloud ; make all"
+        // app57 = docker.image("clefos/owncloud")
+        // sh "docker rmi clefos/owncloud"
+
+        sh "cd postgresql ; make all"
+        app58 = docker.image("clefos/postgresql")
+        sh "docker rmi clefos/postgresql"
+        
 
     }
 

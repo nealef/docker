@@ -390,9 +390,13 @@ node {
         // app70 = docker.image("clefos/spark-ui-proxy")
         // sh "docker rmi clefos/spark-ui-proxy"
 
-        sh "cd ssh ; make all"
-        app71 = docker.image("clefos/ssh")
-        sh "docker rmi clefos/ssh"
+        // sh "cd ssh ; make all"
+        // app71 = docker.image("clefos/ssh")
+        // sh "docker rmi clefos/ssh"
+
+        sh "cd swarm ; make all"
+        app72 = docker.build("clefos/swarm")
+        sh "docker rmi clefos/swarm"
 
     }
 

@@ -395,9 +395,20 @@ node {
         // sh "docker rmi clefos/ssh"
 
         sh "cd swarm ; make all"
-        app72 = docker.build("clefos/swarm")
+        app72 = docker.image("clefos/swarm")
         sh "docker rmi clefos/swarm"
 
+        sh "cd systemd ; make all"
+        app73 = docker.image("clefos/systemd")
+        sh "docker rmi clefos/systemd"
+
+        sh "cd tomcat ; make all"
+        app74 = docker.image("clefos/tomcat")
+        sh "docker rmi clefos/tomcat"
+
+        sh "cd tools ; make all"
+        app75 = docker.image("clefos/tools")
+        sh "docker rmi clefos/tools"
     }
 
     // stage('Push'){

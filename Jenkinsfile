@@ -382,6 +382,10 @@ node {
         app68 = docker.image("clefos/solr")
         sh "docker rmi clefos/solr"
 
+        // sh "cd spark ; make all"
+        // app69 = docker.image("clefos/spark-sa")
+        // sh "docker rmi clefos/spark-sa"
+
     }
 
     // stage('Push'){

@@ -4,7 +4,7 @@
 # Originally written for Fedora-Dockerfiles by
 #   scollier <scollier@redhat.com>
 
-FROM 		clefos:clefos7
+FROM 		clefos/clefos:clefos7
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 
 RUN 		yum -y update && \

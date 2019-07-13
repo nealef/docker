@@ -360,11 +360,16 @@ node {
         // app62 = docker.image("clefos/rabbitmq")
         // sh "docker rmi clefos/rabbitmq"
 
-        sh "cd react ; make all"
-        app63 = docker.image("react-api")
-        app64 = docker.image("react-client")
-        sh "docker rmi react-client"
-        sh "docker rmi react-api"
+        // sh "cd react ; make all"
+        // app63 = docker.image("react-api")
+        // app64 = docker.image("react-client")
+        // sh "docker rmi react-client"
+        // sh "docker rmi react-api"
+
+        sh "cd redis ; make all"
+        app65 = docker.image("clefos/redis")
+        sh "docker rmi clefos/redis"
+
     }
 
     // stage('Push'){

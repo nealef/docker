@@ -340,10 +340,13 @@ node {
         // app57 = docker.image("clefos/owncloud")
         // sh "docker rmi clefos/owncloud"
 
-        sh "cd postgresql ; make all"
-        app58 = docker.image("clefos/postgresql")
-        sh "docker rmi clefos/postgresql"
-        
+        // sh "cd postgresql ; make all"
+        // app58 = docker.image("clefos/postgresql")
+        // sh "docker rmi clefos/postgresql"
+
+        sh "cd puppet ; make all"
+        app59 = docker.image("clefos/puppet")
+        sh "docker rmi clefos/puppet"
 
     }
 

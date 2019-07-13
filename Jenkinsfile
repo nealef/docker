@@ -356,13 +356,15 @@ node {
         // app61 = docker.image("clefos/r-base")
         // sh "docker rmi clefos/r-base"
 
-        sh "cd rabbitmq ; make all"
-        app62 = docker.image("clefos/rabbitmq")
-        sh "docker rmi clefos/rabbitmq"
-
-        // sh "cd react ; make all"
-        // app63 = docker.image("react-api")
+        // sh "cd rabbitmq ; make all"
+        // app62 = docker.image("clefos/rabbitmq")
         // sh "docker rmi clefos/rabbitmq"
+
+        sh "cd react ; make all"
+        app63 = docker.image("react-api")
+        app64 = docker.image("react-client")
+        sh "docker rmi react-client"
+        sh "docker rmi react-api"
     }
 
     // stage('Push'){

@@ -410,13 +410,13 @@ node {
         // app75 = docker.image("clefos/tools")
         // sh "docker rmi clefos/tools"
 
-        sh "cd ulboracms ; make all"
-        app76 = docker.image("clefos/ulboracms")
-        sh "docker rmi clefos/ulboracms"
+        // sh "cd ulboracms ; make all"
+        // app76 = docker.image("clefos/ulboracms")
+        // sh "docker rmi clefos/ulboracms"
 
-        sh "cd watchtower ; make all"
-        app77 = docker.image("clefos/watchtower")
-        sh "docker rmi clefos/watchtower"
+        // sh "cd watchtower ; make all"
+        // app77 = docker.image("clefos/watchtower")
+        // sh "docker rmi clefos/watchtower"
 
         // sh "cd websphere ; make all"
 
@@ -424,9 +424,13 @@ node {
         // app78 = docker.image("clefos/wildfly")
         // sh "docker rmi clefos/wildfly"
 
-        sh "cd wordpress ; make all"
-        app79 = docker.image("clefos/wordpress")
-        sh "docker rmi clefos/wordpress"
+        // sh "cd wordpress ; make all"
+        // app79 = docker.image("clefos/wordpress")
+        // sh "docker rmi clefos/wordpress"
+
+        sh "cd wordpress-sa ; make all"
+        app79 = docker.image("clefos/wordpress-sa")
+        sh "docker rmi clefos/wordpress-sa"
     }
 
     // stage('Push'){

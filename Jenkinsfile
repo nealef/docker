@@ -366,9 +366,13 @@ node {
         // sh "docker rmi react-client"
         // sh "docker rmi react-api"
 
-        sh "cd redis ; make all"
-        app65 = docker.image("clefos/redis")
-        sh "docker rmi clefos/redis"
+        // sh "cd redis ; make all"
+        // app65 = docker.image("clefos/redis")
+        // sh "docker rmi clefos/redis"
+
+        sh "cd registry ; make all"
+        app66 = docker.image("clefos/registry")
+        sh "docker rmi clefos/registry"
 
     }
 

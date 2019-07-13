@@ -374,9 +374,13 @@ node {
         // app66 = docker.image("clefos/registry")
         // sh "docker rmi clefos/registry"
 
-        sh "cd saltmaster ; make all"
-        app67 = docker.image("clefos/saltmaster")
-        sh "docker rmi clefos/saltmaster"
+        // sh "cd saltmaster ; make all"
+        // app67 = docker.image("clefos/saltmaster")
+        // sh "docker rmi clefos/saltmaster"
+
+        sh "cd solr ; make all"
+        app68 = docker.image("clefos/solr")
+        sh "docker rmi clefos/solr"
 
     }
 

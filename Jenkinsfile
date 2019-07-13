@@ -352,10 +352,13 @@ node {
         // app60 = docker.image("clefos/qpid")
         // sh "docker rmi clefos/qpid"
 
-        sh "cd R-base ; make all"
-        app61 = docker.image("clefos/r-base")
-        sh "docker rmi clefos/r-base"
-        
+        // sh "cd R-base ; make all"
+        // app61 = docker.image("clefos/r-base")
+        // sh "docker rmi clefos/r-base"
+
+        sh "cd rabbitmq ; make all"
+        app61 = docker.image("clefos/rabbitmq")
+        sh "docker rmi clefos/rabbitmq"
     }
 
     // stage('Push'){

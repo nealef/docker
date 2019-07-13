@@ -420,9 +420,13 @@ node {
 
         // sh "cd websphere ; make all"
 
-        sh "cd wildfly ; make all"
-        app77 = docker.image("clefos/wildfly")
-        sh "docker rmi clefos/wildfly"
+        // sh "cd wildfly ; make all"
+        // app78 = docker.image("clefos/wildfly")
+        // sh "docker rmi clefos/wildfly"
+
+        sh "cd wordpress ; make all"
+        app79 = docker.image("clefos/wordpress")
+        sh "docker rmi clefos/wordpress"
     }
 
     // stage('Push'){

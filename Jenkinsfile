@@ -209,9 +209,12 @@ node {
         // sh "mv Dockerfile httpd/"
         // sh "mv run-httpd.sh httpd/"
 
-        // sh "mv ibmjava/8/jre/Dockerfile ."
-        // app24 = docker.build("clefos/ibmjava:8-jre")
-        // sh "mv Dockerfile ibmjava/8/jre/"
+        sh "cd ibmjava ; make all"
+        app24 = docker.image("docker.io/clefos/ibmjava:8")
+        app25 = docker.image("docker.io/clefos/ibmjava:8-sdk")
+        app26 = docker.image("docker.io/clefos/maven:8")
+        app27 = docker.image("docker.io/clefos/maven:11")
+        sh "mv Dockerfile ibmjava/8/jre/"
 
         // sh "mv ibmjava/8/sdk/Dockerfile ."
         // app25 = docker.build("clefos/ibmjava:8-sdk ")
@@ -428,9 +431,9 @@ node {
         // app79 = docker.image("clefos/wordpress")
         // sh "docker rmi clefos/wordpress"
 
-        sh "cd wordpress-sa ; make all"
-        app79 = docker.image("clefos/wordpress-sa")
-        sh "docker rmi clefos/wordpress-sa"
+        // sh "cd wordpress-sa ; make all"
+        // app79 = docker.image("clefos/wordpress-sa")
+        // sh "docker rmi clefos/wordpress-sa"
     }
 
     // stage('Push'){

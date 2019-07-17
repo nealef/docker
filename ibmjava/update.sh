@@ -40,12 +40,15 @@ tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
 sha=$(echo $tag | cut -d' ' -f 2 )
 declare -A sdk_8_sums=(
 	[version]=$latest_version
-	[s390x]="4271fb374261c44fe8f4e487f519cf648bcb45075487fb0e6b8cd3fd55079cc3"
+	[s390x]=sha
 )
-
+$(wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sfj/linux/s390x/index.yml)
+latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
+tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
+sha=$(echo $tag | cut -d' ' -f 2 )
 declare -A sfj_8_sums=(
 	[version]=$latest_version
-	[s390x]="6d7e2df30f9e41a741a2eaa8598023f29d10760db039bd617da0fce7a2dab355"
+	[s390x]=$sha
 )
 
 # Generate the common license and copyright header

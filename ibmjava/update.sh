@@ -26,7 +26,7 @@ tools="maven"
 # sha256sum for the various versions, packages and arches
 # Version 8 sums [DO NO EDIT THIS LINE]
 
-$(wget -q -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/jre/linux/s390x/index.yml)
+$(wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/jre/linux/s390x/index.yml)
 latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
 tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
 sha=$(echo $tag | cut -d' ' -f 2 )
@@ -34,7 +34,7 @@ declare -A jre_8_sums=(
 	[version]=$latest_version
 	[s390x]=sha
 )
-$(wget -q -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/s390x/index.yml)
+$(wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/s390x/index.yml)
 latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
 tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
 sha=$(echo $tag | cut -d' ' -f 2 )

@@ -25,15 +25,19 @@ tools="maven"
 
 # sha256sum for the various versions, packages and arches
 # Version 8 sums [DO NO EDIT THIS LINE]
+
+$(wget -q -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/jre/linux/s390x/index.yml)
 latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
 tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
 sha=$(echo $tag | cut -d' ' -f 2 )
 declare -A jre_8_sums=(
 	[version]=$latest_version
-	# [s390x]="81acd84a1365a631ceb3d848838e3978d23b99dec362adc112ad3a159739ecf1"
-	[s390x]=$sha
+	[s390x]=sha
 )
-
+$(wget -q -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/s390x/index.yml)
+latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
+tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
+sha=$(echo $tag | cut -d' ' -f 2 )
 declare -A sdk_8_sums=(
 	[version]=$latest_version
 	[s390x]="4271fb374261c44fe8f4e487f519cf648bcb45075487fb0e6b8cd3fd55079cc3"

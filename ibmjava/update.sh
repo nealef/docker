@@ -25,18 +25,21 @@ tools="maven"
 
 # sha256sum for the various versions, packages and arches
 # Version 8 sums [DO NO EDIT THIS LINE]
+latest_version = $( tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
+tag=$( tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
+sha=$(echo $tag | cut -d' ' -f 2 )
 declare -A jre_8_sums=(
-	[version]="1.8.0_sr5fp26"
+	[version]=$latest_version
 	[s390x]="81acd84a1365a631ceb3d848838e3978d23b99dec362adc112ad3a159739ecf1"
 )
 
 declare -A sdk_8_sums=(
-	[version]="1.8.0_sr5fp26"
+	[version]=$latest_version
 	[s390x]="4271fb374261c44fe8f4e487f519cf648bcb45075487fb0e6b8cd3fd55079cc3"
 )
 
 declare -A sfj_8_sums=(
-	[version]="1.8.0_sr5fp26"
+	[version]=$latest_version
 	[s390x]="6d7e2df30f9e41a741a2eaa8598023f29d10760db039bd617da0fce7a2dab355"
 )
 

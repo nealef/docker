@@ -58,6 +58,29 @@ node {
     def app58
     def app59
     def app60
+    def app61
+    def app62
+    def app63
+    def app64
+    def app65
+    def app66
+    def app67
+    def app68
+    def app69
+    def app70
+    def app71
+    def app72
+    def app73
+    def app74
+    def app75
+    def app76
+    def app77
+    def app78
+    def app79
+    def app80
+    def app81
+    def app82
+    def app83
 
     stage('Clone Repository') {
         checkout scm
@@ -214,7 +237,10 @@ node {
         app25 = docker.image("docker.io/clefos/ibmjava:8-sdk")
         app26 = docker.image("docker.io/clefos/maven:8")
         app27 = docker.image("docker.io/clefos/maven:11")
-        sh "mv Dockerfile ibmjava/8/jre/"
+        sh "docker rmi docker.io/clefos/ibmjava:8"
+        sh "docker rmi docker.io/clefos/ibmjava:8-sdk"
+        sh "docker rmi docker.io/clefos/maven:8"
+        sh "docker rmi docker.io/clefos/maven:11"
 
         // sh "mv ibmjava/8/sdk/Dockerfile ."
         // app25 = docker.build("clefos/ibmjava:8-sdk ")

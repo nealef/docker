@@ -25,8 +25,8 @@ tools="maven"
 
 # sha256sum for the various versions, packages and arches
 # Version 8 sums [DO NO EDIT THIS LINE]
-latest_version = $( tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
-tag=$( tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
+latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
+tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
 sha=$(echo $tag | cut -d' ' -f 2 )
 declare -A jre_8_sums=(
 	[version]=$latest_version

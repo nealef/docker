@@ -30,7 +30,8 @@ tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
 sha=$(echo $tag | cut -d' ' -f 2 )
 declare -A jre_8_sums=(
 	[version]=$latest_version
-	[s390x]="81acd84a1365a631ceb3d848838e3978d23b99dec362adc112ad3a159739ecf1"
+	# [s390x]="81acd84a1365a631ceb3d848838e3978d23b99dec362adc112ad3a159739ecf1"
+	[s390x]=$sha
 )
 
 declare -A sdk_8_sums=(

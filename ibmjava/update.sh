@@ -31,7 +31,7 @@ latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
 tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
 sha=$(echo $tag | cut -d' ' -f 2 )
 declare -A jre_8_sums=(
-	[version]=$latest_version
+	[version]="1.8.0_sr5fp37"
 	[s390x]="8a7152789d5246779a53b020b98c05ac3451d6b8ccfbc93266c213624c415a16"
 )
 $(wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/s390x/index.yml)

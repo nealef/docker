@@ -40,7 +40,7 @@ tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
 sha=$(echo $tag | cut -d' ' -f 2 )
 declare -A sdk_8_sums=(
 	[version]=$latest_version
-	[s390x]=sha
+	[s390x]=$sha
 )
 $(wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sfj/linux/s390x/index.yml)
 latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)

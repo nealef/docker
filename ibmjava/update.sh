@@ -34,6 +34,7 @@ declare -A jre_8_sums=(
 	[version]=$latest_version_jre
 	[s390x]=$sha_jre
 )
+
 $(wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/s390x/index.yml)
 latest_version_sdk=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
 tag_sdk=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )

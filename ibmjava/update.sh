@@ -27,28 +27,28 @@ tools="maven"
 # Version 8 sums [DO NO EDIT THIS LINE]
 
 $(wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/jre/linux/s390x/index.yml)
-latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
-tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
-sha=$(echo $tag | cut -d' ' -f 2 )
+latest_version_jre=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
+tag_jre=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
+sha_jre=$(echo $tag_jre | cut -d' ' -f 2 )
 declare -A jre_8_sums=(
-	[version]=$latest_version
-	[s390x]=$sha
+	[version]=$latest_version_jre
+	[s390x]=$sha_jre
 )
 $(wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/s390x/index.yml)
-latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
-tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
-sha=$(echo $tag | cut -d' ' -f 2 )
+latest_version_sdk=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
+tag_sdk=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
+sha_sdk=$(echo $tag_sdk | cut -d' ' -f 2 )
 declare -A sdk_8_sums=(
-	[version]=$latest_version
-	[s390x]=$sha
+	[version]=$latest_version_sdk
+	[s390x]=$sha_sdk
 )
 $(wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sfj/linux/s390x/index.yml)
-latest_version=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
-tag=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
-sha=$(echo $tag | cut -d' ' -f 2 )
+latest_version_sfj=$(tail -n 5 /tmp/index.yml | cut -d':' -f 1 | cut -d' ' -f 1)
+tag_sfj=$(tail -n 5 /tmp/index.yml | cut -d':' -f 2 )
+sha_sfj=$(echo $tag_sfj | cut -d' ' -f 2 )
 declare -A sfj_8_sums=(
-	[version]=$latest_version
-	[s390x]=$sha
+	[version]=$latest_version_sfj
+	[s390x]=$sha_sfj
 )
 
 # Generate the common license and copyright header

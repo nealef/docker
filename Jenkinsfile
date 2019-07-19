@@ -78,10 +78,6 @@ node {
     def app78
     def app79
     def app80
-    def app81
-    def app82
-    def app83
-
     stage('Clone Repository') {
         checkout scm
     }
@@ -419,8 +415,6 @@ node {
         sh "docker rmi docker.io/clefos/spark"
         sh "docker rmi docker.io/clefos/zeppelin"
 
-    
-
         sh "cd owncloud ; make all"
         app57 = docker.image("clefos/owncloud")
         sh "docker rmi clefos/owncloud"
@@ -510,7 +504,7 @@ node {
         sh "docker rmi clefos/wordpress"
 
         sh "cd wordpress-sa ; make all"
-        app79 = docker.image("clefos/wordpress-sa")
+        app80 = docker.image("clefos/wordpress-sa")
         sh "docker rmi clefos/wordpress-sa"
     }
 

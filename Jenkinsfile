@@ -360,7 +360,7 @@ node {
         // sh "docker rmi clefos/openjdk:12"
 
         sh "cd hadoop-openshift ; wget https://archive.apache.org/dist/hadoop/core/hadoop-3.1.0/hadoop-3.1.0.tar.gz"
-        sh "cd openshift-spark/zeppelin ; wget https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/5.3.2/lucene-core-5.3.2.jar"
+        sh "cd openshift-spark/spark/zeppelin ; wget https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/5.3.2/lucene-core-5.3.2.jar"
         sh "cd openshift-spark ; make all"
         app55 = docker.image("docker.io/clefos/spark")
         app56 = docker.image("docker.io/clefos/zeppelin")

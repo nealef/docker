@@ -418,6 +418,7 @@ node {
         // sh "cd wordpress-sa ; make all"
         app80 = docker.image("clefos/wordpress-sa")
         // sh "docker rmi clefos/wordpress-sa"
+        
     }
 
     stage('Cleanup') {

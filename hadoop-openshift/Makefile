@@ -5,7 +5,6 @@ all:		hadoop
 hadoop:		Dockerfile
 		wget https://archive.apache.org/dist/hadoop/core/hadoop-2.8.1/hadoop-2.8.1.tar.gz
 		docker build --rm --tag clefos/hadoop --label VERSION=$(VERSION) .
-		rm hadoop-2.8.1.tar.gz
 
 push:
 		docker tag clefos/hadoop:latest clefos/hadoop:clefos7

@@ -85,7 +85,6 @@ node {
     stage('Build image') {
         DOCKER_HOME = tool "docker"
         // sh "./buildall.sh"
-        sh "./removeall.sh"
         app1 = docker.image("clefos/ade")
         // sh "docker rmi clefos/ade"
         // sh "mv ansible/Dockerfile ."
@@ -421,14 +420,15 @@ node {
         // sh "docker rmi clefos/wordpress-sa"
     }
 
+    stage('Cleanup') {
+        sh "./removeall.sh"
+        sh "docker system prune -f"
+    }
     // stage('Push'){
     //     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
     //         app36.push("meanjs")
     //     }
         
     // }
-
-    stage('Cleanup'){
-        sh "docker system prune -f"
-    }
+    
 }

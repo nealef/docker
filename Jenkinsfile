@@ -342,60 +342,60 @@ node {
         sh "docker rmi clefos/openjdk:8"
         sh "docker rmi clefos/openjdk:11"
         sh "docker rmi clefos/openjdk:12"
-        sh "cd hadoop-openshift ; wget https://archive.apache.org/dist/hadoop/core/hadoop-3.1.0/hadoop-3.1.0.tar.gz"
-        sh "cd openshift-spark/spark/zeppelin ; wget https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/5.3.2/lucene-core-5.3.2.jar"
-        sh "cd openshift-spark ; make all"
-        app55 = docker.image("docker.io/clefos/spark")
-        app56 = docker.image("docker.io/clefos/zeppelin")
-        sh "docker rmi docker.io/clefos/spark"
-        sh "docker rmi docker.io/clefos/zeppelin"
-        sh "cd owncloud ; make all"
-        app57 = docker.image("clefos/owncloud")
-        sh "docker rmi clefos/owncloud"
-        sh "cd postgresql ; make all"
-        app58 = docker.image("clefos/postgresql")
-        sh "docker rmi clefos/postgresql"
-        sh "cd puppet ; make all"
-        app59 = docker.image("clefos/puppet")
-        sh "docker rmi clefos/puppet"
-        sh "cd qpid ; make clefos/qpid"
-        app60 = docker.image("clefos/qpid")
-        sh "docker rmi clefos/qpid"
-        sh "cd R-base ; make all"
-        app61 = docker.image("clefos/r-base")
-        sh "docker rmi clefos/r-base"
-        sh "cd rabbitmq ; make all"
-        app62 = docker.image("clefos/rabbitmq")
-        sh "docker rmi clefos/rabbitmq"
-        sh "cd react ; make all"
-        app63 = docker.image("react-api")
-        app64 = docker.image("react-client")
-        sh "docker rmi react-client"
-        sh "docker rmi react-api"
-        sh "cd redis ; make all"
-        app65 = docker.image("clefos/redis")
-        sh "docker rmi clefos/redis"
-        sh "cd registry ; make all"
-        app66 = docker.image("clefos/registry")
-        sh "docker rmi clefos/registry"
-        sh "cd saltmaster ; make all"
-        app67 = docker.image("clefos/saltmaster")
-        sh "docker rmi clefos/saltmaster"
-        sh "cd solr ; make all"
-        app68 = docker.image("clefos/solr")
-        sh "docker rmi clefos/solr"
-        sh "cd spark ; make all"
-        app69 = docker.image("clefos/spark-sa")
-        sh "docker rmi clefos/spark-sa"
-        sh "cd spark-ui-proxy ; make all"
-        app70 = docker.image("clefos/spark-ui-proxy")
-        sh "docker rmi clefos/spark-ui-proxy"
-        sh "cd ssh ; make all"
-        app71 = docker.image("clefos/ssh")
-        sh "docker rmi clefos/ssh"
-        sh "cd swarm ; make all"
-        app72 = docker.image("clefos/swarm")
-        sh "docker rmi clefos/swarm"
+        // sh "cd hadoop-openshift ; wget https://archive.apache.org/dist/hadoop/core/hadoop-3.1.0/hadoop-3.1.0.tar.gz"
+        // sh "cd openshift-spark/spark/zeppelin ; wget https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/5.3.2/lucene-core-5.3.2.jar"
+        // sh "cd openshift-spark ; make all"
+        // app55 = docker.image("docker.io/clefos/spark")
+        // app56 = docker.image("docker.io/clefos/zeppelin")
+        // sh "docker rmi docker.io/clefos/spark"
+        // sh "docker rmi docker.io/clefos/zeppelin"
+        // sh "cd owncloud ; make all"
+        // app57 = docker.image("clefos/owncloud")
+        // sh "docker rmi clefos/owncloud"
+        // sh "cd postgresql ; make all"
+        // app58 = docker.image("clefos/postgresql")
+        // sh "docker rmi clefos/postgresql"
+        // sh "cd puppet ; make all"
+        // app59 = docker.image("clefos/puppet")
+        // sh "docker rmi clefos/puppet"
+        // sh "cd qpid ; make clefos/qpid"
+        // app60 = docker.image("clefos/qpid")
+        // sh "docker rmi clefos/qpid"
+        // sh "cd R-base ; make all"
+        // app61 = docker.image("clefos/r-base")
+        // sh "docker rmi clefos/r-base"
+        // sh "cd rabbitmq ; make all"
+        // app62 = docker.image("clefos/rabbitmq")
+        // sh "docker rmi clefos/rabbitmq"
+        // sh "cd react ; make all"
+        // app63 = docker.image("react-api")
+        // app64 = docker.image("react-client")
+        // sh "docker rmi react-client"
+        // sh "docker rmi react-api"
+        // sh "cd redis ; make all"
+        // app65 = docker.image("clefos/redis")
+        // sh "docker rmi clefos/redis"
+        // sh "cd registry ; make all"
+        // app66 = docker.image("clefos/registry")
+        // sh "docker rmi clefos/registry"
+        // sh "cd saltmaster ; make all"
+        // app67 = docker.image("clefos/saltmaster")
+        // sh "docker rmi clefos/saltmaster"
+        // sh "cd solr ; make all"
+        // app68 = docker.image("clefos/solr")
+        // sh "docker rmi clefos/solr"
+        // sh "cd spark ; make all"
+        // app69 = docker.image("clefos/spark-sa")
+        // sh "docker rmi clefos/spark-sa"
+        // sh "cd spark-ui-proxy ; make all"
+        // app70 = docker.image("clefos/spark-ui-proxy")
+        // sh "docker rmi clefos/spark-ui-proxy"
+        // sh "cd ssh ; make all"
+        // app71 = docker.image("clefos/ssh")
+        // sh "docker rmi clefos/ssh"
+        // sh "cd swarm ; make all"
+        // app72 = docker.image("clefos/swarm")
+        // sh "docker rmi clefos/swarm"
         // sh "cd systemd ; make all"
         // app73 = docker.image("clefos/systemd")
         // sh "docker rmi clefos/systemd"

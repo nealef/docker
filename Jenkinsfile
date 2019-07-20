@@ -84,7 +84,7 @@ node {
 
     stage('Build image') {
         DOCKER_HOME = tool "docker"
-        sh "./buildall.sh"
+        // sh "./buildall.sh"
         app1 = docker.image("clefos/ade", "./ade")
         sh "docker rmi clefos/ade"
         // sh "mv ansible/Dockerfile ."

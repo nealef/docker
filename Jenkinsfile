@@ -84,6 +84,7 @@ node {
 
     stage('Build image') {
         DOCKER_HOME = tool "docker"
+
         app1 = docker.build("clefos/ade", "./ade")
         sh "docker rmi clefos/ade"
         sh "mv ansible/Dockerfile ."
@@ -395,28 +396,28 @@ node {
         sh "cd swarm ; make all"
         app72 = docker.image("clefos/swarm")
         sh "docker rmi clefos/swarm"
-        sh "cd systemd ; make all"
-        app73 = docker.image("clefos/systemd")
-        sh "docker rmi clefos/systemd"
-        sh "cd tomcat ; make all"
-        app74 = docker.image("clefos/tomcat")
-        sh "docker rmi clefos/tomcat"
-        sh "cd tools ; make all"
-        app75 = docker.image("clefos/tools")
-        sh "docker rmi clefos/tools"
-        sh "cd ulboracms ; make all"
-        app76 = docker.image("clefos/ulboracms")
-        sh "docker rmi clefos/ulboracms"
-        sh "cd watchtower ; make all"
-        app77 = docker.image("clefos/watchtower")
-        sh "docker rmi clefos/watchtower"
-        sh "cd websphere ; make all"
-        sh "cd wordpress ; make all"
-        app79 = docker.image("clefos/wordpress")
-        sh "docker rmi clefos/wordpress"
-        sh "cd wordpress-sa ; make all"
-        app80 = docker.image("clefos/wordpress-sa")
-        sh "docker rmi clefos/wordpress-sa"
+        // sh "cd systemd ; make all"
+        // app73 = docker.image("clefos/systemd")
+        // sh "docker rmi clefos/systemd"
+        // sh "cd tomcat ; make all"
+        // app74 = docker.image("clefos/tomcat")
+        // sh "docker rmi clefos/tomcat"
+        // sh "cd tools ; make all"
+        // app75 = docker.image("clefos/tools")
+        // sh "docker rmi clefos/tools"
+        // sh "cd ulboracms ; make all"
+        // app76 = docker.image("clefos/ulboracms")
+        // sh "docker rmi clefos/ulboracms"
+        // sh "cd watchtower ; make all"
+        // app77 = docker.image("clefos/watchtower")
+        // sh "docker rmi clefos/watchtower"
+        // sh "cd websphere ; make all"
+        // sh "cd wordpress ; make all"
+        // app79 = docker.image("clefos/wordpress")
+        // sh "docker rmi clefos/wordpress"
+        // sh "cd wordpress-sa ; make all"
+        // app80 = docker.image("clefos/wordpress-sa")
+        // sh "docker rmi clefos/wordpress-sa"
     }
 
     // stage('Push'){

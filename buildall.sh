@@ -11,8 +11,7 @@ containsElement () {
 
 for x in $(ls -d */)
 do
-    containsElement $x "${blacklist[@]}"
-    if [ $(echo $?) == 1 ]
+    if [ $(containsElement $x "${blacklist[@]}" ; echo $?) == 1 ]
     then
         echo $x
         $(cd $x ; make all ; cd $original_path)

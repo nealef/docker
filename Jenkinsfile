@@ -424,8 +424,7 @@ node {
     }
     stage('Push'){
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-            // app36.push("meanjs")
-            sh "docker push vedarth/clefos:meanjs"
+            app36.push("meanjs")
         }
     }
 

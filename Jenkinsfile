@@ -421,7 +421,7 @@ node {
         
     app36 = docker.build("vedarth/clefos:meanjs", "./meanjs/")    
     // }
-
+    }
     stage('Push'){
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
             // app36.push("meanjs")

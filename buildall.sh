@@ -1,6 +1,6 @@
 #!/bin/sh
 original_path=$(pwd)
-declare -a blacklist=(base/ microclimate/ origin/ akka/ earthquake/ grafana/ react/ AMHub_Files/ websphere/)
+declare -a blacklist=(base/ microclimate/ origin/ akka/ earthquake/ react/ AMHub_Files/ websphere/)
 
 containsElement () {
   local e match="$1"

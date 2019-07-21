@@ -427,6 +427,7 @@ node {
             // app36.push("meanjs")
             sh "docker push vedarth/clefos:meanjs"
         }
+    }
 
     stage('Cleanup') {
         //sh "./removeall.sh"

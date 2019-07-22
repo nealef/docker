@@ -1,5 +1,5 @@
 #Latest version of node tested on.
-FROM 	clefos/nodejs
+FROM clefos/nodejs
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ ADD 	./package.json /app/package.json
 RUN 	npm install --unsafe-perm=true
 
 # Add the rest of the sources
-ADD 	. /app
+ADD 	files/ /app
 
 
 # Build the app

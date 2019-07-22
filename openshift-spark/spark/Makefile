@@ -9,7 +9,8 @@ push: push-spark push-zeppelin
 # Zeppelin (and it may not have caught up to newest Spark).
 TAG=$(shell cat VERSION)
 HADOOP_VERSION=$(shell cat ../../hadoop-openshift/VERSION)
-
+$(shell cd ../.. ; cd hadoop-openshift ; wget https://archive.apache.org/dist/hadoop/core/hadoop-3.1.0/hadoop-3.1.0.tar.gz)
+$(shell cd zeppelin ; wget https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/5.3.2/lucene-core-5.3.2.jar)
 # To bump the Zeppelin version, bump the version in
 # zeppelin/Dockerfile and bump this tag and reset to v1.
 ZEPPELIN_TAG=$(shell cat zeppelin/VERSION)

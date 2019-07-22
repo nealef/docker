@@ -8,7 +8,7 @@ ADD		docker-entrypoint.sh /
 ENV		R_BASE_VERSION=3.4.1
 
 RUN		yum -y update --setopt=tsflags=nodocs && \
-		yum install --setopt=tsflags=nodocs R-littler R-littler-examples R-core-devel R-devel -y || true 
+		yum install --skip-broken --setopt=tsflags=nodocs R-littler R-littler-examples R-core-devel R-devel -y || true 
 
 RUN		yum reinstall --setopt=tsflags=nodocs glibc glibc-common -y && \
 		yum clean all && \

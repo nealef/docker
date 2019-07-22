@@ -59,7 +59,7 @@ EXPOSE 		8983
 
 # Command to execute
 RUN 		chmod a+x solr && \
-		yum erase -y wget tar bzip2 git && \
+		yum erase -y wget bzip2 git && \
 		yum clean all && \
 		rm -rf /var/cache/yum/* /var/log/yum.log /tmp/*
 

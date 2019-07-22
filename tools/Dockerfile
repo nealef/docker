@@ -1,6 +1,6 @@
 # Derived from CentOS Dockerfile
 
-FROM 	clefos:clefos7
+FROM 	clefos/clefos:clefos7
 MAINTAINER The ClefOS Project <neale@sinenomine.net>
 
 ENV 	container docker
@@ -15,7 +15,7 @@ RUN	yum -y install yum-utils && \
 	yum-config-manager --save --setopt=sna.skip_if_unavailable=true
 
 # Swap out the systemd-container package and install all useful packages
-RUN 	yum -y --disablerepo=oss install \
+RUN 	yum -y --disablerepo=oss --skip-broken install \
            kernel \
            e2fsprogs \
            sos \

@@ -1,42 +1,37 @@
-FROM docker.io/clefos/clefos:latest
+FROM clefos/node:10
 
-ARG GRAFANA_TGZ="grafana-latest.tar.gz"
 
-RUN yum update -y && yum install -y curl ca-certificates fontconfig && \
-    yum autoremove -y && \
-    rm -rf /var/cache/yum/* /tmp/*
+ARG	GRAFANATAG
 
-ARG GF_UID="472"
-ARG GF_GID="472"
+ENV	GOPATH=/go
 
-ENV PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
-    GF_PATHS_CONFIG="/etc/grafana/grafana.ini" \
-    GF_PATHS_DATA="/var/lib/grafana" \
-    GF_PATHS_HOME="/usr/share/grafana" \
-    GF_PATHS_LOGS="/var/log/grafana" \
-    GF_PATHS_PLUGINS="/var/lib/grafana/plugins" \
-    GF_PATHS_PROVISIONING="/etc/grafana/provisioning"
+COPY	build-image.sh .
 
-WORKDIR $GF_PATHS_HOME
+RUN	npm install -g yarn && \
+	yum install -y --disablerepo=epel --enablerepo=extras git centos-release-grafana-origin311 make gcc gcc-c++ && \
+	yum install -y --enablerepo=epel phantomjs golang
 
-ADD ${GRAFANA_TGZ} ${GF_PATHS_HOME}
+RUN	mkdir -p /go/src/github.com/grafana && \
+	cd /go/src/github.com/grafana && \
+	git clone https://github.com/grafana/grafana.git && \
+	cd grafana && \
+	mkdir make && \
+	git checkout -b grafana_s390x && \
+	git submodule update --init
 
-RUN mkdir -p "$GF_PATHS_HOME/.aws" && \
-    groupadd -r -g $GF_GID grafana && \
-    useradd -r -u $GF_UID -g grafana grafana && \
-    mkdir -p "$GF_PATHS_PROVISIONING/datasources" \
-             "$GF_PATHS_PROVISIONING/dashboards" \
-             "$GF_PATHS_LOGS" \
-             "$GF_PATHS_PLUGINS" \
-             "$GF_PATHS_DATA" && \
-    cp "$GF_PATHS_HOME/conf/sample.ini" "$GF_PATHS_CONFIG" && \
-    cp "$GF_PATHS_HOME/conf/ldap.toml" /etc/grafana/ldap.toml && \
-    chown -R grafana:grafana "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" && \
-    chmod 777 "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS"
+RUN	cd /go/src/github.com/grafana/grafana && \
+	echo "***** Building Backend *****" && \
+	go run build.go setup && \
+	go run build.go build && \
+	echo "***** Building Frontend *****" && \
+	yarn install --pure-lockfile && \
+	go run build.go build-frontend && \
+	mv bin/linux-s390x/* bin/. && \
+	echo ${GRAFANATAG} > VERSION && \
+	rm -rf bin/linux-s390x
 
-EXPOSE 3000
+VOLUME 	output
 
-COPY ./run.sh /run.sh
+USER	root
 
-USER grafana
-ENTRYPOINT [ "/run.sh" ]
+ENTRYPOINT ./build-image.sh

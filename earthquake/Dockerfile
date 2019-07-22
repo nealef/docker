@@ -4,11 +4,13 @@
 # Originally written for Fedora-Dockerfiles by
 #   "Maciej Lasyk" <maciek@lasyk.info>
 
+
 FROM 		clefos:latest
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 LABEL 		Vendor="ClefOS" License="GPLv2"
 
 # install main packages:
+
 RUN		yum -y -q update --setopt=tsflags=nodocs && \
 		yum -y -q install --enablerepo=extras centos-release-scl-rh --setopt=tsflags=nodocs && \
 		yum -y -q install --setopt=tsflags=nodocs openssl-devel openssl readline readline-devel gcc \

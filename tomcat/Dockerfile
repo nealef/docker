@@ -24,10 +24,10 @@ RUN 		yum -y install --setopt=tsflags=nodocs wget tar && \
 			DCFD35E0BF8CA7344752DE8B6FB21E8933C60243 \
 			F3A04C595DB5B6A5F1ECA43E3B7BBB100D811BBE \
 			F7DA48BB64BCB84ECBA7EE6935CD23C10D498E23 && \
-		wget http://mirrors.koehn.com/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.tar.gz && \
-		tar -xzf apache-tomcat-8.5.20.tar.gz -C $CATALINA_HOME --strip-components=1 && \
-		rm -rf apache-tomcat-8.5.20.tar.gz && \
-		yum -y erase wget tar && \
+		wget https://mirrors.koehn.com/apache/tomcat/tomcat-8/v8.5.43/bin/apache-tomcat-8.5.43.tar.gz && \
+		tar -xzf apache-tomcat-8.5.43.tar.gz -C $CATALINA_HOME --strip-components=1 && \
+		rm -rf apache-tomcat-8.5.43.tar.gz && \
+		yum -y erase wget && \
 		yum clean all && \
 		groupadd tomcat && useradd -s /bin/bash -g tomcat tomcat
 

@@ -1,7 +1,7 @@
 FROM 	docker.io/clefos/ibmjava:8-sdk
 
 ENV 	hadoop_ver 3.1.0
-ENV 	spark_ver 2.4.0
+ENV 	spark_ver 2.4.3
 
 RUN 	yum update --setopt=tsflags=nodocs -y && \
         yum install -y --setopt=tsflags=nodocs net-tools curl which tar \

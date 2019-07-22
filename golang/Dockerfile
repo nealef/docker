@@ -1,4 +1,4 @@
-FROM 		docker.io/clefos/clefos
+FROM docker.io/clefos/clefos
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
 LABEL 		Vendor="ClefOS" License="GPLv2"

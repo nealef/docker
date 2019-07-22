@@ -1,4 +1,4 @@
-FROM    clefos:latest
+FROM clefos/clefos:latest
 
 RUN     yum update -y --setopt=tsflags=nodocs && \
 	yum install -y --setopt=tsflags=nodocs etcd && \

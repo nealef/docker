@@ -33,8 +33,9 @@ ENV JAVA_VERSION 1.8.0_sr5fp26
 RUN ESUM="81acd84a1365a631ceb3d848838e3978d23b99dec362adc112ad3a159739ecf1" \
     && BASE_URL="https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/" \
     && YML_FILE="jre/linux/s390x/index.yml" \
-    && wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml $BASE_URL/$YML_FILE \
+    && wget -q -U UA_IBM_JAVA_Docker -O /tmp/index.yml "https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/jre/linux/s390x/index.yml" \
     && JAVA_URL=$(cat /tmp/index.yml | sed -n '/'$JAVA_VERSION'/{n;p}' | sed -n 's/\s*uri:\s//p' | tr -d '\r') \
+    && echo $JAVA_URL \
     && wget -q -U UA_IBM_JAVA_Docker -O /tmp/ibm-java.bin $JAVA_URL \
     && echo "$ESUM  /tmp/ibm-java.bin" | sha256sum -c - \
     && echo "INSTALLER_UI=silent" > /tmp/response.properties \

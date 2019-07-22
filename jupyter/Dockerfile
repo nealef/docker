@@ -1,4 +1,4 @@
-FROM 		clefos/nodejs:latest
+FROM clefos/nodejs:latest
 
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 LABEL 		Vendor="ClefOS" License="GPLv2"

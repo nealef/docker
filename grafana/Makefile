@@ -2,11 +2,11 @@ VERSION=$(shell cat VERSION)
 
 all:	image grafana-latest.tar.gz
 
-grafana: Dockerfile-build
+grafana:
 	docker build --build-arg GRAFANATAG=$(VERSION) --tag docker.io/clefos/grafbuilder:$(VERSION) --file Dockerfile-builder .
 	touch grafana
 
-grafana-latest.tar.gz: grafana
+grafana-latest.tar.gz:
 	docker run --rm -it -v $(PWD):/output:rw,Z docker.io/clefos/grafbuilder:$(VERSION)
 
 image:	Dockerfile

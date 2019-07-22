@@ -3,7 +3,7 @@
 #
 # Derived from https://github.com/dockerfile/nginx
 #
-FROM 		clefos:clefos7
+FROM 		clefos/clefos:clefos7
 LABEL 		Vendor="ClefOS" License="GPLv2"
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>

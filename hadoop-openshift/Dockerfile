@@ -1,4 +1,4 @@
-FROM		clefos/ibmjava
+FROM clefos/ibmjava
 
 MAINTAINER	"Neale Ferguson" <neale@sinenomine.net>
 
@@ -16,8 +16,8 @@ ENV		PATH=$JAVA_HOME/bin:$PATH:${HADOOP_INSTALL}/bin:${HADOOP_INSTALL}/sbin \
 		HADOOP_CONF_DIR=$HADOOP_INSTALL/etc/hadoop \
 		YARN_HOME=$HADOOP_INSTALL YARN_CONF_DIR=$HADOOP_INSTALL/etc/hadoop \
 		DATA_DIR=/var/hadoop
-
-ADD 		hadoop-${HADOOP_VERSION}.tar.gz /opt
+		
+ADD 	hadoop-${HADOOP_VERSION}.tar.gz /opt
 
 RUN		ln -s /opt/hadoop-${HADOOP_VERSION} ${HADOOP_INSTALL} && \
 		mkdir -p ${DATA_DIR}/conf && \

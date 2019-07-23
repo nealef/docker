@@ -1,9 +1,7 @@
-FROM clefos/ibmjava
+FROM 		clefos/openjdk:8
 
 MAINTAINER	"The ClefOS Project" <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="GPLv2" 
-
-ENV 		JAVA_HOME=/opt/ibm/java PATH=$PATH:$JAVA_HOME/bin JAVA_CLASSPATH=$JAVA_CLASSPATH:$JAVA_HOME:lib
+LABEL 		Vendor="ClefOS" License="GPLv2" Maintainer='"The ClefOS Project" <neale@sinenomine.net>'
 
 RUN		yum install --setopt=tsflags=nodocs ade mariadb mariadb-java-client supervisor openssh-server rsyslog -y && \
 		yum clean all && \ 
@@ -27,7 +25,9 @@ RUN		yum install --setopt=tsflags=nodocs ade mariadb mariadb-java-client supervi
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 
 # copy cfg files:
-ADD		./cfg_files/ade.tar /
+COPY		./cfg_files/etc	/etc
+COPY		./cfg_files/opt	/opt
+COPY		./cfg_files/docker-entrypoint.sh /
 
 # set up env:
 RUN 		chmod +x /etc/init.d/sshd && \

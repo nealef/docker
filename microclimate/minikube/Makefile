@@ -8,11 +8,11 @@ minikube: Dockerfile go/src/k8s.io/minikube/out/minikube-linux-s390x
 
 go/src/k8s.io/minikube/out/minikube-linux-s390x:
 	export GOPATH=$(THIS)/go ; \
-	git clone https://github.com/kubernetes/minikube.git $(GOPATH)/src/k8s.io/minikube ; \
-	cd $(GOPATH)/src/k8s.io/minikube ; \
+	git clone https://github.com/kubernetes/minikube.git $(THIS)/go/src/k8s.io/minikube ; \
+	cd $(THIS)/go/src/k8s.io/minikube ; \
 	git checkout v0.30.0 ; \
 	patch -p1 -i $(THIS)/minikube-s390x.patch ; \
-	make out/minikube-linux-s390x 
+	GOPATH=$(THIS)/go make out/minikube-linux-s390x 
 
 push:
 	docker tag clefos/minikube:latest clefos/minikube:$(VERSION)

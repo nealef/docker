@@ -9,9 +9,7 @@ push:
 	docker tag clefos/helm:latest clefos/helm:$(VERSION)
 	docker push clefos/helm:latest
 	docker push clefos/helm:$(VERSION)
-	@rm -rf Dockerfile
 
 clean:
 	docker rmi clefos/helm:latest || true
 	docker rmi clefos/helm:$(VERSION) || true
-	@rm -rf Dockerfile

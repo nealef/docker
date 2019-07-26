@@ -1,9 +1,9 @@
-FROM 		clefos/clefos:clefos7
+FROM 		clefos:latest
 
 ENV 		container docker
 MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
 
-RUN		yum install -y --setopt=tsflags=nodocs systemd && \
+RUN		yum install -y -q --setopt=tsflags=nodocs systemd && \
 		yum clean all && \
 		rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 

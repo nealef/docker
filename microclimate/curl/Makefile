@@ -9,9 +9,7 @@ push:
 	docker tag clefos/curl:latest clefos/curl:$(VERSION)
 	docker push clefos/curl:latest
 	docker push clefos/curl:$(VERSION)
-	@rm -rf Dockerfile
 
 clean:
 	docker rmi clefos/curl:latest || true
 	docker rmi clefos/curl:$(VERSION) || true
-	@rm -rf Dockerfile

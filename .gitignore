@@ -2,3 +2,6 @@
 *.bin
 *.tar*
 *.zip
+*.tgz
+*.rpm
+*.xz

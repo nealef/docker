@@ -1,4 +1,4 @@
-FROM	clefos/nodejs:latest
+FROM	clefos/node:10
 
 ADD	volume/react-client.tar.gz .
 

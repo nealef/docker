@@ -20,7 +20,7 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #  THE SOFTWARE.
 
-FROM 	docker.io/clefos/ibmjava:8-jre
+FROM 	clefos/openjdk:8
 
 ARG	VERSION
 ARG 	user=jenkins

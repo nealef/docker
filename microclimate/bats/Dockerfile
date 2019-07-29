@@ -1,4 +1,4 @@
-FROM 	docker.io/clefos/clefos:latest
+FROM 	clefos:latest
 
 MAINTAINER "The ClefOS Project" <neale@sinenomine.net>
 

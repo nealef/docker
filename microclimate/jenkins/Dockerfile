@@ -1,16 +1,15 @@
-FROM 	docker.io/clefos/ibmjava:8-sdk
+FROM 	clefos/openjdk:8
 
-ARG	VERSION
-MAINTAINER  "The ClefOS Project" <neale@sinenomine.net>
+LABEL	Maintainer='"The ClefOS Project" <neale@sinenomine.net>'
 
-RUN 	yum update -y && \ 
-	yum install -y tar wget && \
-	wget http://mirrors.jenkins.io/war/${VERSION}/jenkins.war && \
-	yum erase -y wget && \
-	yum autoremove -y && \
+RUN 	yum update -y -q && \ 
+	yum install -y -q tar wget && \
+	wget -q http://mirrors.jenkins.io/war/latest/jenkins.war && \
+	yum erase -q -y wget && \
+	yum autoremove -q -y && \
 	yum clean all && \
 	rm -rf /var/cache/yum/* /tmp/*
 
-EXPOSE 8080
+EXPOSE  8080
 
 CMD 	java -jar jenkins.war && tail -f /var/log/jenkins/jenkins.log

@@ -1,15 +1,17 @@
-VERSION=$(shell cat VERSION)
-
-all:	jenkins
+all:	jenkins 
 
 jenkins: Dockerfile 
-	@docker build --rm --build-arg VERSION=$(VERSION) --tag clefos/jenkins:latest . 
+	@docker build --rm --tag clefos/jenkins:latest . 
 
-push:
-	docker tag clefos/jenkins:latest clefos/jenkins:$(VERSION)
-	docker push clefos/jenkins:latest
-	docker push clefos/jenkins:$(VERSION)
+VERSION: jenkins
+	@docker run --rm -it clefos/jenkins:latest java -jar jenkins.war --version >VERSION
 
-clean:
-	docker rmi clefos/jenkins:latest || true
-	docker rmi clefos/jenkins:$(VERSION) || true
+push:   VERSION
+	@docker tag clefos/jenkins:latest clefos/jenkins:$(shell cat VERSION)
+	@docker push clefos/jenkins:latest
+	@docker push clefos/jenkins:$(shell cat VERSION)
+
+clean:  VERSION
+	@docker rmi clefos/jenkins:latest 2>/dev/null || true
+	docker rmi clefos/jenkins:$(shell cat VERSION) 2>/dev/null || true
+	@rm -f VERSION

@@ -49,9 +49,7 @@ RUN 		chmod +x /etc/init.d/sshd && \
 
 EXPOSE		22 8080 
 
-VOLUME		config
-
-ENV		KUBECONFIG=/config/kube.config
+VOLUME		/etc/kubernetes
 
 RUN		sed -i -e '/docker.service/d' /usr/lib/systemd/system/kubelet.service && \
 		systemctl disable systemd-tmpfiles-clean && \
@@ -60,6 +58,7 @@ RUN		sed -i -e '/docker.service/d' /usr/lib/systemd/system/kubelet.service && \
 		systemctl enable rc-local && \
 		systemctl disable docker && \
 		systemctl disable docker-storage-setup && \
-		systemctl disable docker-cleanup
+		systemctl disable docker-cleanup && \
+		cp -ar /etc/kubernetes /var/cache/
 
 CMD		["/usr/sbin/init"]

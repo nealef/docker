@@ -4,12 +4,11 @@
 # Originally written for Fedora-Dockerfiles by
 #   scollier <scollier@redhat.com>
 
-FROM clefos/clefos:clefos7
+FROM 	clefos:latest
 
-MAINTAINER 	The ClefOS Project <neale@sinenomine.net>
-LABEL 		Vendor="ClefOS" License="ApacheV2"
+LABEL 	Vendor="ClefOS" License="ApacheV2" Maintainer='"The ClefOS Project" <neale@sinenomine.net>'
 
-RUN  	yum -y update && \
+RUN  	yum -y -q update && \
 	yum clean all && \
 	rm -rf /var/cache/yum/* /tmp/* /var/log/yum.log
 

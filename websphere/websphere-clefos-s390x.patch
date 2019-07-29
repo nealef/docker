@@ -1,0 +1,249 @@
+diff --git a/beta/Dockerfile b/beta/Dockerfile
+index 9ae8c90..5f80efe 100644
+--- a/beta/Dockerfile
++++ b/beta/Dockerfile
+@@ -12,7 +12,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-FROM ibmjava:8-jre
++FROM clefos/openjdk:8
+ 
+ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.vendor="IBM" \
+@@ -21,9 +21,8 @@ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.version="2019.7.0.0" \
+       org.opencontainers.image.revision="cl190720190711-1115"
+ 
+-RUN apt-get update \
+-    && apt-get install -y --no-install-recommends unzip \
+-    && rm -rf /var/lib/apt/lists/* \
++RUN yum -y -q update \
++    && yum install -y -q wget unzip \
+     && useradd -u 1001 -r -g 0 -s /usr/sbin/nologin default
+ 
+ # Install WebSphere Liberty
+diff --git a/ga/19.0.0.3/kernel/Dockerfile b/ga/19.0.0.3/kernel/Dockerfile
+index 5c30a40..8d65125 100644
+--- a/ga/19.0.0.3/kernel/Dockerfile
++++ b/ga/19.0.0.3/kernel/Dockerfile
+@@ -12,7 +12,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-FROM ibmjava:8-jre
++FROM clefos/openjdk:8
+ 
+ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.vendor="IBM" \
+@@ -27,9 +27,8 @@ ENV LIBERTY_VERSION 19.0.0_03
+ ARG LIBERTY_URL 
+ ARG DOWNLOAD_OPTIONS=""
+ 
+-RUN apt-get update \
+-    && apt-get install -y --no-install-recommends unzip wget openssl\
+-    && rm -rf /var/lib/apt/lists/* \
++RUN yum -y -q update \
++    && yum install -q -y unzip wget openssl\
+     && mkdir /licenses/ \
+     && useradd -u 1001 -r -g 0 -s /usr/sbin/nologin default \
+     && LIBERTY_URL=${LIBERTY_URL:-$(wget -q -O - https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/index.yml  | grep $LIBERTY_VERSION -A 6 | sed -n 's/\s*kernel:\s//p' | tr -d '\r' )}  \
+@@ -38,9 +37,8 @@ RUN apt-get update \
+     && rm /tmp/wlp.zip \
+     && chown -R 1001:0 /opt/ibm/wlp \
+     && chmod -R g+rw /opt/ibm/wlp \
+-    && apt-get purge --auto-remove -y unzip \
+-    && apt-get purge --auto-remove -y wget \
+-    && rm -rf /var/lib/apt/lists/*
++    && yum autoremove -y -q wget  unzip \
++    && rm -rf /var/cache/yum/*
+ 
+ ENV PATH=/opt/ibm/wlp/bin:/opt/ibm/helpers/build:$PATH
+ 
+diff --git a/ga/19.0.0.3/kernel/Dockerfile.centos b/ga/19.0.0.3/kernel/Dockerfile.centos
+index b0429a6..4c0f987 100644
+--- a/ga/19.0.0.3/kernel/Dockerfile.centos
++++ b/ga/19.0.0.3/kernel/Dockerfile.centos
+@@ -12,7 +12,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-FROM ibmjava:8-jre
++FROM clefos/openjdk:8
+ 
+ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.vendor="IBM" \
+@@ -22,7 +22,7 @@ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.revision="cl190320190321-1636"
+ 
+ RUN yum makecache fast \
+-    && yum -y install unzip \
++    && yum -y -q install wget unzip \
+     && yum clean all \
+     && rm -rf /var/cache/yum \
+     && rm -rf /var/tmp/yum-* \
+diff --git a/ga/19.0.0.6/kernel/Dockerfile b/ga/19.0.0.6/kernel/Dockerfile
+index 88f8945..0e3af05 100644
+--- a/ga/19.0.0.6/kernel/Dockerfile
++++ b/ga/19.0.0.6/kernel/Dockerfile
+@@ -12,7 +12,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-FROM ibmjava:8-jre
++FROM clefos/openjdk:8
+ 
+ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.vendor="IBM" \
+@@ -27,9 +27,8 @@ ENV LIBERTY_VERSION 19.0.0_06
+ ARG LIBERTY_URL 
+ ARG DOWNLOAD_OPTIONS=""
+ 
+-RUN apt-get update \
+-    && apt-get install -y --no-install-recommends unzip wget openssl \
+-    && rm -rf /var/lib/apt/lists/* \
++RUN yum update -y -q \
++    && yum install -y -q unzip wget openssl \
+     && mkdir /licenses/ \
+     && useradd -u 1001 -r -g 0 -s /usr/sbin/nologin default \
+     && LIBERTY_URL=${LIBERTY_URL:-$(wget -q -O - https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/index.yml  | grep $LIBERTY_VERSION -A 6 | sed -n 's/\s*kernel:\s//p' | tr -d '\r' )}  \
+@@ -38,9 +37,8 @@ RUN apt-get update \
+     && rm /tmp/wlp.zip \
+     && chown -R 1001:0 /opt/ibm/wlp \
+     && chmod -R g+rw /opt/ibm/wlp \
+-    && apt-get purge --auto-remove -y unzip \
+-    && apt-get purge --auto-remove -y wget \
+-    && rm -rf /var/lib/apt/lists/*
++    && yum autoremove -y -q wget \
++    && rm -rf /var/cache/yum/*
+ 
+ ENV PATH=/opt/ibm/wlp/bin:/opt/ibm/helpers/build:$PATH
+ 
+diff --git a/ga/19.0.0.6/kernel/Dockerfile.centos b/ga/19.0.0.6/kernel/Dockerfile.centos
+index 83989b5..6f3171e 100644
+--- a/ga/19.0.0.6/kernel/Dockerfile.centos
++++ b/ga/19.0.0.6/kernel/Dockerfile.centos
+@@ -12,7 +12,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-FROM ibmjava:8-jre
++FROM clefos/openjdk:8
+ 
+ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.vendor="IBM" \
+@@ -22,7 +22,7 @@ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.revision="cl190620190617-1530"
+ 
+ RUN yum makecache fast \
+-    && yum -y install unzip \
++    && yum -y -q install wget unzip \
+     && yum clean all \
+     && rm -rf /var/cache/yum \
+     && rm -rf /var/tmp/yum-* \
+diff --git a/ga/latest/kernel/Dockerfile.centos b/ga/latest/kernel/Dockerfile.centos
+index 68b2c9b..4d1f1bb 100644
+--- a/ga/latest/kernel/Dockerfile.centos
++++ b/ga/latest/kernel/Dockerfile.centos
+@@ -12,7 +12,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-FROM ibmjava:8-jre
++FROM clefos/openjdk:8
+ 
+ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.vendor="IBM" \
+@@ -22,7 +22,7 @@ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.revision="cl190720190711-1115"
+ 
+ RUN yum makecache fast \
+-    && yum -y install unzip \
++    && yum -y -q install wget unzip \
+     && yum clean all \
+     && rm -rf /var/cache/yum \
+     && rm -rf /var/tmp/yum-* \
+@@ -40,7 +40,10 @@ RUN LIBERTY_URL=${LIBERTY_URL:-$(wget -q -O - https://public.dhe.ibm.com/ibmdl/e
+     && unzip -q /tmp/wlp.zip -d /opt/ibm \
+     && rm /tmp/wlp.zip \
+     && chown -R 1001:0 /opt/ibm/wlp \
+-    && chmod -R g+rw /opt/ibm/wlp
++    && chmod -R g+rw /opt/ibm/wlp \
++    && yum autoremove -q -y wget unzip \
++    && rm -rf /var/cache/yum/*
++
+ ENV PATH=/opt/ibm/wlp/bin:/opt/ibm/helpers/build:$PATH
+ 
+ # Add labels for consumption by IBM Product Insights
+diff --git a/ga/latest/kernel/Dockerfile.java11 b/ga/latest/kernel/Dockerfile.java11
+index d998c6d..c1267de 100644
+--- a/ga/latest/kernel/Dockerfile.java11
++++ b/ga/latest/kernel/Dockerfile.java11
+@@ -11,7 +11,7 @@
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+-FROM adoptopenjdk:11-jre-openj9
++FROM clefos/openjdk:11
+ 
+ LABEL org.opencontainers.image.authors="Arthur De Magalhaes, Andy Naumann" \
+       org.opencontainers.image.vendor="IBM" \
+@@ -26,9 +26,8 @@ ENV LIBERTY_VERSION 19.0.0_07
+ ARG LIBERTY_URL 
+ ARG DOWNLOAD_OPTIONS=""
+ 
+-RUN apt-get update \
+-    && apt-get install -y --no-install-recommends unzip wget openssl \
+-    && rm -rf /var/lib/apt/lists/* \
++RUN yum -y -q update \
++    && yum install -q -y unzip wget openssl \
+     && mkdir /licenses/ \
+     && useradd -u 1001 -r -g 0 -s /usr/sbin/nologin default \
+     && LIBERTY_URL=${LIBERTY_URL:-$(wget -q -O - https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/index.yml  | grep $LIBERTY_VERSION -A 6 | sed -n 's/\s*kernel:\s//p' | tr -d '\r' )}  \
+@@ -37,9 +36,8 @@ RUN apt-get update \
+     && rm /tmp/wlp.zip \
+     && chown -R 1001:0 /opt/ibm/wlp \
+     && chmod -R g+rw /opt/ibm/wlp \
+-    && apt-get purge --auto-remove -y unzip \
+-    && apt-get purge --auto-remove -y wget \
+-    && rm -rf /var/lib/apt/lists/*
++    && yum autoremove -y -q wget unzip \
++    && rm -rf /var/cache/yum/* 
+ 
+ ENV PATH=/opt/ibm/wlp/bin:/opt/ibm/helpers/build:$PATH
+ 
+diff --git a/test/build.sh b/test/build.sh
+index ce9aa7a..4c19ce0 100755
+--- a/test/build.sh
++++ b/test/build.sh
+@@ -44,7 +44,15 @@ echo "**************************************************************************
+ echo "           Starting docker build for $image                                   "
+ echo "******************************************************************************"
+ 
+-$DOCKER build --no-cache=true -t $image -t $versionimage $dloc  > build_$tag.log
++DOCKERFILE=""
++. /etc/os-release
++if [ ${ID} = "centos" ]; then
++    if [ -f ${dloc}/Dockerfile.centos ]; then
++        DOCKERFILE="-f ${dloc}/Dockerfile.centos"
++    fi
++fi
++
++$DOCKER build --no-cache=true -t $image -t $versionimage ${DOCKERFILE} $dloc  > build_$tag.log
+ 
+ if [ $? = 0 ]
+ then
+diff --git a/test/buildAll.sh b/test/buildAll.sh
+index 402bcc0..bb76e7b 100755
+--- a/test/buildAll.sh
++++ b/test/buildAll.sh
+@@ -22,8 +22,7 @@ fi
+ 
+ arch=$(uname -p)
+ if [[ $arch == "ppc64le" || $arch == "s390x" ]]; then
+-  $DOCKER pull $arch/ibmjava:8-jre
+-  $DOCKER tag $arch/ibmjava:8-jre ibmjava:8-jre
++  $DOCKER pull clefos/openjdk:8
+ fi
+ 
+ while read -r imageName versionImageName buildContextDirectory

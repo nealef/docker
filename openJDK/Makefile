@@ -11,6 +11,9 @@ jdk11:     	11/Dockerfile
 jdk12:     	12/Dockerfile
 		cd 12 ; docker build --rm --tag clefos/openjdk:12 .
 
+jdk13:     	13/Dockerfile
+		cd 13 ; docker build --rm --tag clefos/openjdk:13 .
+
 push:
 		docker tag clefos/openjdk:8 clefos/openjdk:clefos7
 		docker tag clefos/openjdk:8 clefos/openjdk:latest

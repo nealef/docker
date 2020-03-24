@@ -8,7 +8,8 @@ LABEL		Version=12
 RUN		yum update --setopt=tsflags=nodocs -y && \
 		yum install --setopt=tsflags=nodocs -y tar 
 
-RUN 		curl -s -L 'https://api.adoptopenjdk.net/v2/binary/releases/openjdk12?openjdk_impl=openj9&os=linux&arch=s390x&release=latest&type=jdk' -o /tmp/openjdk.tar.gz && \
+RUN 		curl -s -L 'https://api.adoptopenjdk.net/v3/binary/latest/12/ga/linux/s390x/jdk/openj9/normal/adoptopenjdk' \
+        		-o /tmp/openjdk.tar.gz && \
 		mkdir -p /usr/lib/jvm/java-12-openjdk && \
 		tar -C /usr/lib/jvm/java-12-openjdk -xzf /tmp/openjdk.tar.gz --strip-components=1 && \
 		ln -sf /usr/lib/jvm/java-12-openjdk /usr/lib/jvm/java && \

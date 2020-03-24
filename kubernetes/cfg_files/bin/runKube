@@ -4,6 +4,7 @@ if [ -z ${KUBE_MODE} ]; then
 fi
 
 ln -sf /mnt/docker.sock /var/run/docker.sock
+rm -f /var/run/nologin 
 
 if [ ! -f /etc/kuubernetes/config ]; then
 	cp -ar /var/cache/kubernetes/* /etc/kubernetes/

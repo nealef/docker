@@ -20,4 +20,4 @@ EXPOSE 		27017 28017
 VOLUME 		/mongodb/data
 
 # Command to start MongoDB daemon process
-CMD 		mongod --dbpath /mongodb/data --ipv6 --httpinterface --rest --smallfiles --noprealloc --logappend --logpath /mongodb/data/mongodb.log
+CMD 		mongod --dbpath /mongodb/data --verbose --ipv6 --bind_ip=0.0.0.0 --logappend --logpath /mongodb/data/mongodb.log
